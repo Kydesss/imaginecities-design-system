@@ -18,7 +18,9 @@ built (the IC website, graphics, docs) matches the brand without re-reading a sl
 - **Never invent** colours, type values, or components. The guidelines are brand-level and
   do not document a component library — do not fabricate component specs.
 - **Tint swatch hexes are deliberately absent** — only the 100/80/60/40/20% *percentages*
-  are recorded. Sample them from the deck; never compute or guess them.
+  are recorded, for Deep Azure, Gold, Forest Green and Bold Red only. Sample them from the
+  deck; never compute them from a white mix. The recommended font colour per tint IS
+  recorded, on the `color` foundation.
 - **Colour pairings:** only Charcoal Black with Serene White / Fresh Green / Gold is safe
   at any text size. Six further pairings need 14pt bold or 18pt regular minimum, and four
   must never carry text. Full matrix on the `color` foundation. Do not classify a pairing

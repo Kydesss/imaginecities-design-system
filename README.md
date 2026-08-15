@@ -48,9 +48,12 @@ Nothing here is guessed. Two items are still open:
 1. **Headline line height.** The slide reads 24%, which at 20px renders 4.8px. It is
    transcribed verbatim and the token is `draft`. Confirm the intended value with whoever
    owns the deck — do not silently substitute 120%.
-2. **Tint hexes.** The deck documents 100/80/60/40/20% stops for Deep Azure, Gold,
-   Forest Green and Bold Red as a visual chart. `tokens/tokens.json` carries the
-   *percentages* only. Sample the hexes from the slide — do not compute them.
+2. **Tint hexes.** The 2.2 chart is a raster image; reading swatch colours off it by eye
+   is guesswork, so `tokens/tokens.json` still carries the *percentages* only. A linear
+   white mix would land close but is a guess at how the deck was built. Sample them from
+   the source file. The chart's **recommended font colour per tint** is recorded — it's on
+   the colour foundation, and Gold takes Charcoal Black at every stop while Deep Azure and
+   Bold Red hold Serene White down to 60%.
 
 **Resolved:** the type scale's label→spec mapping. The deck prints each style's Aa
 sample beside its spec, and a first pass mapped them by reading order, which shuffled

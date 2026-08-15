@@ -48,9 +48,33 @@ and seamless compatibility."
 | **Bold Red** | `#C73124` | 199 49 36 | 0 75 82 22 |
 
 ### 2.2 Tints
-Tint stops **100 / 80 / 60 / 40 / 20%** documented for: **Deep Azure, Gold, Forest Green,
-Bold Red** (chart also maps recommended font-colour pairings per tint). Serene White,
-Charcoal Black, Fresh Green shown as solids.
+"This chart shows which tints we'd recommend for each colour in our palette as well as the
+corresponding font colour pairings."
+
+Tint stops **100 / 80 / 60 / 40 / 20%** documented for exactly four colours: **Deep Azure,
+Gold, Forest Green, Bold Red**. Serene White, Charcoal Black and Fresh Green are shown as
+solids, with no tint ramp.
+
+**Font colour per tint** — each cell of the chart sets its own label in the font colour
+recommended for that tint (read from the 2.2 slide image, Joaquin, 2026-08-15):
+
+| Tint | Deep Azure | Gold | Forest Green | Bold Red |
+|---|---|---|---|---|
+| 100% | Serene White | Charcoal Black | Serene White | Serene White |
+| 80% | Serene White | Charcoal Black | Serene White | Serene White |
+| 60% | Serene White | Charcoal Black | Charcoal Black | Serene White |
+| 40% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |
+| 20% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |
+
+The pattern: Gold takes Charcoal Black at every stop; Deep Azure and Bold Red switch from
+Serene White to Charcoal Black between 60% and 40%; Forest Green switches one stop earlier,
+between 80% and 60%.
+
+**Tint hex values are still NOT recorded.** The chart is a raster image, and reading swatch
+colours off it by eye is guesswork. A linear mix of the base colour with white would
+reproduce something close, but that is a hypothesis about how the deck was built, not a
+transcription — the tints may have been mixed against Serene White `#F5F7F2`, or picked by
+hand. Sample the swatches from the source file before recording any hex.
 
 ### 2.3 Colour Usage
 - **Primary:** Gold for call-to-action buttons, key icons, standout elements. Deep Azure
