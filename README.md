@@ -18,7 +18,9 @@ authored from it (see `plan.md`):
 - [x] Transcribe the accessibility pairing matrix — 13 pairings, all three classes
 - [x] Record the 20 tint values from the deck, with each stop's font colour
 - [ ] Resolve the Headline line height (the slide reads 24%, which renders 4.8px)
+- [x] Copy logo assets from Drive into `assets/`
 - [ ] Raise the Deep Azure 60% white-text pairing with the brand owner (2.80:1)
+- [ ] Source vector logo artwork — every file in Drive is raster
 - [ ] Download logo + mark assets from Drive into `assets/`
 - [ ] `git commit` (repo has no commits yet)
 - [ ] (optional) DSDS docs site
@@ -55,6 +57,18 @@ regenerating them.
 Font colour per stop: Gold takes Charcoal Black throughout; Deep Azure holds Serene White
 down to 60%; Forest Green and Bold Red switch to Charcoal Black at 60%.
 
+### The logo is a palette exception
+The logo artwork is painted in **legacy colours that are not in the v2.0.1 palette** —
+`#F9AF42` (not Gold `#FFB827`), `#149ED3`, `#13A89E` — and its wordmark is not Poppins.
+This is correct: v2.0.1 kept the existing logo, and slide 1.2 says "do not change the
+colour or font".
+
+So `#F9AF42` appearing in `assets/` is fine; `#F9AF42` appearing in `tokens/tokens.json`
+would mean the superseded 2021 palette had leaked in. The two look alike and are judged
+differently — `npm run validate` scans only the token file for that reason.
+
+Every logo file is raster; there is no vector artwork anywhere in the shared Drive.
+
 ### Known gaps — read before relying on this
 Nothing here is guessed. Two items are open, and one is a defect in the guidelines
 themselves:
@@ -82,7 +96,7 @@ source/        transcribed brand guidelines (provenance) — brand-v2.0.1.md
 schema/        vendored DSDS bundled schema
 dsds/          the DSDS document
 tokens/        W3C DTCG token values
-assets/        logos, marks (from Drive Design Assets/)
+assets/        logos/ (primary, black + white wordmark), marks/ (secondary logo)
 scripts/       check-refs.js — cross-checks DSDS against the token file
 ```
 

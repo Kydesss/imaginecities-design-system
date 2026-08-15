@@ -14,7 +14,13 @@ built (the IC website, graphics, docs) matches the brand without re-reading a sl
   (system fallback **Roboto**). Hero colour is **Gold `#FFB827`**.
 - **Never** use the 2021 "Design Guidelines.pdf" (Montserrat + Azure/Viridian/Turquoise/
   Aqua palette). It is superseded and will corrupt the brand. If you see Montserrat or
-  those colours, it is wrong.
+  those colours, it is wrong — **with one documented exception, below.**
+- **The logo artwork is the exception.** v2.0.1 kept the existing logo unchanged, so the
+  files in `assets/logos/` are painted in legacy colours — `#F9AF42` (not Gold `#FFB827`),
+  `#149ED3`, `#13A89E` — and the wordmark is not Poppins. This is correct and intended:
+  slide 1.2 says "do not change the colour or font" of the logo. **Never recolour the logo
+  to the v2.0.1 palette, and never treat these hexes as brand colours** — they are not
+  tokens, they exist only inside the logo art.
 - **Never invent** colours, type values, or components. The guidelines are brand-level and
   do not document a component library — do not fabricate component specs.
 - **Tints** live at `color.tint.<colour>.<stop>` for Deep Azure, Gold, Forest Green and

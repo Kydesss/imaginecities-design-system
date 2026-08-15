@@ -330,7 +330,7 @@
           "kind": "foundation",
           "identifier": "logo",
           "name": "Logo",
-          "description": "The logo features the Calgary Tower against a backdrop of light beams, symbolizing a future where cities thrive through the collective actions of neighbourhoods. Primary and Secondary variants exist.",
+          "description": "The logo features the Calgary Tower against a backdrop of light beams, symbolizing a future where cities thrive through the collective actions of neighbourhoods. The **Primary Logo** is the mark plus the \"IMAGINE CITIES\" wordmark; the **Secondary Logo** is the mark alone.\n\nThe logo is fixed artwork that sits outside the token system, and it is painted in legacy colours that are not in the v2.0.1 palette. That is intended — read the colour exception below before changing anything about it.",
           "metadata": {
             "status": "stable",
             "category": "brand",
@@ -372,6 +372,18 @@
                   "guidance": "Do not rotate the logo.",
                   "level": "must-not",
                   "category": "visual-design"
+                },
+                {
+                  "guidance": "Do not recolour the logo to the v2.0.1 palette. Its light beams are `#F9AF42`, `#149ED3` and `#13A89E`, and its wordmark is not Poppins — leave all of it exactly as shipped.",
+                  "rationale": "v2.0.1 kept the pre-existing logo artwork unchanged, and slide 1.2 states \"Please do not change the colour or font\". The legacy colours inside the logo are correct, even though `#F9AF42` is the superseded 2021 gold and appears nowhere else in the system.",
+                  "level": "must-not",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Do not add the logo's colours to `tokens/tokens.json` or treat them as brand colours. They exist only inside the logo artwork.",
+                  "rationale": "Promoting them to tokens would reintroduce the superseded 2021 palette through the back door — the exact failure the v2.0.1-only rule exists to prevent.",
+                  "level": "must-not",
+                  "category": "development"
                 }
               ]
             },
@@ -379,9 +391,14 @@
               "kind": "sections",
               "items": [
                 {
+                  "title": "Colour exception",
+                  "anchor": "colour-exception",
+                  "body": "The logo's light beams are `#F9AF42`, `#149ED3` and `#13A89E`, sampled from the artwork. None of those is a v2.0.1 palette colour, and `#F9AF42` is specifically the **superseded 2021 gold**. The wordmark is a heavy geometric sans rather than Poppins.\n\nThis is intended. v2.0.1 kept the existing logo unchanged — slides 1.1 and 1.2 render it exactly this way, and 1.2 says \"Please do not change the colour or font\". The logo is fixed artwork outside the token system.\n\nThe practical consequence: seeing `#F9AF42` inside `assets/` is **not** a sign the 2021 guidelines leaked in. Seeing it in `tokens/tokens.json` would be. The two cases look alike and must be judged differently."
+                },
+                {
                   "title": "Assets",
                   "anchor": "assets",
-                  "body": "Logo and mark files live in the shared Drive under `Design Assets/` — subfolders `ImagineCities Logos` and `Outside The Box Logos`, plus the `city_diamond_large` mark. They have **not** been copied into `assets/` in this repo yet."
+                  "body": "| File | Source | Size | Notes |\n|---|---|---|---|\n| `assets/logos/primary-logo-black.png` | Drive `Imagine Cities Logo_black.png`, 2021-10-09 | 2551×990 RGBA | Primary Logo, black wordmark, transparent. |\n| `assets/logos/primary-logo-white.png` | Drive `Imagine Cities Logo_white.png`, 2021-10-09 | 2551×990 RGBA | Primary Logo, white wordmark, transparent. For dark surfaces. |\n| `assets/marks/secondary-logo.jpg` | Drive `city_diamond_large.jpg`, 2020 | 379×431 JPEG | Secondary Logo (mark alone). Low resolution, flattened white background, no transparency — a stand-in until a better file exists. |\n\nThe files date from 2020–2021 and predate the v2.0.1 deck, but the artwork is unchanged: the logo on slides 1.1 and 1.2 is this artwork.\n\n**No vector artwork exists.** The shared Drive holds no SVG, EPS or AI file for the logo — every asset is raster, so the logo cannot currently be rendered crisply at arbitrary size. A website rebuild needs vector; request it from whoever produced the v2.0.1 deck. The Secondary Logo needs replacing too: a 379×431 JPEG with a baked white background cannot sit on any coloured surface.\n\nThe Drive folder also holds `Outside The Box Logos`, a separate sub-brand, not copied here."
                 }
               ]
             }

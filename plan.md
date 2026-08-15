@@ -1,8 +1,9 @@
 > **Handoff note:** Steps 1–5 are DONE. `source/brand-v2.0.1.md` holds the full
 > transcription; `tokens/tokens.json` (DTCG) and `dsds/imagine-cities.dsds.json` (54
 > entities) are authored from it and `npm run validate` passes both schema and
-> cross-reference checks (73 entities). Remaining: resolve the Headline line height,
-> download assets, optional docs site. See README "Known gaps".
+> cross-reference checks (73 entities). Logo assets are in `assets/`. Remaining: resolve
+> the Headline line height, source vector logo artwork, optional docs site. See README
+> "Known gaps".
 >
 > The plan below is fully executed, all of it from the deck rather than derived. §3 tint
 > sub-groups hold the 20 real values at `color.tint.<colour>.<stop>` — note they are mixed

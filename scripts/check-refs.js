@@ -106,6 +106,26 @@ function checkDocument(file) {
   };
 }
 
+/**
+ * The DSDS document names asset files by path. Those references rot silently when a file
+ * is renamed or moved, so every `assets/...` path mentioned in the docs must exist.
+ */
+function checkAssetPaths(files) {
+  for (const file of files) {
+    const text = fs.readFileSync(file, 'utf8');
+    const rel = path.relative(ROOT, file).replace(/\\/g, '/');
+    const seen = new Set();
+    for (const match of text.matchAll(/assets\/[A-Za-z0-9._\-/]+\.[A-Za-z0-9]+/g)) {
+      const assetPath = match[0];
+      if (seen.has(assetPath)) continue;
+      seen.add(assetPath);
+      if (!fs.existsSync(path.join(ROOT, assetPath))) {
+        fail(`${rel}: references a missing asset: ${assetPath}`);
+      }
+    }
+  }
+}
+
 function checkForbidden(files) {
   for (const file of files) {
     const text = fs.readFileSync(file, 'utf8');
@@ -139,6 +159,11 @@ for (const doc of docs) {
   );
 }
 
+checkAssetPaths(docs);
+
+// Only tokens.json is scanned for superseded values. The DSDS document names them on
+// purpose, to forbid them, and the logo artwork in assets/ legitimately contains #F9AF42 —
+// v2.0.1 kept the pre-existing logo, so that hex is correct there and nowhere else.
 checkForbidden([path.join(ROOT, 'tokens', 'tokens.json')]);
 
 if (problems.length > 0) {
