@@ -183,7 +183,7 @@
                 {
                   "title": "Tints",
                   "anchor": "tints",
-                  "body": "Tint stops of **100 / 80 / 60 / 40 / 20%** are documented for exactly four colours — **Deep Azure, Gold, Forest Green and Bold Red**. Serene White, Charcoal Black and Fresh Green have no tint ramp.\n\nThe chart also sets each tint's recommended font colour:\n\n| Tint | Deep Azure | Gold | Forest Green | Bold Red |\n|---|---|---|---|---|\n| 100% | Serene White | Charcoal Black | Serene White | Serene White |\n| 80% | Serene White | Charcoal Black | Serene White | Serene White |\n| 60% | Serene White | Charcoal Black | Charcoal Black | Serene White |\n| 40% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |\n| 20% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |\n\nGold takes Charcoal Black at every stop. Deep Azure and Bold Red switch from Serene White to Charcoal Black between 60% and 40%; Forest Green switches a stop earlier, between 80% and 60%.\n\n**Tint hex values are still not recorded.** `tokens/tokens.json` carries the percentages only. A linear mix of each base colour with white would land close, but that is a guess at how the deck was built — the tints may be mixed against Serene White `#F5F7F2` rather than pure white, or picked by hand. Sample them from the source file; do not compute them."
+                  "body": "Tint stops of **100 / 80 / 60 / 40 / 20%** are documented for exactly four colours — **Deep Azure, Gold, Forest Green and Bold Red**. Serene White, Charcoal Black and Fresh Green have no tint ramp. All twenty values are in `tokens/tokens.json` under `color.tint`.\n\n| Stop | Deep Azure | Gold | Forest Green | Bold Red |\n|---|---|---|---|---|\n| 100% | `#0656BF` | `#FFB827` | `#527302` | `#C73124` |\n| 80% | `#3677CA` | `#FDC550` | `#738E33` | `#D0594E` |\n| 60% | `#6697D4` | `#FBD178` | `#93A862` | `#D98077` |\n| 40% | `#95B6DD` | `#F9DEA1` | `#B4C292` | `#E3A89F` |\n| 20% | `#C5D6E7` | `#F7EAC9` | `#D4DCC1` | `#ECCFC8` |\n\nThe ramps are mixed against **Serene White `#F5F7F2`, not pure white**. A pure-white mix drifts by up to 11 per channel at the 20% stop, so never regenerate these by formula — use the values.\n\n**Font colour per stop**, as the chart pairs them:\n\n| Stop | Deep Azure | Gold | Forest Green | Bold Red |\n|---|---|---|---|---|\n| 100% | Serene White | Charcoal Black | Serene White | Serene White |\n| 80% | Serene White | Charcoal Black | Serene White | Serene White |\n| 60% | Serene White ⚠ | Charcoal Black | Charcoal Black | Charcoal Black |\n| 40% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |\n| 20% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |\n\n⚠ **Deep Azure 60% is a defect in the guidelines.** Serene White on `#6697D4` measures **2.80:1**, which clears no WCAG threshold — not even the 3:1 minimum for large text. Charcoal Black on the same stop measures 5.08:1. Do not ship white text on this stop; raise it with the brand owner. Every other pairing in the chart holds up.\n\nTwo more worth knowing: at Forest Green 80% and Bold Red 80% the chart picks Serene White where Charcoal Black measures marginally higher (3.45 vs 4.13, and 3.73 vs 3.82). Both clear 3:1, so both are usable for large or bold text as the chart intends."
                 },
                 {
                   "title": "Reading the pairing matrix",
@@ -622,42 +622,178 @@
         },
         {
           "kind": "token-group",
-          "identifier": "tint",
-          "name": "Tint stops",
-          "tokenType": "number",
-          "description": "The documented tint percentages for Deep Azure, Gold, Forest Green and Bold Red. These are percentages only — the deck's tint swatch hex values were not transcribed and MUST NOT be computed or invented. Sample them from the slide before adding tint colour tokens.",
-          "source": { "file": "../tokens/tokens.json", "path": "tint" },
+          "identifier": "color.tint",
+          "name": "Tint ramps",
+          "tokenType": "color",
+          "description": "The 100 / 80 / 60 / 40 / 20% ramps for the four colours that have one. Values are the deck's own. They are mixed against Serene White `#F5F7F2`, not pure white — a pure-white mix drifts by up to 11 per channel at the 20% stop — so do not regenerate them by formula. Each description names the font colour the 2.2 chart pairs with that stop.",
+          "source": { "file": "../tokens/tokens.json", "path": "color.tint" },
           "metadata": {
-            "status": "draft",
+            "status": "stable",
             "lastUpdated": "2026-08-15",
             "docOrigin": "extracted"
           },
+          "relationships": [
+            {
+              "relation": "part-of",
+              "target": "color",
+              "role": "Supplies the tint values documented by the colour foundation"
+            }
+          ],
           "children": [
             {
-              "kind": "token",
-              "identifier": "tint.100",
-              "source": { "file": "../tokens/tokens.json", "path": "tint.100" }
+              "kind": "token-group",
+              "identifier": "color.tint.deep-azure",
+              "name": "Deep Azure ramp",
+              "source": { "file": "../tokens/tokens.json", "path": "color.tint.deep-azure" },
+              "children": [
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.deep-azure.100",
+                  "description": "`#0656BF`, the base colour. Font colour: Serene White (6.30:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.deep-azure.100" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.deep-azure.80",
+                  "description": "`#3677CA`. Font colour: Serene White (4.19:1) — large or bold text only.",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.deep-azure.80" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.deep-azure.60",
+                  "description": "`#6697D4`. The chart pairs Serene White here, which measures **2.80:1** and clears no WCAG threshold, not even 3:1 for large text. Charcoal Black on this stop measures 5.08:1. See the colour foundation's tint section before using it.",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.deep-azure.60" },
+                  "metadata": { "status": "draft" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.deep-azure.40",
+                  "description": "`#95B6DD`. Font colour: Charcoal Black (7.33:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.deep-azure.40" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.deep-azure.20",
+                  "description": "`#C5D6E7`. Section background stop. Font colour: Charcoal Black (10.35:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.deep-azure.20" }
+                }
+              ]
             },
             {
-              "kind": "token",
-              "identifier": "tint.80",
-              "source": { "file": "../tokens/tokens.json", "path": "tint.80" }
+              "kind": "token-group",
+              "identifier": "color.tint.gold",
+              "name": "Gold ramp",
+              "description": "Charcoal Black is the font colour at every stop; the ramp never gets dark enough for reversed text.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.tint.gold" },
+              "children": [
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.gold.100",
+                  "description": "`#FFB827`, the base colour. Font colour: Charcoal Black (8.88:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.gold.100" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.gold.80",
+                  "description": "`#FDC550`. Font colour: Charcoal Black (9.72:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.gold.80" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.gold.60",
+                  "description": "`#FBD178`. Font colour: Charcoal Black (10.61:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.gold.60" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.gold.40",
+                  "description": "`#F9DEA1`. Font colour: Charcoal Black (11.70:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.gold.40" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.gold.20",
+                  "description": "`#F7EAC9`. Section background stop. Font colour: Charcoal Black (12.86:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.gold.20" }
+                }
+              ]
             },
             {
-              "kind": "token",
-              "identifier": "tint.60",
-              "source": { "file": "../tokens/tokens.json", "path": "tint.60" }
+              "kind": "token-group",
+              "identifier": "color.tint.forest-green",
+              "name": "Forest Green ramp",
+              "source": { "file": "../tokens/tokens.json", "path": "color.tint.forest-green" },
+              "children": [
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.forest-green.100",
+                  "description": "`#527302`, the base colour. Font colour: Serene White (5.11:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.forest-green.100" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.forest-green.80",
+                  "description": "`#738E33`. Font colour: Serene White (3.45:1) — large or bold text only. Charcoal Black would measure slightly higher at 4.13:1.",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.forest-green.80" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.forest-green.60",
+                  "description": "`#93A862`. Font colour: Charcoal Black (5.87:1). This ramp switches to Charcoal Black one stop earlier than the others.",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.forest-green.60" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.forest-green.40",
+                  "description": "`#B4C292`. Font colour: Charcoal Black (8.10:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.forest-green.40" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.forest-green.20",
+                  "description": "`#D4DCC1`. Section background stop. Font colour: Charcoal Black (10.84:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.forest-green.20" }
+                }
+              ]
             },
             {
-              "kind": "token",
-              "identifier": "tint.40",
-              "source": { "file": "../tokens/tokens.json", "path": "tint.40" }
-            },
-            {
-              "kind": "token",
-              "identifier": "tint.20",
-              "description": "Section backgrounds, in Gold, Deep Azure or Forest Green.",
-              "source": { "file": "../tokens/tokens.json", "path": "tint.20" }
+              "kind": "token-group",
+              "identifier": "color.tint.bold-red",
+              "name": "Bold Red ramp",
+              "description": "Bold Red is reserved for alerts, warnings and emphasis, so its tints inherit that restraint — they are not general-purpose section backgrounds.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.tint.bold-red" },
+              "children": [
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.bold-red.100",
+                  "description": "`#C73124`, the base colour. Font colour: Serene White (5.00:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.bold-red.100" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.bold-red.80",
+                  "description": "`#D0594E`. Font colour: Serene White (3.73:1) — large or bold text only. Charcoal Black is near-identical at 3.82:1.",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.bold-red.80" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.bold-red.60",
+                  "description": "`#D98077`. Font colour: Charcoal Black (5.35:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.bold-red.60" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.bold-red.40",
+                  "description": "`#E3A89F`. Font colour: Charcoal Black (7.59:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.bold-red.40" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "color.tint.bold-red.20",
+                  "description": "`#ECCFC8`. Font colour: Charcoal Black (10.48:1).",
+                  "source": { "file": "../tokens/tokens.json", "path": "color.tint.bold-red.20" }
+                }
+              ]
             }
           ]
         },
@@ -1025,6 +1161,13 @@
                   "guidance": "Set small text in Charcoal Black. Where a design needs small text in Deep Azure, Forest Green or Bold Red, change the size or the colour rather than shipping it.",
                   "rationale": "Every fully compliant pairing involves Charcoal Black, so no other text colour has an unrestricted option.",
                   "level": "must",
+                  "category": "accessibility"
+                },
+                {
+                  "guidance": "Do not set text in Serene White on the Deep Azure 60% tint `#6697D4`, at any size, even though the 2.2 chart pairs them. Use Charcoal Black on that stop instead.",
+                  "rationale": "The pairing measures 2.80:1, below the 3:1 minimum for large text and far below 4.5:1 for normal text. Charcoal Black on the same stop measures 5.08:1. This is the one chart recommendation that does not hold up when measured, and it should be raised with the brand owner.",
+                  "evidence": "Contrast computed from the deck's own tint value #6697D4 against Serene White #F5F7F2 per WCAG 2.1 relative luminance.",
+                  "level": "must-not",
                   "category": "accessibility"
                 },
                 {

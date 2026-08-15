@@ -17,10 +17,11 @@ built (the IC website, graphics, docs) matches the brand without re-reading a sl
   those colours, it is wrong.
 - **Never invent** colours, type values, or components. The guidelines are brand-level and
   do not document a component library — do not fabricate component specs.
-- **Tint swatch hexes are deliberately absent** — only the 100/80/60/40/20% *percentages*
-  are recorded, for Deep Azure, Gold, Forest Green and Bold Red only. Sample them from the
-  deck; never compute them from a white mix. The recommended font colour per tint IS
-  recorded, on the `color` foundation.
+- **Tints** live at `color.tint.<colour>.<stop>` for Deep Azure, Gold, Forest Green and
+  Bold Red only. They are mixed against Serene White `#F5F7F2`, **not** pure white — never
+  regenerate them by formula, use the values.
+- **Never put Serene White text on the Deep Azure 60% tint `#6697D4`** (2.80:1). The 2.2
+  chart pairs them, but it fails every WCAG threshold; use Charcoal Black (5.08:1).
 - **Colour pairings:** only Charcoal Black with Serene White / Fresh Green / Gold is safe
   at any text size. Six further pairings need 14pt bold or 18pt regular minimum, and four
   must never carry text. Full matrix on the `color` foundation. Do not classify a pairing

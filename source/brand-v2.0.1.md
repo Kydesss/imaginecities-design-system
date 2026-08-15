@@ -55,26 +55,43 @@ Tint stops **100 / 80 / 60 / 40 / 20%** documented for exactly four colours: **D
 Gold, Forest Green, Bold Red**. Serene White, Charcoal Black and Fresh Green are shown as
 solids, with no tint ramp.
 
-**Font colour per tint** — each cell of the chart sets its own label in the font colour
-recommended for that tint (read from the 2.2 slide image, Joaquin, 2026-08-15):
+**Tint values** — read from the deck's own fill values (Joaquin, 2026-08-15):
+
+| Stop | Deep Azure | Gold | Forest Green | Bold Red |
+|---|---|---|---|---|
+| 100% | `#0656BF` | `#FFB827` | `#527302` | `#C73124` |
+| 80% | `#3677CA` | `#FDC550` | `#738E33` | `#D0594E` |
+| 60% | `#6697D4` | `#FBD178` | `#93A862` | `#D98077` |
+| 40% | `#95B6DD` | `#F9DEA1` | `#B4C292` | `#E3A89F` |
+| 20% | `#C5D6E7` | `#F7EAC9` | `#D4DCC1` | `#ECCFC8` |
+
+Every 100% stop matches its base colour exactly, which cross-checks the ramp.
+
+The tints are mixed against **Serene White `#F5F7F2`, not pure white** — reproducing them
+that way matches to within 1 per channel, whereas a pure-white mix drifts by up to 11 at
+the 20% stop. Recorded as an observation about how the deck was built; use the values
+above, do not regenerate them.
+
+**Font colour per tint** — each cell sets its own label in the font colour recommended for
+that tint:
 
 | Tint | Deep Azure | Gold | Forest Green | Bold Red |
 |---|---|---|---|---|
 | 100% | Serene White | Charcoal Black | Serene White | Serene White |
 | 80% | Serene White | Charcoal Black | Serene White | Serene White |
-| 60% | Serene White | Charcoal Black | Charcoal Black | Serene White |
+| 60% | Serene White ⚠ | Charcoal Black | Charcoal Black | Charcoal Black |
 | 40% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |
 | 20% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |
 
-The pattern: Gold takes Charcoal Black at every stop; Deep Azure and Bold Red switch from
-Serene White to Charcoal Black between 60% and 40%; Forest Green switches one stop earlier,
-between 80% and 60%.
+Gold takes Charcoal Black at every stop. Deep Azure holds Serene White down to 60%; Forest
+Green and Bold Red switch to Charcoal Black at 60%.
 
-**Tint hex values are still NOT recorded.** The chart is a raster image, and reading swatch
-colours off it by eye is guesswork. A linear mix of the base colour with white would
-reproduce something close, but that is a hypothesis about how the deck was built, not a
-transcription — the tints may have been mixed against Serene White `#F5F7F2`, or picked by
-hand. Sample the swatches from the source file before recording any hex.
+⚠ **Deep Azure 60% is a defect in the guidelines.** Serene White on `#6697D4` measures
+**2.80:1** — below even the 3:1 minimum for large text. Charcoal Black on that stop is
+5.08:1. Recorded as the deck states it, flagged, and to be raised with the brand owner.
+(Also noted: at Forest Green 80% and Bold Red 80% the chart picks Serene White where
+Charcoal Black measures marginally higher — 3.45 vs 4.13 and 3.73 vs 3.82 — but both clear
+3:1, so both work for large or bold text.)
 
 ### 2.3 Colour Usage
 - **Primary:** Gold for call-to-action buttons, key icons, standout elements. Deep Azure

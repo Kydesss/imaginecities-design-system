@@ -16,8 +16,9 @@ authored from it (see `plan.md`):
 - [x] Author `dsds/imagine-cities.dsds.json` (DSDS) — 54 entities, validates clean
 - [x] Verify the type scale label→spec mapping against both "3.2 Font System" slides
 - [x] Transcribe the accessibility pairing matrix — 13 pairings, all three classes
+- [x] Record the 20 tint values from the deck, with each stop's font colour
 - [ ] Resolve the Headline line height (the slide reads 24%, which renders 4.8px)
-- [ ] Sample the tint swatch hex values from the deck (percentages only so far)
+- [ ] Raise the Deep Azure 60% white-text pairing with the brand owner (2.80:1)
 - [ ] Download logo + mark assets from Drive into `assets/`
 - [ ] `git commit` (repo has no commits yet)
 - [ ] (optional) DSDS docs site
@@ -42,18 +43,30 @@ Two consequences worth knowing before designing:
 
 Pairings the slide does not show are undocumented — neither approved nor forbidden.
 
+### Tints
+Ramps at 100/80/60/40/20% exist for four colours only — Deep Azure, Gold, Forest Green,
+Bold Red — at `color.tint.<colour>.<stop>`. Serene White, Charcoal Black and Fresh Green
+have none.
+
+They are mixed against **Serene White `#F5F7F2`, not pure white**. A pure-white mix drifts
+by up to 11 per channel at the 20% stop, so use the recorded values rather than
+regenerating them.
+
+Font colour per stop: Gold takes Charcoal Black throughout; Deep Azure holds Serene White
+down to 60%; Forest Green and Bold Red switch to Charcoal Black at 60%.
+
 ### Known gaps — read before relying on this
-Nothing here is guessed. Two items are still open:
+Nothing here is guessed. Two items are open, and one is a defect in the guidelines
+themselves:
 
 1. **Headline line height.** The slide reads 24%, which at 20px renders 4.8px. It is
    transcribed verbatim and the token is `draft`. Confirm the intended value with whoever
    owns the deck — do not silently substitute 120%.
-2. **Tint hexes.** The 2.2 chart is a raster image; reading swatch colours off it by eye
-   is guesswork, so `tokens/tokens.json` still carries the *percentages* only. A linear
-   white mix would land close but is a guess at how the deck was built. Sample them from
-   the source file. The chart's **recommended font colour per tint** is recorded — it's on
-   the colour foundation, and Gold takes Charcoal Black at every stop while Deep Azure and
-   Bold Red hold Serene White down to 60%.
+2. **Deep Azure 60% + Serene White is not accessible.** The 2.2 chart pairs them, but
+   white on `#6697D4` measures **2.80:1** — below even the 3:1 floor for large text, while
+   Charcoal Black on that stop is 5.08:1. It is recorded as the deck states it, flagged on
+   the token, and blocked by a `must-not` rule in the accessibility guide. Raise it with
+   the brand owner. Every other pairing in both charts holds up when measured.
 
 **Resolved:** the type scale's label→spec mapping. The deck prints each style's Aa
 sample beside its spec, and a first pass mapped them by reading order, which shuffled
