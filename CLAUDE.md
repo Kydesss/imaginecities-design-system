@@ -9,6 +9,10 @@ built (the IC website, graphics, docs) matches the brand without re-reading a sl
 2. `tokens/tokens.json` — W3C DTCG raw token values (hex, px, weights). Import these.
 3. `source/brand-v2.0.1.md` — transcription of the official Brand Guidelines v2.0.1.
 
+`source/observed-website.md` is **not** a source of truth. It records what the live site
+does today (descriptive only). Never promote a value from it into `tokens/tokens.json`;
+where the site and the deck disagree, the deck wins and the site is what needs fixing.
+
 ## Hard rules
 - **Only** use Brand Guidelines **v2.0.1 (Oct 2024)** values. Brand font is **Poppins**
   (system fallback **Roboto**). Hero colour is **Gold `#FFB827`**.
@@ -23,6 +27,10 @@ built (the IC website, graphics, docs) matches the brand without re-reading a sl
   tokens, they exist only inside the logo art.
 - **Never invent** colours, type values, or components. The guidelines are brand-level and
   do not document a component library — do not fabricate component specs.
+- **There is no spacing scale, radius scale, or component-state spec** — not in the deck,
+  and not derivable from the live site (audited: twelve ad-hoc padding values, five radii).
+  If a build needs them, say they are undocumented and pick explicitly; do not present a
+  choice as brand.
 - **Tints** live at `color.tint.<colour>.<stop>` for Deep Azure, Gold, Forest Green and
   Bold Red only. They are mixed against Serene White `#F5F7F2`, **not** pure white — never
   regenerate them by formula, use the values.

@@ -5,7 +5,7 @@
     "name": "Imagine Cities Design System",
     "version": "2.0.1",
     "organization": "Imagine Cities",
-    "url": "https://www.imaginecities.ca"
+    "url": "https://www.imaginecities.com"
   },
   "entityGroups": [
     {
@@ -1266,6 +1266,77 @@
                   "rationale": "Imagine Cities is a Calgary organization and the guidelines are written in Canadian English.",
                   "level": "should",
                   "category": "content"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "guide",
+          "identifier": "current-website",
+          "name": "The Current Website (observed, not normative)",
+          "description": "What `www.imaginecities.com` actually does today, audited 2026-08-15. **This entity is descriptive.** The website is an implementation, not a source of brand truth — where it and v2.0.1 disagree, the deck wins and the site is what needs fixing. Nothing here may be promoted into `tokens/tokens.json`.",
+          "metadata": {
+            "status": "draft",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "summary": "Audit of the live site: mostly on-brand, with six defects and no spacing system to borrow.",
+            "tags": ["website", "audit", "observed"],
+            "links": [
+              { "kind": "documentation", "url": "https://www.imaginecities.com/", "label": "Live site" }
+            ]
+          },
+          "documentBlocks": [
+            {
+              "kind": "sections",
+              "items": [
+                {
+                  "title": "Why this was checked",
+                  "anchor": "why",
+                  "body": "v2.0.1 is brand-level and documents no spacing scale, no radii and no component states. The live site was audited to see whether it supplies them.\n\n**It does not.** Padding runs across twelve ad-hoc `em` values with no common step, five different border-radius values are in use, and font sizes do not map onto the twelve documented type styles. There is no system there to extract — only inconsistency that would be laundered into legitimacy by copying it.\n\nThe full audit is in `source/observed-website.md`."
+                },
+                {
+                  "title": "What the site gets right",
+                  "anchor": "compliant",
+                  "body": "Every `font-family` in the site's own CSS is Poppins. The palette is v2.0.1 — Charcoal Black (11 uses), Serene White (7), Gold (6), Deep Azure (1) — and `#D4DDC2` matches the documented Forest Green 20% tint exactly. Gold is used for calls to action, per §2.3."
+                },
+                {
+                  "title": "The CTA pattern worth keeping",
+                  "anchor": "cta-pattern",
+                  "body": "Both button implementations render the CTA as a **pill** (`border-radius: 50px` and `2em`), which is a rounded rectangle and therefore consistent with the §4.1 holding shapes. Both hover by **inverting to Charcoal Black on Gold**, which measures 8.88:1 — a fully compliant pairing.\n\nThat is a defensible observed convention. It is still not brand-documented: if it should be normative, it belongs in the guidelines, not inferred from CSS."
+                },
+                {
+                  "title": "Defects to fix in the revamp",
+                  "anchor": "defects",
+                  "body": "1. **Three dead font loads**, including **Montserrat** — the superseded 2021 brand font, linked from the HTML and referenced by zero CSS rules. Raleway and Noto Serif are also loaded and unused.\n2. **`.learn-more-btn` sets no default text colour**, only a `:hover` colour, so the resting state falls back to the user agent link colour on Gold. Needs measuring; likely fails contrast.\n3. **Weights are used but never loaded.** Poppins loads 400/500/600, but the CSS asks for `800` twice and `bold` (700) twice — those render as synthesized fakes.\n4. **Button weight conflicts with the brand:** the site uses SemiBold 600 where the documented Button Text style is Medium 500.\n5. **Two competing button components**, differing in padding and radius.\n6. **Off-palette colours:** `#000000` (where Charcoal Black `#242525` is the brand value), `#272728`, `#E0E0E0`, `#CCCCCC`, `#C9DAF1`."
+                },
+                {
+                  "title": "Domain",
+                  "anchor": "domain",
+                  "body": "`www.imaginecities.ca`, the URL printed in the v2.0.1 deck, **does not resolve**. The live site is `www.imaginecities.com`. `systemInfo.url` records the working domain; the deck's value is preserved in `source/brand-v2.0.1.md` as transcribed."
+                }
+              ]
+            },
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Do not copy spacing, radius or font-size values from the live site into this system. They are ad-hoc and inconsistent.",
+                  "rationale": "Twelve unrelated padding values and five radii are not a scale. Codifying them would turn an implementation accident into a documented brand rule.",
+                  "level": "must-not",
+                  "category": "development"
+                },
+                {
+                  "guidance": "Do not treat any colour observed on the site as a brand colour unless it also appears in `tokens/tokens.json`.",
+                  "rationale": "The site carries five off-palette colours. Observation is not authority.",
+                  "level": "must-not",
+                  "category": "development"
+                },
+                {
+                  "guidance": "Remove the Montserrat, Raleway and Noto Serif font links from the site.",
+                  "rationale": "All three are downloaded and used by nothing. Montserrat is additionally the superseded 2021 brand font and should not be served from an Imagine Cities page.",
+                  "level": "must",
+                  "category": "development"
                 }
               ]
             }
