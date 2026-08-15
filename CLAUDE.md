@@ -9,9 +9,10 @@ built (the IC website, graphics, docs) matches the brand without re-reading a sl
 2. `tokens/tokens.json` — W3C DTCG raw token values (hex, px, weights). Import these.
 3. `source/brand-v2.0.1.md` — transcription of the official Brand Guidelines v2.0.1.
 
-`source/observed-website.md` is **not** a source of truth. It records what the live site
-does today (descriptive only). Never promote a value from it into `tokens/tokens.json`;
-where the site and the deck disagree, the deck wins and the site is what needs fixing.
+`source/observed-website.md` and `source/observed-assessment-tool.md` are **not** sources of
+truth. They record what shipped builds do today (descriptive only). Never promote a value
+from them into `tokens/tokens.json`; where a build and the deck disagree, the deck wins and
+the build is what needs fixing.
 
 ## Hard rules
 - **Only** use Brand Guidelines **v2.0.1 (Oct 2024)** values. Brand font is **Poppins**

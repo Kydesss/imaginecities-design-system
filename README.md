@@ -99,7 +99,8 @@ reads backwards but is what the deck defines. Set 2 needed no corrections.
 ```
 CLAUDE.md      AI brand-context loader + hard rules
 plan.md        plan of record
-source/        transcribed brand guidelines (provenance) — brand-v2.0.1.md
+source/        brand-v2.0.1.md (the source of truth) + observed-*.md audits of
+               shipped builds, which are descriptive only and never authoritative
 schema/        vendored DSDS bundled schema
 dsds/          the DSDS document
 tokens/        W3C DTCG token values

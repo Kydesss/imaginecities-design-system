@@ -1273,6 +1273,72 @@
         },
         {
           "kind": "guide",
+          "identifier": "assessment-tool",
+          "name": "Assessment Tool (observed, not normative)",
+          "description": "The Neighbourhood Adaptability Assessment Flow, audited 2026-08-15 at `fun-tested-13948191.figma.site`. **Descriptive only** — a build is not a source of brand truth. The most brand-compliant Imagine Cities build so far, and the only one with a real component set. Full audit in `source/observed-assessment-tool.md`.",
+          "metadata": {
+            "status": "draft",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "summary": "Six of seven brand colours used correctly, alongside a parallel undocumented colour system.",
+            "tags": ["assessment-tool", "audit", "observed"],
+            "links": [
+              { "kind": "documentation", "url": "https://fun-tested-13948191.figma.site/", "label": "Assessment tool (Figma Sites)" }
+            ]
+          },
+          "documentBlocks": [
+            {
+              "kind": "sections",
+              "items": [
+                {
+                  "title": "What it gets right",
+                  "anchor": "compliant",
+                  "body": "Poppins is loaded properly — `fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700`, applied on `body` — which is better than the main site, where three fonts are loaded and never used.\n\nSix of the seven brand colours are used, 86 times between them: Charcoal Black (27), Deep Azure (20), Gold (16), Forest Green (11), Fresh Green (7), Serene White (5)."
+                },
+                {
+                  "title": "A parallel colour system",
+                  "anchor": "parallel-colours",
+                  "body": "**37 uses across 16 colours are off-palette, and not one of the 20 documented tint values appears.** The build invented light and dark ramps beside the ones the deck already specifies:\n\n| Observed | Uses | Already documented |\n|---|---|---|\n| `#FFFAED`, `#FFF8E7`, `#FFF3D6` | 7 | Gold 20% `#F7EAC9` |\n| `#E8EDE2`, `#EBF5DF`, `#D1D9C8` | 7 | Forest Green 20% `#D4DCC2` |\n| `#EBF1FB` | 3 | Deep Azure 20% `#C5D6E7` |\n| `#466102`, `#4A5340`, `#5A6350`, `#9CA89A`, `#0449A6`, `#9E6A00` | 15 | nothing equivalent is documented |\n\nThis is the failure the tint values were recorded to prevent: §2.3 assigns section backgrounds to the documented 20% tints, and this build has three cream golds and three light greens doing that job instead."
+                },
+                {
+                  "title": "shadcn/ui defaults leaking through",
+                  "anchor": "shadcn-defaults",
+                  "body": "Three values are stock shadcn/ui theme defaults rather than brand decisions: `#030213` (its `foreground`, where Charcoal Black is the brand value), `#CBCED4` (its `border`), and `#D4183D` (its `destructive`).\n\nThe last one matters most. **`#D4183D` is the alert colour, where the brand's is Bold Red `#C73124`** — and Bold Red appears nowhere in the build. An assessment tool has validation and error states, so the one role §2.3 explicitly assigns to Bold Red is exactly where an off-brand red is being used."
+                },
+                {
+                  "title": "Recommendation",
+                  "anchor": "recommendation",
+                  "body": "The gap is fixable rather than fundamental. Driving the build's colours from `tokens/tokens.json` instead of a hand-maintained theme resolves the parallel tint ramps, the shadcn leakage and the wrong error red in a single pass.\n\nIts components are the closest thing Imagine Cities has to a component library. If one is ever documented at brand level this is the natural starting point — but the specs must be authored into the guidelines, not reverse-engineered from this CSS."
+                }
+              ]
+            },
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Use Bold Red `#C73124` for alert and error states, not `#D4183D`.",
+                  "rationale": "§2.3 assigns alerts and warnings to Bold Red. `#D4183D` is the stock shadcn/ui destructive colour and is not a brand value.",
+                  "level": "must",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Use the documented 20% tints for section backgrounds — Gold `#F7EAC9`, Deep Azure `#C5D6E7`, Forest Green `#D4DCC2` — rather than new light shades.",
+                  "rationale": "The tint ramps exist precisely so that surfaces can be tinted without inventing colours. This build carries six invented light shades where three documented ones would serve.",
+                  "level": "must",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Load only the brand weights of Poppins: 400, 500, 600 and 700.",
+                  "rationale": "Weight 300 is loaded but is not part of the documented type scale.",
+                  "level": "should",
+                  "category": "development"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "guide",
           "identifier": "current-website",
           "name": "The Current Website (observed, not normative)",
           "description": "What `www.imaginecities.com` actually does today, audited 2026-08-15. **This entity is descriptive.** The website is an implementation, not a source of brand truth — where it and v2.0.1 disagree, the deck wins and the site is what needs fixing. Nothing here may be promoted into `tokens/tokens.json`.",
