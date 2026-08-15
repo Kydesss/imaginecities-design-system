@@ -1,0 +1,1116 @@
+{
+  "$schema": "https://designsystemdocspec.org/v0.15.2/dsds.bundled.schema.json",
+  "dsdsVersion": "0.15.2",
+  "systemInfo": {
+    "name": "Imagine Cities Design System",
+    "version": "2.0.1",
+    "organization": "Imagine Cities",
+    "url": "https://www.imaginecities.ca"
+  },
+  "entityGroups": [
+    {
+      "name": "Foundations",
+      "description": "Brand-level foundations transcribed from Imagine Cities Brand Guidelines v2.0.1 (October 2024). The guidelines are brand-level and do not document a component library, so this system documents no components.",
+      "entities": [
+        {
+          "kind": "foundation",
+          "identifier": "color",
+          "name": "Colour",
+          "description": "The Imagine Cities palette. Gold is the hero colour. Per the guidelines, the palette is \"carefully crafted for both accessibility and seamless compatibility\".",
+          "metadata": {
+            "status": "stable",
+            "category": "base",
+            "summary": "Seven brand colours led by Gold, plus documented tint stops.",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "tags": ["colour", "palette", "brand"],
+            "links": [
+              {
+                "kind": "documentation",
+                "url": "https://docs.google.com/presentation/d/1c0F9BWUlD3Jozm-dHOAv-diGGWcH5wueKYUQxyc7ISI/",
+                "label": "Imagine Cities Brand Guidelines v2.0.1 (Google Slides)"
+              }
+            ]
+          },
+          "documentBlocks": [
+            {
+              "kind": "principles",
+              "items": [
+                {
+                  "title": "Gold leads",
+                  "description": "Gold `#FFB827` is the hero colour. It carries brand recognition, so it is reserved for the elements that should be noticed first — calls to action, key icons, standout elements — rather than spread across large surfaces."
+                },
+                {
+                  "title": "Accessible by construction",
+                  "description": "The palette was built so that its documented pairings meet contrast requirements. Pick pairings from the documented set instead of choosing colours by eye, and treat a failing pairing as a defect rather than a style choice."
+                },
+                {
+                  "title": "Tints carry structure, not decoration",
+                  "description": "Tints exist so a page can be divided into sections without adding new hues. A 20% tint marks a section as important; it does not create a new brand colour."
+                }
+              ]
+            },
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Use Gold `#FFB827` for call-to-action buttons, key icons, and standout elements.",
+                  "rationale": "Gold is the hero colour and reserving it for primary actions keeps it legible as a signal.",
+                  "level": "should",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Use Deep Azure `#0656BF` for headers, links, and secondary elements.",
+                  "level": "should",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Use Charcoal Black `#242525` for text and Serene White `#F5F7F2` for backgrounds.",
+                  "level": "should",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Use 20% tints of Gold, Deep Azure, or Forest Green for section backgrounds that signify important components.",
+                  "rationale": "The guidelines assign 20% tints the secondary role of marking sections without introducing further hues.",
+                  "level": "should",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Restrict Bold Red `#C73124` to alerts, warnings, and emphasis of a specific area. Do not use it for calls to action, body text, or section backgrounds.",
+                  "rationale": "The guidelines direct that Bold Red be used sparingly; broad use erodes its meaning as a warning colour.",
+                  "level": "must-not",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Use only the seven documented brand colours and their documented tint stops. Do not add hues, and do not take colours from the 2021 \"Design Guidelines.pdf\" (Montserrat era: Azure, Viridian, Turquoise, Aqua, gold `#F9AF42`).",
+                  "rationale": "The 2021 document is superseded; mixing its palette in corrupts the brand.",
+                  "level": "must-not",
+                  "category": "visual-design"
+                }
+              ]
+            },
+            {
+              "kind": "accessibility",
+              "wcagLevel": "AA",
+              "criteria": [
+                {
+                  "identifier": "large-text-threshold",
+                  "title": "Large-or-bold text threshold",
+                  "statement": "Any pairing the guidelines classify as \"large or bold text only\" is used only at 14pt bold or larger, or 18pt regular or larger."
+                },
+                {
+                  "identifier": "pairing-from-documented-set",
+                  "title": "Pairings come from the documented set",
+                  "statement": "Every foreground/background pairing shipped in an Imagine Cities surface appears in the guidelines' font-colour pairing chart with a classification of \"fully compliant\", or \"large or bold text only\" and is used at or above the large-text threshold."
+                }
+              ],
+              "colorContrast": [
+                {
+                  "foreground": "color.charcoal-black",
+                  "background": "color.serene-white",
+                  "context": "Body text on the default background. Computed ratio 14.25:1 from the documented hex values (WCAG 2.1 relative luminance)."
+                },
+                {
+                  "foreground": "color.charcoal-black",
+                  "background": "color.gold",
+                  "context": "Text on a Gold call-to-action surface. Computed ratio 8.88:1."
+                },
+                {
+                  "foreground": "color.charcoal-black",
+                  "background": "color.fresh-green",
+                  "context": "Text on a Fresh Green surface. Computed ratio 13.34:1."
+                },
+                {
+                  "foreground": "color.serene-white",
+                  "background": "color.deep-azure",
+                  "context": "Reversed text on a Deep Azure surface. Computed ratio 6.30:1."
+                },
+                {
+                  "foreground": "color.serene-white",
+                  "background": "color.forest-green",
+                  "context": "Reversed text on a Forest Green surface. Computed ratio 5.11:1."
+                },
+                {
+                  "foreground": "color.serene-white",
+                  "background": "color.bold-red",
+                  "context": "Reversed text on a Bold Red alert surface. Computed ratio 5.00:1."
+                },
+                {
+                  "foreground": "color.deep-azure",
+                  "background": "color.serene-white",
+                  "context": "Links on the default background. Computed ratio 6.30:1."
+                }
+              ]
+            },
+            {
+              "kind": "sections",
+              "items": [
+                {
+                  "title": "Tints",
+                  "anchor": "tints",
+                  "body": "Tint stops of **100 / 80 / 60 / 40 / 20%** are documented for **Deep Azure, Gold, Forest Green and Bold Red**. Serene White, Charcoal Black and Fresh Green are shown as solids only.\n\nThe deck presents the tints as a visual chart, and the resulting swatch hex values were not transcribed. `tokens/tokens.json` therefore carries the tint **percentages** and no tint colour values. Sample the hexes from the slide before adding tint colour tokens — do not compute or invent them."
+                },
+                {
+                  "title": "Pairing matrix — not yet encoded",
+                  "anchor": "pairing-matrix",
+                  "body": "The guidelines classify font-colour pairings as **fully compliant**, **large-or-bold text only**, or **not compliant for text**, with the large-or-bold threshold at minimum 14pt bold or 18pt regular. That matrix is a visual grid in the deck and has not been transcribed.\n\nThe `colorContrast` entries above are **computed** from the documented hex values using the WCAG 2.1 relative-luminance formula — they are not a transcription of the deck's classification. Where the two ever disagree, re-check the slide and treat the deck as the source of truth for intent."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "foundation",
+          "identifier": "typography",
+          "name": "Typography",
+          "description": "Poppins is the brand font; Roboto is the system fallback. Twelve documented styles cover display, heading, body and UI text.",
+          "metadata": {
+            "status": "stable",
+            "category": "base",
+            "summary": "Poppins with a Roboto fallback, across a 12-style scale.",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "tags": ["typography", "type-scale", "poppins", "roboto"]
+          },
+          "documentBlocks": [
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Set brand typography in Poppins. Where Poppins is unavailable, set it in Roboto.",
+                  "rationale": "Roboto offers a similar modern and clean aesthetic to Poppins.",
+                  "level": "must",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Do not type in ALL CAPS.",
+                  "level": "must-not",
+                  "category": "content"
+                },
+                {
+                  "guidance": "Do not underline text.",
+                  "level": "must-not",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Set headings in title case, aligned centre or left.",
+                  "level": "must",
+                  "category": "content"
+                },
+                {
+                  "guidance": "Left-align body copy.",
+                  "level": "must",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Do not hyphenate body copy.",
+                  "level": "must-not",
+                  "category": "visual-design"
+                }
+              ]
+            },
+            {
+              "kind": "scale",
+              "identifier": "type-scale",
+              "name": "Type Scale",
+              "description": "The twelve documented type styles, smallest to largest. Each step names its token in `tokens/tokens.json` under `typography.*`, where the weight, line height and letter spacing live. Values are transcribed from the deck; the label-to-spec mapping was read in reading order and should be checked against the slide visuals.",
+              "steps": [
+                {
+                  "token": "typography.label",
+                  "name": "Label",
+                  "value": "11px",
+                  "description": "Bold 11px, line height Auto, letter spacing 0%."
+                },
+                {
+                  "token": "typography.paragraph-small",
+                  "name": "Paragraph Small",
+                  "value": "14px",
+                  "description": "Regular 14px, line height 140%, letter spacing 0%."
+                },
+                {
+                  "token": "typography.paragraph-small-bold",
+                  "name": "Paragraph Small Bold",
+                  "value": "14px",
+                  "description": "SemiBold 14px, line height 140%, letter spacing 0%."
+                },
+                {
+                  "token": "typography.tag",
+                  "name": "Tag",
+                  "value": "14px",
+                  "description": "Medium 14px, line height Auto, letter spacing 0%."
+                },
+                {
+                  "token": "typography.paragraph-1",
+                  "name": "Paragraph 1",
+                  "value": "16px",
+                  "description": "Regular 16px, line height 140%, letter spacing 0%. The default body style."
+                },
+                {
+                  "token": "typography.paragraph-1-bold",
+                  "name": "Paragraph 1 Bold",
+                  "value": "16px",
+                  "description": "SemiBold 16px, line height Auto, letter spacing 0%."
+                },
+                {
+                  "token": "typography.button-text",
+                  "name": "Button Text",
+                  "value": "16px",
+                  "description": "Medium 16px, line height 150%, letter spacing 0%. Use for button labels."
+                },
+                {
+                  "token": "typography.subheadline",
+                  "name": "Subheadline",
+                  "value": "20px",
+                  "description": "Regular 20px, letter spacing -2%. Line height is documented as 24%, which is almost certainly a typo — verify against the slide before use."
+                },
+                {
+                  "token": "typography.subtitle",
+                  "name": "Subtitle",
+                  "value": "20px",
+                  "description": "SemiBold 20px, line height 120%, letter spacing 0%."
+                },
+                {
+                  "token": "typography.headline",
+                  "name": "Headline",
+                  "value": "48px",
+                  "description": "SemiBold 48px, line height 120%, letter spacing -2%."
+                },
+                {
+                  "token": "typography.title-page",
+                  "name": "Title Page",
+                  "value": "48px",
+                  "description": "Bold 48px, line height 120%, letter spacing -2%."
+                },
+                {
+                  "token": "typography.title-display",
+                  "name": "Title - Display",
+                  "value": "72px",
+                  "description": "SemiBold 72px, line height 120%, letter spacing -3%. The largest style."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "foundation",
+          "identifier": "logo",
+          "name": "Logo",
+          "description": "The logo features the Calgary Tower against a backdrop of light beams, symbolizing a future where cities thrive through the collective actions of neighbourhoods. Primary and Secondary variants exist.",
+          "metadata": {
+            "status": "stable",
+            "category": "brand",
+            "summary": "Calgary Tower against light beams; primary and secondary variants.",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "tags": ["logo", "brand", "identity"]
+          },
+          "documentBlocks": [
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Keep the logo's defined safe space (the clear space marked \"C\") free of other elements.",
+                  "level": "must",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Do not rearrange the logo's elements.",
+                  "level": "must-not",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Do not change the logo's colour or font.",
+                  "level": "must-not",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Do not distort the logo, or alter its size or proportion.",
+                  "level": "must-not",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Do not apply patterns or effects to the logo.",
+                  "level": "must-not",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Do not rotate the logo.",
+                  "level": "must-not",
+                  "category": "visual-design"
+                }
+              ]
+            },
+            {
+              "kind": "sections",
+              "items": [
+                {
+                  "title": "Assets",
+                  "anchor": "assets",
+                  "body": "Logo and mark files live in the shared Drive under `Design Assets/` — subfolders `ImagineCities Logos` and `Outside The Box Logos`, plus the `city_diamond_large` mark. They have **not** been copied into `assets/` in this repo yet."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "foundation",
+          "identifier": "iconography",
+          "name": "Iconography",
+          "description": "Icons come from Google Material Symbols and Icons, outlined style with the standard stylistic axes.",
+          "metadata": {
+            "status": "stable",
+            "category": "base",
+            "summary": "Google Material Symbols, outlined.",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "tags": ["icons", "material-symbols"],
+            "links": [
+              {
+                "kind": "documentation",
+                "url": "https://fonts.google.com/icons",
+                "label": "Material Symbols and Icons — Google Fonts"
+              }
+            ]
+          },
+          "documentBlocks": [
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Draw icons from Google Material Symbols and Icons in the outlined style, using the standard stylistic axes.",
+                  "level": "must",
+                  "category": "visual-design"
+                },
+                {
+                  "guidance": "Colour icons in Charcoal Black, Serene White, or Deep Azure.",
+                  "level": "must",
+                  "category": "visual-design"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "foundation",
+          "identifier": "imagery",
+          "name": "Imagery",
+          "description": "Photography shows communication and collaboration between individuals of all ages and backgrounds.",
+          "metadata": {
+            "status": "stable",
+            "category": "base",
+            "summary": "Diverse imagery; optional black-and-white filter or tint overlay.",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "tags": ["imagery", "photography"]
+          },
+          "documentBlocks": [
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Choose images that reflect diversity — communication and collaboration between individuals of all ages and backgrounds.",
+                  "level": "must",
+                  "category": "content"
+                },
+                {
+                  "guidance": "Where a visual effect is wanted, apply a black-and-white filter or a colour overlay using a documented tint percentage.",
+                  "level": "should",
+                  "category": "visual-design"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "foundation",
+          "identifier": "holding-shapes",
+          "name": "Holding Shapes",
+          "description": "Holding shapes are the backbone of Imagine Cities layouts. The two shapes are circles and rounded rectangles.",
+          "metadata": {
+            "status": "stable",
+            "category": "base",
+            "summary": "Circles and rounded rectangles hold text and images, and mask images.",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "tags": ["layout", "shapes"]
+          },
+          "documentBlocks": [
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Use circles and rounded rectangles as the layout's holding shapes — as text holders, as image holders, and to mask images.",
+                  "rationale": "The guidelines name holding shapes the backbone of layouts, and list only these two shapes.",
+                  "level": "must",
+                  "category": "visual-design"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Tokens",
+      "description": "DSDS token documentation. Values are not copied here — each entry points at `tokens/tokens.json`, the W3C DTCG file that is the source of truth for resolved values and aliases.",
+      "entities": [
+        {
+          "kind": "token-group",
+          "identifier": "color-tokens",
+          "name": "Colour tokens",
+          "tokenType": "color",
+          "description": "The seven brand colours and their semantic aliases.",
+          "source": { "file": "../tokens/tokens.json", "path": "color" },
+          "metadata": {
+            "status": "stable",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted"
+          },
+          "relationships": [
+            {
+              "relation": "part-of",
+              "target": "color",
+              "role": "Supplies the values documented by the colour foundation"
+            }
+          ],
+          "children": [
+            {
+              "kind": "token",
+              "identifier": "color.gold",
+              "name": "Gold",
+              "description": "`#FFB827` — the hero colour. Calls to action, key icons, standout elements.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.gold" }
+            },
+            {
+              "kind": "token",
+              "identifier": "color.deep-azure",
+              "name": "Deep Azure",
+              "description": "`#0656BF` — headers, links, secondary elements.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.deep-azure" }
+            },
+            {
+              "kind": "token",
+              "identifier": "color.serene-white",
+              "name": "Serene White",
+              "description": "`#F5F7F2` — backgrounds.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.serene-white" }
+            },
+            {
+              "kind": "token",
+              "identifier": "color.charcoal-black",
+              "name": "Charcoal Black",
+              "description": "`#242525` — text.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.charcoal-black" }
+            },
+            {
+              "kind": "token",
+              "identifier": "color.forest-green",
+              "name": "Forest Green",
+              "description": "`#527302`.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.forest-green" }
+            },
+            {
+              "kind": "token",
+              "identifier": "color.fresh-green",
+              "name": "Fresh Green",
+              "description": "`#C6FDC2`.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.fresh-green" }
+            },
+            {
+              "kind": "token",
+              "identifier": "color.bold-red",
+              "name": "Bold Red",
+              "description": "`#C73124` — alerts, warnings, emphasis. Use sparingly.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.bold-red" }
+            },
+            {
+              "kind": "token",
+              "identifier": "color.action",
+              "name": "Action",
+              "description": "Alias of Gold. Call-to-action buttons, key icons, standout elements.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.action" },
+              "relationships": [
+                { "relation": "depends-on", "target": "color.gold", "required": true }
+              ]
+            },
+            {
+              "kind": "token",
+              "identifier": "color.link",
+              "name": "Link",
+              "description": "Alias of Deep Azure. Links.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.link" },
+              "relationships": [
+                { "relation": "depends-on", "target": "color.deep-azure", "required": true }
+              ]
+            },
+            {
+              "kind": "token",
+              "identifier": "color.header",
+              "name": "Header",
+              "description": "Alias of Deep Azure. Headers and secondary elements.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.header" },
+              "relationships": [
+                { "relation": "depends-on", "target": "color.deep-azure", "required": true }
+              ]
+            },
+            {
+              "kind": "token",
+              "identifier": "color.text",
+              "name": "Text",
+              "description": "Alias of Charcoal Black. Body and UI text.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.text" },
+              "relationships": [
+                { "relation": "depends-on", "target": "color.charcoal-black", "required": true }
+              ]
+            },
+            {
+              "kind": "token",
+              "identifier": "color.background",
+              "name": "Background",
+              "description": "Alias of Serene White. Page and surface backgrounds.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.background" },
+              "relationships": [
+                { "relation": "depends-on", "target": "color.serene-white", "required": true }
+              ]
+            },
+            {
+              "kind": "token",
+              "identifier": "color.danger",
+              "name": "Danger",
+              "description": "Alias of Bold Red. Alerts, warnings, errors.",
+              "source": { "file": "../tokens/tokens.json", "path": "color.danger" },
+              "relationships": [
+                { "relation": "depends-on", "target": "color.bold-red", "required": true }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "token-group",
+          "identifier": "tint",
+          "name": "Tint stops",
+          "tokenType": "number",
+          "description": "The documented tint percentages for Deep Azure, Gold, Forest Green and Bold Red. These are percentages only — the deck's tint swatch hex values were not transcribed and MUST NOT be computed or invented. Sample them from the slide before adding tint colour tokens.",
+          "source": { "file": "../tokens/tokens.json", "path": "tint" },
+          "metadata": {
+            "status": "draft",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted"
+          },
+          "children": [
+            {
+              "kind": "token",
+              "identifier": "tint.100",
+              "source": { "file": "../tokens/tokens.json", "path": "tint.100" }
+            },
+            {
+              "kind": "token",
+              "identifier": "tint.80",
+              "source": { "file": "../tokens/tokens.json", "path": "tint.80" }
+            },
+            {
+              "kind": "token",
+              "identifier": "tint.60",
+              "source": { "file": "../tokens/tokens.json", "path": "tint.60" }
+            },
+            {
+              "kind": "token",
+              "identifier": "tint.40",
+              "source": { "file": "../tokens/tokens.json", "path": "tint.40" }
+            },
+            {
+              "kind": "token",
+              "identifier": "tint.20",
+              "description": "Section backgrounds, in Gold, Deep Azure or Forest Green.",
+              "source": { "file": "../tokens/tokens.json", "path": "tint.20" }
+            }
+          ]
+        },
+        {
+          "kind": "token-group",
+          "identifier": "font",
+          "name": "Font tokens",
+          "description": "Font families and the weights used by the type scale.",
+          "source": { "file": "../tokens/tokens.json", "path": "font" },
+          "metadata": {
+            "status": "stable",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted"
+          },
+          "relationships": [
+            {
+              "relation": "part-of",
+              "target": "typography",
+              "role": "Supplies the families and weights the type scale uses"
+            }
+          ],
+          "children": [
+            {
+              "kind": "token-group",
+              "identifier": "font.family",
+              "name": "Families",
+              "tokenType": "fontFamily",
+              "source": { "file": "../tokens/tokens.json", "path": "font.family" },
+              "children": [
+                {
+                  "kind": "token",
+                  "identifier": "font.family.brand",
+                  "name": "Brand font",
+                  "description": "Poppins. Printed materials, hard-copy deliverables, emailed PDFs, and website copy.",
+                  "source": { "file": "../tokens/tokens.json", "path": "font.family.brand" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "font.family.system",
+                  "name": "System font",
+                  "description": "Roboto. Anywhere Poppins is unavailable, and for deliverables that cannot be saved as PDF.",
+                  "source": { "file": "../tokens/tokens.json", "path": "font.family.system" }
+                }
+              ]
+            },
+            {
+              "kind": "token-group",
+              "identifier": "font.weight",
+              "name": "Weights",
+              "tokenType": "fontWeight",
+              "description": "Weight names used by the type scale, mapped to their standard CSS numeric values.",
+              "source": { "file": "../tokens/tokens.json", "path": "font.weight" },
+              "children": [
+                {
+                  "kind": "token",
+                  "identifier": "font.weight.regular",
+                  "source": { "file": "../tokens/tokens.json", "path": "font.weight.regular" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "font.weight.medium",
+                  "source": { "file": "../tokens/tokens.json", "path": "font.weight.medium" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "font.weight.semibold",
+                  "source": { "file": "../tokens/tokens.json", "path": "font.weight.semibold" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "font.weight.bold",
+                  "source": { "file": "../tokens/tokens.json", "path": "font.weight.bold" }
+                },
+                {
+                  "kind": "token",
+                  "identifier": "font.weight.black",
+                  "description": "Listed as an available Roboto weight; not assigned to any documented type style.",
+                  "source": { "file": "../tokens/tokens.json", "path": "font.weight.black" }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "token-group",
+          "identifier": "typography-tokens",
+          "name": "Typography tokens",
+          "tokenType": "typography",
+          "description": "Composite tokens for the twelve documented type styles. Each carries family, weight, size, line height and letter spacing.",
+          "source": { "file": "../tokens/tokens.json", "path": "typography" },
+          "metadata": {
+            "status": "stable",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted"
+          },
+          "relationships": [
+            {
+              "relation": "part-of",
+              "target": "typography",
+              "role": "Supplies the values documented by the typography foundation"
+            }
+          ],
+          "children": [
+            {
+              "kind": "token",
+              "identifier": "typography.title-display",
+              "name": "Title - Display",
+              "description": "SemiBold 72px / 120% / -3%.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.title-display" }
+            },
+            {
+              "kind": "token",
+              "identifier": "typography.title-page",
+              "name": "Title Page",
+              "description": "Bold 48px / 120% / -2%.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.title-page" }
+            },
+            {
+              "kind": "token",
+              "identifier": "typography.headline",
+              "name": "Headline",
+              "description": "SemiBold 48px / 120% / -2%.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.headline" }
+            },
+            {
+              "kind": "token",
+              "identifier": "typography.subheadline",
+              "name": "Subheadline",
+              "description": "Regular 20px / -2%. Line height is documented as 24%, which is almost certainly a typo for 120% or 24px — verify against the slide before use.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.subheadline" },
+              "metadata": { "status": "draft" }
+            },
+            {
+              "kind": "token",
+              "identifier": "typography.subtitle",
+              "name": "Subtitle",
+              "description": "SemiBold 20px / 120% / 0%.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.subtitle" }
+            },
+            {
+              "kind": "token",
+              "identifier": "typography.paragraph-1",
+              "name": "Paragraph 1",
+              "description": "Regular 16px / 140% / 0%. The default body style.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.paragraph-1" }
+            },
+            {
+              "kind": "token",
+              "identifier": "typography.paragraph-1-bold",
+              "name": "Paragraph 1 Bold",
+              "description": "SemiBold 16px / Auto / 0%.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.paragraph-1-bold" }
+            },
+            {
+              "kind": "token",
+              "identifier": "typography.paragraph-small",
+              "name": "Paragraph Small",
+              "description": "Regular 14px / 140% / 0%.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.paragraph-small" }
+            },
+            {
+              "kind": "token",
+              "identifier": "typography.paragraph-small-bold",
+              "name": "Paragraph Small Bold",
+              "description": "SemiBold 14px / 140% / 0%.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.paragraph-small-bold" }
+            },
+            {
+              "kind": "token",
+              "identifier": "typography.button-text",
+              "name": "Button Text",
+              "description": "Medium 16px / 150% / 0%.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.button-text" }
+            },
+            {
+              "kind": "token",
+              "identifier": "typography.tag",
+              "name": "Tag",
+              "description": "Medium 14px / Auto / 0%.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.tag" }
+            },
+            {
+              "kind": "token",
+              "identifier": "typography.label",
+              "name": "Label",
+              "description": "Bold 11px / Auto / 0%.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.label" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Patterns",
+      "entities": [
+        {
+          "kind": "pattern",
+          "identifier": "colour-roles",
+          "name": "Colour Roles",
+          "description": "How the palette divides into primary, secondary and accent roles across a layout.",
+          "metadata": {
+            "status": "stable",
+            "category": "base",
+            "summary": "Primary, secondary and accent roles for the brand palette.",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "tags": ["colour", "layout"]
+          },
+          "relationships": [
+            { "relation": "depends-on", "target": "color", "role": "Assigns roles to the colour foundation's palette" }
+          ],
+          "documentBlocks": [
+            {
+              "kind": "sections",
+              "items": [
+                {
+                  "title": "Primary",
+                  "anchor": "primary",
+                  "body": "**Gold** for call-to-action buttons, key icons and standout elements. **Deep Azure** for headers, links and secondary elements. **Charcoal Black** for text, **Serene White** for backgrounds."
+                },
+                {
+                  "title": "Secondary",
+                  "anchor": "secondary",
+                  "body": "**20% tints** of Gold, Deep Azure and Forest Green as section backgrounds, to signify important components."
+                },
+                {
+                  "title": "Accent",
+                  "anchor": "accent",
+                  "body": "Accent colour is for minor highlights and notifications."
+                },
+                {
+                  "title": "Bold Red",
+                  "anchor": "bold-red",
+                  "body": "**Bold Red** is used sparingly — alerts, warnings, or emphasizing a specific area."
+                }
+              ]
+            },
+            {
+              "kind": "use-cases",
+              "purpose": "Decides which brand colour carries which job on a surface.",
+              "items": [
+                {
+                  "description": "A page needs one clear primary action, such as a donate or sign-up button.",
+                  "stance": "recommended"
+                },
+                {
+                  "description": "A long page needs visual separation between content sections without new hues.",
+                  "stance": "recommended"
+                },
+                {
+                  "description": "A designer wants a large area of full-strength Gold as a page background.",
+                  "stance": "discouraged"
+                },
+                {
+                  "description": "A designer wants Bold Red as the colour of a call-to-action button.",
+                  "stance": "discouraged"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Guides",
+      "entities": [
+        {
+          "kind": "guide",
+          "identifier": "font-usage",
+          "name": "Font Usage",
+          "description": "When to set work in Poppins and when to fall back to Roboto.",
+          "metadata": {
+            "status": "stable",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "summary": "Poppins for print, PDFs and the website; Roboto everywhere Poppins cannot go.",
+            "tags": ["typography", "poppins", "roboto"]
+          },
+          "relationships": [
+            { "relation": "depends-on", "target": "typography" }
+          ],
+          "documentBlocks": [
+            {
+              "kind": "use-cases",
+              "purpose": "Chooses between the brand font and the system font for a given deliverable.",
+              "items": [
+                {
+                  "description": "Printed material — brochures, thought leadership, event material. Set in Poppins.",
+                  "stance": "recommended"
+                },
+                {
+                  "description": "Hard-copy client deliverables such as reports and proposals. Set in Poppins.",
+                  "stance": "recommended"
+                },
+                {
+                  "description": "A Word or other document emailed as a PDF. Set in Poppins and save as a locked PDF.",
+                  "stance": "recommended"
+                },
+                {
+                  "description": "Website copy. Set in Poppins.",
+                  "stance": "recommended"
+                },
+                {
+                  "description": "A client deliverable that cannot be saved as a PDF and is emailed as an editable file. Poppins will not travel with it — set it in Roboto.",
+                  "stance": "discouraged"
+                }
+              ]
+            },
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Save Poppins-set documents that are emailed as locked PDFs.",
+                  "rationale": "An editable file will re-flow in whatever font the recipient has installed.",
+                  "level": "must",
+                  "category": "development"
+                },
+                {
+                  "guidance": "Set the work in Roboto wherever Poppins is unavailable.",
+                  "level": "must",
+                  "category": "visual-design"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "guide",
+          "identifier": "accessibility",
+          "name": "Accessibility",
+          "description": "How to keep Imagine Cities work readable — colour pairings and text size.",
+          "metadata": {
+            "status": "draft",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "summary": "Pairing rules and the large-or-bold text threshold.",
+            "tags": ["accessibility", "contrast"]
+          },
+          "relationships": [
+            { "relation": "depends-on", "target": "color" }
+          ],
+          "documentBlocks": [
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Use a font-colour pairing the guidelines classify as fully compliant, or one classified as large-or-bold-only at 14pt bold or larger, or 18pt regular or larger.",
+                  "rationale": "The guidelines classify every pairing as fully compliant, large-or-bold text only, or not compliant for text, with that threshold.",
+                  "level": "must",
+                  "category": "accessibility"
+                },
+                {
+                  "guidance": "Do not use a pairing the guidelines classify as not compliant for text.",
+                  "level": "must-not",
+                  "category": "accessibility"
+                },
+                {
+                  "guidance": "Do not carry a colour pairing over from a 2021 asset. Re-check it against the v2.0.1 chart first.",
+                  "rationale": "The 2021 palette is a different set of hues, so its pairings say nothing about the current one.",
+                  "level": "must-not",
+                  "category": "accessibility"
+                }
+              ]
+            },
+            {
+              "kind": "sections",
+              "items": [
+                {
+                  "title": "Status of the pairing matrix",
+                  "anchor": "pairing-matrix-status",
+                  "body": "The deck's pairing chart is a visual grid and has not been transcribed, which is why this guide is `draft`. Contrast ratios computed from the token values are recorded on the [colour foundation](#) — treat them as a computation, not as the deck's classification, and finish transcribing the grid before this guide is relied on for sign-off."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "guide",
+          "identifier": "voice-and-content",
+          "name": "Voice and Content",
+          "description": "How Imagine Cities words and sets text.",
+          "metadata": {
+            "status": "stable",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "summary": "Title-case headings, left-aligned body, no ALL CAPS, no underline, no hyphenation.",
+            "tags": ["content", "voice"]
+          },
+          "relationships": [
+            { "relation": "depends-on", "target": "typography" }
+          ],
+          "documentBlocks": [
+            {
+              "kind": "sections",
+              "items": [
+                {
+                  "title": "Who Imagine Cities is",
+                  "anchor": "about",
+                  "body": "\"We are a nonprofit that provides residents with the resources to learn, plan, and gather resources to build a more abundant future.\"\n\nTagline: \"Great cities are the result of fostering thriving neighbourhoods.\""
+                }
+              ]
+            },
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Write headings in title case.",
+                  "level": "must",
+                  "category": "content"
+                },
+                {
+                  "guidance": "Do not write in ALL CAPS.",
+                  "level": "must-not",
+                  "category": "content"
+                },
+                {
+                  "guidance": "Do not underline text for emphasis.",
+                  "level": "must-not",
+                  "category": "content"
+                },
+                {
+                  "guidance": "Left-align body copy, and do not hyphenate it.",
+                  "level": "must",
+                  "category": "content"
+                },
+                {
+                  "guidance": "Use Canadian spelling, as the guidelines do (\"neighbourhoods\", \"colour\").",
+                  "rationale": "Imagine Cities is a Calgary organization and the guidelines are written in Canadian English.",
+                  "level": "should",
+                  "category": "content"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "guide",
+          "identifier": "using-this-system",
+          "name": "Using This System",
+          "description": "How to consume these files, and what must never enter them.",
+          "metadata": {
+            "status": "stable",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "authored",
+            "summary": "Source of truth, file layout, and the v2.0.1-only rule.",
+            "tags": ["meta", "provenance"]
+          },
+          "documentBlocks": [
+            {
+              "kind": "sections",
+              "items": [
+                {
+                  "title": "Source of truth",
+                  "anchor": "source-of-truth",
+                  "body": "Everything here is transcribed from **Imagine Cities Brand Guidelines v2.0.1 (October 2024)**, via `source/brand-v2.0.1.md`. Raw values live in `tokens/tokens.json` (W3C DTCG) — import that file rather than copying hexes."
+                },
+                {
+                  "title": "What is out of scope",
+                  "anchor": "out-of-scope",
+                  "body": "The 2021 `Design Guidelines.pdf` is **superseded**: Montserrat, an Azure/Viridian/Turquoise/Aqua palette, and gold `#F9AF42`. None of it may be mixed in.\n\nThe shared Drive folder also holds a `Usernames & Passwords` document. It is out of scope for this repo and must never be ingested."
+                },
+                {
+                  "title": "No components",
+                  "anchor": "no-components",
+                  "body": "The guidelines are brand-level and document no component library, so this system documents no components. Do not fabricate component specs — extend the brand foundations instead, and record any new decision back into the guidelines first."
+                }
+              ]
+            },
+            {
+              "kind": "guidelines",
+              "items": [
+                {
+                  "guidance": "Take colour and type values only from `tokens/tokens.json`. Do not hard-code hex values or type specs in downstream code.",
+                  "rationale": "A single source keeps the website, graphics and documents in sync when the brand is revised.",
+                  "level": "must",
+                  "category": "development"
+                },
+                {
+                  "guidance": "Do not add a colour, type value, or component spec that does not appear in Brand Guidelines v2.0.1.",
+                  "rationale": "Invented values become de-facto brand once they ship.",
+                  "level": "must-not",
+                  "category": "development"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
