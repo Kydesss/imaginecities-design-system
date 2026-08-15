@@ -213,7 +213,7 @@
               "kind": "scale",
               "identifier": "type-scale",
               "name": "Type Scale",
-              "description": "The twelve documented type styles, smallest to largest. Each step names its token in `tokens/tokens.json` under `typography.*`, where the weight, line height and letter spacing live. Values are transcribed from the deck; the label-to-spec mapping was read in reading order and should be checked against the slide visuals.",
+              "description": "The twelve documented type styles, smallest to largest. Each step names its token in `tokens/tokens.json` under `typography.*`, where the weight, line height and letter spacing live. Every value and every label-to-spec mapping is confirmed against the two \"3.2 Font System\" slide images. Note the hierarchy the deck defines: Headline and Subheadline are both 20px, while Subtitle is 48px.",
               "steps": [
                 {
                   "token": "typography.label",
@@ -258,20 +258,20 @@
                   "description": "Medium 16px, line height 150%, letter spacing 0%. Use for button labels."
                 },
                 {
-                  "token": "typography.subheadline",
-                  "name": "Subheadline",
+                  "token": "typography.headline",
+                  "name": "Headline",
                   "value": "20px",
-                  "description": "Regular 20px, letter spacing -2%. Line height is documented as 24%, which is almost certainly a typo — verify against the slide before use."
+                  "description": "Regular 20px, letter spacing -2%. The slide gives a line height of 24%, which at 20px would render 4.8px — transcribed verbatim and unresolved."
                 },
                 {
-                  "token": "typography.subtitle",
-                  "name": "Subtitle",
+                  "token": "typography.subheadline",
+                  "name": "Subheadline",
                   "value": "20px",
                   "description": "SemiBold 20px, line height 120%, letter spacing 0%."
                 },
                 {
-                  "token": "typography.headline",
-                  "name": "Headline",
+                  "token": "typography.subtitle",
+                  "name": "Subtitle",
                   "value": "48px",
                   "description": "SemiBold 48px, line height 120%, letter spacing -2%."
                 },
@@ -742,25 +742,25 @@
             },
             {
               "kind": "token",
+              "identifier": "typography.subtitle",
+              "name": "Subtitle",
+              "description": "SemiBold 48px / 120% / -2%. Larger than Headline — that is what the deck defines.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.subtitle" }
+            },
+            {
+              "kind": "token",
               "identifier": "typography.headline",
               "name": "Headline",
-              "description": "SemiBold 48px / 120% / -2%.",
-              "source": { "file": "../tokens/tokens.json", "path": "typography.headline" }
+              "description": "Regular 20px / -2%. The slide gives a line height of 24%, which at 20px would render 4.8px. Transcribed verbatim and left unresolved — confirm the intended value before using this style.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.headline" },
+              "metadata": { "status": "draft" }
             },
             {
               "kind": "token",
               "identifier": "typography.subheadline",
               "name": "Subheadline",
-              "description": "Regular 20px / -2%. Line height is documented as 24%, which is almost certainly a typo for 120% or 24px — verify against the slide before use.",
-              "source": { "file": "../tokens/tokens.json", "path": "typography.subheadline" },
-              "metadata": { "status": "draft" }
-            },
-            {
-              "kind": "token",
-              "identifier": "typography.subtitle",
-              "name": "Subtitle",
               "description": "SemiBold 20px / 120% / 0%.",
-              "source": { "file": "../tokens/tokens.json", "path": "typography.subtitle" }
+              "source": { "file": "../tokens/tokens.json", "path": "typography.subheadline" }
             },
             {
               "kind": "token",

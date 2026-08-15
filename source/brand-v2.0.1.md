@@ -78,21 +78,24 @@ Not compliant for text.** Large-or-bold threshold = **minimum 14pt bold or 18pt 
   centre- or left-alignment. Body copy is **left-aligned**; **avoid hyphenation**.
 
 ### 3.2 Font System — type scale
-> Note: the deck lists specs and Aa style-labels separately; label→spec mapping below is
-> best-effort from reading order. Verify against the slide visuals before finalizing the
-> `typography.*` tokens (esp. the Subheadline 20px "Line height: 24%" value, likely a
-> typo for 120% or 24px).
+> Note: the deck lists specs and Aa style-labels side by side, so an initial pass mapped
+> them by reading order and got Set 1 wrong. **Both sets below are now confirmed against
+> the slide images** (Joaquin, 2026-08-15).
+>
+> Set 1 corrections: Subtitle is the 48px style, Headline is the 20px/24% style, and
+> Subheadline is the 20px/120% style — Headline and Subheadline are both smaller than
+> Subtitle. Set 2 needed no corrections.
 
-**Set 1 (headings):**
+**Set 1 (headings)** — confirmed from the slide image:
 | Style | Weight | Size | Line height | Letter spacing |
 |---|---|---|---|---|
 | Title - Display | SemiBold | 72px | 120% | -3% |
 | Title Page | Bold | 48px | 120% | -2% |
-| Headline | SemiBold | 48px | 120% | -2% |
-| Subheadline | Regular | 20px | 24% (verify) | -2% |
-| Subtitle | SemiBold | 20px | 120% | 0% |
+| Subtitle | SemiBold | 48px | 120% | -2% |
+| Headline | Regular | 20px | 24% (verify — renders 4.8px) | -2% |
+| Subheadline | SemiBold | 20px | 120% | 0% |
 
-**Set 2 (body / UI):**
+**Set 2 (body / UI)** — confirmed from the slide image:
 | Style | Weight | Size | Line height | Letter spacing |
 |---|---|---|---|---|
 | Paragraph 1 | Regular | 16px | 140% | 0% |

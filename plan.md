@@ -2,8 +2,9 @@
 > transcription; `tokens/tokens.json` (DTCG) and `dsds/imagine-cities.dsds.json` (54
 > entities) are authored from it and `npm run validate` passes both schema and
 > cross-reference checks. Remaining: transcribe the accessibility pairing matrix, sample
-> the tint hexes, verify the Subheadline line height, download assets, git commit,
-> optional docs site. See README "Known gaps".
+> the tint hexes, resolve the Headline line height, download assets, optional docs site.
+> See README "Known gaps". (Type scale label→spec mapping is now confirmed against both
+> "3.2 Font System" slide images: Subtitle 48px, Headline and Subheadline both 20px.)
 >
 > Two deviations from the plan below, both to avoid inventing values:
 > - **§3 tint sub-groups** hold the documented *percentages*, not colour values — the

@@ -17,10 +17,13 @@ built (the IC website, graphics, docs) matches the brand without re-reading a sl
   those colours, it is wrong.
 - **Never invent** colours, type values, or components. The guidelines are brand-level and
   do not document a component library — do not fabricate component specs.
-- **Three values are deliberately absent** and must be sampled from the deck, never
-  computed or guessed: the tint swatch hexes (only the 100/80/60/40/20% *percentages* are
-  recorded), the accessibility pairing matrix, and the Subheadline line height (deck reads
-  "24%", a probable typo). See README "Known gaps".
+- **Two values are deliberately absent** and must be sampled from the deck, never computed
+  or guessed: the tint swatch hexes (only the 100/80/60/40/20% *percentages* are recorded)
+  and the accessibility pairing matrix. See README "Known gaps".
+- **Type scale sizes are counter-intuitive and confirmed:** Subtitle is 48px; Headline and
+  Subheadline are both 20px. Do not "correct" them to a conventional hierarchy.
+- Headline's line height is **24%** as printed on the slide, which renders 4.8px at 20px.
+  It is unresolved, not a value to build on — do not substitute 120% for it.
 - **Never ingest credentials.** The shared Drive folder contains a `Usernames & Passwords`
   doc; it is out of scope and must never enter this repo.
 

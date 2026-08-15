@@ -14,27 +14,34 @@ authored from it (see `plan.md`):
 - [x] Vendor `schema/dsds.bundled.schema.json` (v0.15.2) for offline validation
 - [x] Author `tokens/tokens.json` (DTCG)
 - [x] Author `dsds/imagine-cities.dsds.json` (DSDS) — 54 entities, validates clean
+- [x] Verify the type scale label→spec mapping against both "3.2 Font System" slides
+- [ ] Resolve the Headline line height (the slide reads 24%, which renders 4.8px)
 - [ ] Transcribe the accessibility pairing matrix (visual grid in the deck)
 - [ ] Sample the tint swatch hex values from the deck (percentages only so far)
-- [ ] Verify the Subheadline line height (deck says 24%, almost certainly a typo)
 - [ ] Download logo + mark assets from Drive into `assets/`
 - [ ] `git commit` (repo has no commits yet)
 - [ ] (optional) DSDS docs site
 
 ### Known gaps — read before relying on this
-Three values in the deck could not be transcribed with confidence, and **none of them
-were guessed**:
+Nothing here is guessed. Three items are still open:
 
-1. **Tint hexes.** The deck documents 100/80/60/40/20% stops for Deep Azure, Gold,
+1. **Headline line height.** The slide reads 24%, which at 20px renders 4.8px. It is
+   transcribed verbatim and the token is `draft`. Confirm the intended value with whoever
+   owns the deck — do not silently substitute 120%.
+2. **Tint hexes.** The deck documents 100/80/60/40/20% stops for Deep Azure, Gold,
    Forest Green and Bold Red as a visual chart. `tokens/tokens.json` carries the
    *percentages* only. Sample the hexes from the slide — do not compute them.
-2. **Pairing matrix.** The deck classifies font-colour pairings as fully compliant /
+3. **Pairing matrix.** The deck classifies font-colour pairings as fully compliant /
    large-or-bold only / not compliant, at a 14pt-bold or 18pt-regular threshold. The
    grid is not transcribed, so the `accessibility` guide is `draft`. The contrast
    ratios in the colour foundation are **computed** from the token hexes per WCAG 2.1,
    not read off the deck.
-3. **Subheadline line height.** The deck reads "24%", which at 20px would render
-   4.8px. Transcribed verbatim and flagged `draft` rather than silently corrected.
+
+**Resolved:** the type scale's label→spec mapping. The deck prints each style's Aa
+sample beside its spec, and a first pass mapped them by reading order, which shuffled
+Set 1. Both slides have now been checked: **Subtitle is 48px, and Headline and
+Subheadline are both 20px** — the two "-line" styles are smaller than Subtitle, which
+reads backwards but is what the deck defines. Set 2 needed no corrections.
 
 ## Layout
 ```
