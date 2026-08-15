@@ -17,9 +17,12 @@ built (the IC website, graphics, docs) matches the brand without re-reading a sl
   those colours, it is wrong.
 - **Never invent** colours, type values, or components. The guidelines are brand-level and
   do not document a component library — do not fabricate component specs.
-- **Two values are deliberately absent** and must be sampled from the deck, never computed
-  or guessed: the tint swatch hexes (only the 100/80/60/40/20% *percentages* are recorded)
-  and the accessibility pairing matrix. See README "Known gaps".
+- **Tint swatch hexes are deliberately absent** — only the 100/80/60/40/20% *percentages*
+  are recorded. Sample them from the deck; never compute or guess them.
+- **Colour pairings:** only Charcoal Black with Serene White / Fresh Green / Gold is safe
+  at any text size. Six further pairings need 14pt bold or 18pt regular minimum, and four
+  must never carry text. Full matrix on the `color` foundation. Do not classify a pairing
+  the deck does not show.
 - **Type scale sizes are counter-intuitive and confirmed:** Subtitle is 48px; Headline and
   Subheadline are both 20px. Do not "correct" them to a conventional hierarchy.
 - Headline's line height is **24%** as printed on the slide, which renders 4.8px at 20px.

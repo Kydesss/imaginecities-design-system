@@ -1,17 +1,20 @@
 > **Handoff note:** Steps 1–5 are DONE. `source/brand-v2.0.1.md` holds the full
 > transcription; `tokens/tokens.json` (DTCG) and `dsds/imagine-cities.dsds.json` (54
 > entities) are authored from it and `npm run validate` passes both schema and
-> cross-reference checks. Remaining: transcribe the accessibility pairing matrix, sample
-> the tint hexes, resolve the Headline line height, download assets, optional docs site.
-> See README "Known gaps". (Type scale label→spec mapping is now confirmed against both
-> "3.2 Font System" slide images: Subtitle 48px, Headline and Subheadline both 20px.)
+> cross-reference checks. Remaining: sample the tint hexes, resolve the Headline line
+> height, download assets, optional docs site. See README "Known gaps".
 >
-> Two deviations from the plan below, both to avoid inventing values:
+> Confirmed against slide images since: the type scale label→spec mapping (Subtitle 48px,
+> Headline and Subheadline both 20px) and the full 2.4 accessibility pairing matrix
+> (13 pairings across three classes, now encoded on the `color` foundation).
+>
+> One deviation from the plan below, to avoid inventing values:
 > - **§3 tint sub-groups** hold the documented *percentages*, not colour values — the
 >   deck's tint swatches are a visual chart and their hexes were never transcribed.
-> - **§4 `contrast` data** is computed from the token hexes per WCAG 2.1 and labelled as
->   such. The deck's own pairing classification is a visual grid, still untranscribed, so
->   the `accessibility` guide is `draft`.
+>
+> §4 `contrast` data is now the deck's own classification, with computed ratios kept
+> alongside as a cross-check. The two agree on all 13 pairings, and the `accessibility`
+> guide is `stable`.
 
 # Imagine Cities Design System (DSDS + DTCG)
 

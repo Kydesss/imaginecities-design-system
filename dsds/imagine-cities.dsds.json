@@ -96,49 +96,84 @@
                 {
                   "identifier": "large-text-threshold",
                   "title": "Large-or-bold text threshold",
-                  "statement": "Any pairing the guidelines classify as \"large or bold text only\" is used only at 14pt bold or larger, or 18pt regular or larger."
+                  "statement": "Any pairing classified \"large or bold text only\" is used only at 14pt bold or larger, or 18pt regular or larger."
                 },
                 {
                   "identifier": "pairing-from-documented-set",
                   "title": "Pairings come from the documented set",
-                  "statement": "Every foreground/background pairing shipped in an Imagine Cities surface appears in the guidelines' font-colour pairing chart with a classification of \"fully compliant\", or \"large or bold text only\" and is used at or above the large-text threshold."
+                  "statement": "Every foreground/background pairing shipped in an Imagine Cities surface appears in the guidelines' pairing chart, classified either \"fully compliant\", or \"large or bold text only\" and used at or above the large-text threshold."
+                },
+                {
+                  "identifier": "no-not-compliant-pairings",
+                  "title": "No not-compliant pairings carry text",
+                  "statement": "None of the four pairings classified \"not compliant for texts\" carries text at any size: Deep Azure with Forest Green, Bold Red with Deep Azure, Gold with Fresh Green, and Forest Green with Bold Red."
                 }
               ],
               "colorContrast": [
                 {
                   "foreground": "color.charcoal-black",
                   "background": "color.serene-white",
-                  "context": "Body text on the default background. Computed ratio 14.25:1 from the documented hex values (WCAG 2.1 relative luminance)."
-                },
-                {
-                  "foreground": "color.charcoal-black",
-                  "background": "color.gold",
-                  "context": "Text on a Gold call-to-action surface. Computed ratio 8.88:1."
+                  "context": "FULLY COMPLIANT — usable at any text size. Body text on the default background. Ratio 14.25:1. The pairing is symmetric: Serene White text on Charcoal Black is equally compliant."
                 },
                 {
                   "foreground": "color.charcoal-black",
                   "background": "color.fresh-green",
-                  "context": "Text on a Fresh Green surface. Computed ratio 13.34:1."
+                  "context": "FULLY COMPLIANT — usable at any text size. Ratio 13.34:1. Symmetric: Fresh Green on Charcoal Black is equally compliant."
+                },
+                {
+                  "foreground": "color.charcoal-black",
+                  "background": "color.gold",
+                  "context": "FULLY COMPLIANT — usable at any text size. Label text on a Gold call-to-action surface. Ratio 8.88:1. Symmetric: Gold on Charcoal Black is equally compliant."
                 },
                 {
                   "foreground": "color.serene-white",
                   "background": "color.deep-azure",
-                  "context": "Reversed text on a Deep Azure surface. Computed ratio 6.30:1."
+                  "context": "LARGE OR BOLD TEXT ONLY — minimum 14pt bold or 18pt regular. Ratio 6.30:1. Symmetric: Deep Azure text on Serene White, e.g. links, carries the same restriction."
+                },
+                {
+                  "foreground": "color.fresh-green",
+                  "background": "color.deep-azure",
+                  "context": "LARGE OR BOLD TEXT ONLY — minimum 14pt bold or 18pt regular. Ratio 5.90:1. Symmetric."
                 },
                 {
                   "foreground": "color.serene-white",
                   "background": "color.forest-green",
-                  "context": "Reversed text on a Forest Green surface. Computed ratio 5.11:1."
+                  "context": "LARGE OR BOLD TEXT ONLY — minimum 14pt bold or 18pt regular. Ratio 5.11:1. Symmetric."
                 },
                 {
                   "foreground": "color.serene-white",
                   "background": "color.bold-red",
-                  "context": "Reversed text on a Bold Red alert surface. Computed ratio 5.00:1."
+                  "context": "LARGE OR BOLD TEXT ONLY — minimum 14pt bold or 18pt regular. Reversed text on a Bold Red alert surface. Ratio 5.00:1. Symmetric."
+                },
+                {
+                  "foreground": "color.fresh-green",
+                  "background": "color.forest-green",
+                  "context": "LARGE OR BOLD TEXT ONLY — minimum 14pt bold or 18pt regular. Ratio 4.78:1. Symmetric."
+                },
+                {
+                  "foreground": "color.fresh-green",
+                  "background": "color.bold-red",
+                  "context": "LARGE OR BOLD TEXT ONLY — minimum 14pt bold or 18pt regular. Ratio 4.68:1. Symmetric."
+                },
+                {
+                  "foreground": "color.gold",
+                  "background": "color.fresh-green",
+                  "context": "NOT COMPLIANT FOR TEXTS — do not use for text at any size. Ratio 1.50:1. Symmetric."
+                },
+                {
+                  "foreground": "color.bold-red",
+                  "background": "color.deep-azure",
+                  "context": "NOT COMPLIANT FOR TEXTS — do not use for text at any size. Ratio 1.26:1. Symmetric."
                 },
                 {
                   "foreground": "color.deep-azure",
-                  "background": "color.serene-white",
-                  "context": "Links on the default background. Computed ratio 6.30:1."
+                  "background": "color.forest-green",
+                  "context": "NOT COMPLIANT FOR TEXTS — do not use for text at any size. Ratio 1.23:1. Symmetric."
+                },
+                {
+                  "foreground": "color.forest-green",
+                  "background": "color.bold-red",
+                  "context": "NOT COMPLIANT FOR TEXTS — do not use for text at any size. Ratio 1.02:1, effectively invisible. Symmetric."
                 }
               ]
             },
@@ -151,9 +186,9 @@
                   "body": "Tint stops of **100 / 80 / 60 / 40 / 20%** are documented for **Deep Azure, Gold, Forest Green and Bold Red**. Serene White, Charcoal Black and Fresh Green are shown as solids only.\n\nThe deck presents the tints as a visual chart, and the resulting swatch hex values were not transcribed. `tokens/tokens.json` therefore carries the tint **percentages** and no tint colour values. Sample the hexes from the slide before adding tint colour tokens — do not compute or invent them."
                 },
                 {
-                  "title": "Pairing matrix — not yet encoded",
+                  "title": "Reading the pairing matrix",
                   "anchor": "pairing-matrix",
-                  "body": "The guidelines classify font-colour pairings as **fully compliant**, **large-or-bold text only**, or **not compliant for text**, with the large-or-bold threshold at minimum 14pt bold or 18pt regular. That matrix is a visual grid in the deck and has not been transcribed.\n\nThe `colorContrast` entries above are **computed** from the documented hex values using the WCAG 2.1 relative-luminance formula — they are not a transcription of the deck's classification. Where the two ever disagree, re-check the slide and treat the deck as the source of truth for intent."
+                  "body": "The 2.4 slide classifies font-colour pairings as **fully compliant**, **large-or-bold text only** (minimum 14pt bold or 18pt regular), or **not compliant for texts**. It shows each pairing twice, once in each direction. Contrast is symmetric, so a classification belongs to the unordered *pair* — the `colorContrast` entries above list each pair once and say so.\n\nTwo things follow that are easy to get wrong:\n\n- **Every fully-compliant pairing involves Charcoal Black.** Any other text colour is large-or-bold-only at best. A design that wants small text in Deep Azure, Forest Green or Bold Red has no compliant option — change the size or change the colour.\n- **The deck is stricter than WCAG AA.** Its fully-compliant band starts at 7:1 (AAA for normal text), and every pairing it restricts to large-or-bold actually clears 4.5:1. Follow the deck, not the looser AA line.\n\nRatios shown are computed from the token hexes per WCAG 2.1 as a cross-check. They agree with the deck's classification on all thirteen pairings; where they ever disagree, the deck governs.\n\nPairings the slide does not show are **undocumented** — neither approved nor forbidden. Do not infer a classification for them."
                 }
               ]
             }
@@ -955,10 +990,10 @@
           "name": "Accessibility",
           "description": "How to keep Imagine Cities work readable — colour pairings and text size.",
           "metadata": {
-            "status": "draft",
+            "status": "stable",
             "lastUpdated": "2026-08-15",
             "docOrigin": "extracted",
-            "summary": "Pairing rules and the large-or-bold text threshold.",
+            "summary": "The thirteen documented colour pairings and the large-or-bold text threshold.",
             "tags": ["accessibility", "contrast"]
           },
           "relationships": [
@@ -969,13 +1004,31 @@
               "kind": "guidelines",
               "items": [
                 {
-                  "guidance": "Use a font-colour pairing the guidelines classify as fully compliant, or one classified as large-or-bold-only at 14pt bold or larger, or 18pt regular or larger.",
-                  "rationale": "The guidelines classify every pairing as fully compliant, large-or-bold text only, or not compliant for text, with that threshold.",
+                  "guidance": "Set text at any size only in one of the three fully compliant pairings: Charcoal Black with Serene White, Charcoal Black with Fresh Green, or Charcoal Black with Gold. Either colour may be the text or the background.",
+                  "rationale": "These are the only pairings the 2.4 slide clears for unrestricted use; all three reach 7:1 or better.",
                   "level": "must",
                   "category": "accessibility"
                 },
                 {
-                  "guidance": "Do not use a pairing the guidelines classify as not compliant for text.",
+                  "guidance": "Set text in a large-or-bold-only pairing at 14pt bold or larger, or 18pt regular or larger. Those pairings are Serene White with Deep Azure, Fresh Green with Deep Azure, Serene White with Forest Green, Serene White with Bold Red, Fresh Green with Forest Green, and Fresh Green with Bold Red.",
+                  "rationale": "The slide marks these six pairings with the 14pt-bold / 18pt-regular threshold; they land between 4.68:1 and 6.30:1.",
+                  "level": "must",
+                  "category": "accessibility"
+                },
+                {
+                  "guidance": "Do not put text in Deep Azure on Forest Green, Bold Red on Deep Azure, Gold on Fresh Green, or Forest Green on Bold Red, at any size, in either direction.",
+                  "rationale": "The slide classifies these four pairings as not compliant for texts; they range from 1.02:1 to 1.50:1, with Forest Green on Bold Red effectively invisible.",
+                  "level": "must-not",
+                  "category": "accessibility"
+                },
+                {
+                  "guidance": "Set small text in Charcoal Black. Where a design needs small text in Deep Azure, Forest Green or Bold Red, change the size or the colour rather than shipping it.",
+                  "rationale": "Every fully compliant pairing involves Charcoal Black, so no other text colour has an unrestricted option.",
+                  "level": "must",
+                  "category": "accessibility"
+                },
+                {
+                  "guidance": "Do not classify a pairing that the 2.4 slide does not show. Undocumented pairings are neither approved nor forbidden — measure the pair and raise it with the brand owner.",
                   "level": "must-not",
                   "category": "accessibility"
                 },
@@ -991,9 +1044,9 @@
               "kind": "sections",
               "items": [
                 {
-                  "title": "Status of the pairing matrix",
-                  "anchor": "pairing-matrix-status",
-                  "body": "The deck's pairing chart is a visual grid and has not been transcribed, which is why this guide is `draft`. Contrast ratios computed from the token values are recorded on the [colour foundation](#) — treat them as a computation, not as the deck's classification, and finish transcribing the grid before this guide is relied on for sign-off."
+                  "title": "The three classes at a glance",
+                  "anchor": "pairing-classes",
+                  "body": "| Class | Pairings | Ratio range |\n|---|---|---|\n| Fully compliant | Charcoal Black with Serene White, Fresh Green, or Gold | 8.88–14.25:1 |\n| Large or bold only | Serene White with Deep Azure, Forest Green, or Bold Red; Fresh Green with Deep Azure, Forest Green, or Bold Red | 4.68–6.30:1 |\n| Not compliant for texts | Deep Azure + Forest Green, Bold Red + Deep Azure, Gold + Fresh Green, Forest Green + Bold Red | 1.02–1.50:1 |\n\nEach pairing is symmetric — either colour may be the text. The full matrix, with per-pairing ratios, is on the colour foundation."
                 }
               ]
             }

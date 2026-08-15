@@ -62,10 +62,48 @@ Charcoal Black, Fresh Green shown as solids.
 - **Bold Red:** use *sparingly* for alerts, warnings, or emphasizing specific areas.
 
 ### 2.4 Accessibility
-Font-colour pairings are classified: **Fully compliant / Large-or-Bold text only /
-Not compliant for text.** Large-or-bold threshold = **minimum 14pt bold or 18pt regular**.
-(The exact pairing matrix is a visual grid — re-check the slide image when encoding
-`contrast` data; do not guess pairings.)
+"These are the font colour pairings that are accessible for online use."
+
+Pairings are classified **Fully compliant / Large-or-Bold text only / Not compliant for
+texts**. Large-or-bold threshold = **minimum 14pt bold or 18pt regular text**.
+
+The slide shows each pairing twice, once in each direction (text-on-background and its
+inverse). Contrast is symmetric, so the classification belongs to the unordered *pair* —
+the tables below list each pair once. Transcribed from the 2.4 slide image
+(Joaquin, 2026-08-15). Ratios are computed from the hexes above per WCAG 2.1, and are
+shown only as a cross-check — the deck's classification governs.
+
+**Fully compliant** (every pair pairs with Charcoal Black):
+| Pair | Ratio |
+|---|---|
+| Gold + Charcoal Black | 8.88 |
+| Serene White + Charcoal Black | 14.25 |
+| Fresh Green + Charcoal Black | 13.34 |
+
+**Large/Bold text only** (min 14pt bold or 18pt regular):
+| Pair | Ratio |
+|---|---|
+| Deep Azure + Fresh Green | 5.90 |
+| Serene White + Deep Azure | 6.30 |
+| Fresh Green + Bold Red | 4.68 |
+| Serene White + Bold Red | 5.00 |
+| Fresh Green + Forest Green | 4.78 |
+| Serene White + Forest Green | 5.11 |
+
+**Not compliant for texts:**
+| Pair | Ratio |
+|---|---|
+| Deep Azure + Forest Green | 1.23 |
+| Bold Red + Deep Azure | 1.26 |
+| Gold + Fresh Green | 1.50 |
+| Forest Green + Bold Red | 1.02 |
+
+Note: the deck is **stricter than WCAG AA**. Every "Large/Bold only" pair above actually
+clears 4.5:1 and would pass AA for normal text; the deck's "Fully compliant" band starts
+at 7:1, i.e. WCAG AAA for normal text. Follow the deck, not the looser AA line.
+
+Pairs not shown on the slide are undocumented — they are neither approved nor forbidden
+here. Do not infer a classification for them.
 
 ---
 

@@ -15,15 +15,35 @@ authored from it (see `plan.md`):
 - [x] Author `tokens/tokens.json` (DTCG)
 - [x] Author `dsds/imagine-cities.dsds.json` (DSDS) — 54 entities, validates clean
 - [x] Verify the type scale label→spec mapping against both "3.2 Font System" slides
+- [x] Transcribe the accessibility pairing matrix — 13 pairings, all three classes
 - [ ] Resolve the Headline line height (the slide reads 24%, which renders 4.8px)
-- [ ] Transcribe the accessibility pairing matrix (visual grid in the deck)
 - [ ] Sample the tint swatch hex values from the deck (percentages only so far)
 - [ ] Download logo + mark assets from Drive into `assets/`
 - [ ] `git commit` (repo has no commits yet)
 - [ ] (optional) DSDS docs site
 
+### Colour accessibility
+All 13 documented pairings are encoded on the colour foundation. Each is symmetric —
+either colour may be the text:
+
+| Class | Pairings | Ratio |
+|---|---|---|
+| **Fully compliant** — any text size | Charcoal Black with Serene White, Fresh Green, or Gold | 8.88–14.25:1 |
+| **Large or bold only** — min 14pt bold / 18pt regular | Serene White with Deep Azure, Forest Green, or Bold Red; Fresh Green with Deep Azure, Forest Green, or Bold Red | 4.68–6.30:1 |
+| **Not compliant for texts** — never | Deep Azure + Forest Green, Bold Red + Deep Azure, Gold + Fresh Green, Forest Green + Bold Red | 1.02–1.50:1 |
+
+Two consequences worth knowing before designing:
+
+- **Every fully-compliant pairing involves Charcoal Black.** Small text in Deep Azure,
+  Forest Green or Bold Red has no compliant option — change the size or the colour.
+- **The deck is stricter than WCAG AA.** Its fully-compliant band starts at 7:1 (AAA for
+  normal text), and every pairing it restricts to large-or-bold actually clears 4.5:1.
+  Follow the deck.
+
+Pairings the slide does not show are undocumented — neither approved nor forbidden.
+
 ### Known gaps — read before relying on this
-Nothing here is guessed. Three items are still open:
+Nothing here is guessed. Two items are still open:
 
 1. **Headline line height.** The slide reads 24%, which at 20px renders 4.8px. It is
    transcribed verbatim and the token is `draft`. Confirm the intended value with whoever
@@ -31,11 +51,6 @@ Nothing here is guessed. Three items are still open:
 2. **Tint hexes.** The deck documents 100/80/60/40/20% stops for Deep Azure, Gold,
    Forest Green and Bold Red as a visual chart. `tokens/tokens.json` carries the
    *percentages* only. Sample the hexes from the slide — do not compute them.
-3. **Pairing matrix.** The deck classifies font-colour pairings as fully compliant /
-   large-or-bold only / not compliant, at a 14pt-bold or 18pt-regular threshold. The
-   grid is not transcribed, so the `accessibility` guide is `draft`. The contrast
-   ratios in the colour foundation are **computed** from the token hexes per WCAG 2.1,
-   not read off the deck.
 
 **Resolved:** the type scale's label→spec mapping. The deck prints each style's Aa
 sample beside its spec, and a first pass mapped them by reading order, which shuffled
