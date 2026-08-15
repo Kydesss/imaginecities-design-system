@@ -103,6 +103,7 @@ source/        brand-v2.0.1.md (the source of truth); observed-*.md audits of sh
                builds; strategy-2026-03.md audience/product context. Only the first
                is authoritative for visual values.
 docs/          working punch lists — assessment-tool-punchlist.md
+PRODUCT.md     audience, tone and principles for design tooling (no visual values)
 schema/        vendored DSDS bundled schema
 dsds/          the DSDS document
 tokens/        W3C DTCG token values

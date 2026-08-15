@@ -14,6 +14,9 @@ Everything else is quoted from shipped code and is factual.
 **Citations** point at `source/brand-v2.0.1.md` (the brand deck) or `tokens/tokens.json`.
 Brand violations below are documented `must` / `must-not` rules, not preferences.
 
+The **UX critique** section adds flow and emotional-journey findings from an
+`/impeccable critique` pass, with its own method caveats.
+
 ---
 
 ## P0 — decide and fix before launch
@@ -99,6 +102,118 @@ Component-scoped checklist — the tool is a form, so this is most of its surfac
 - [ ] Zoom to 200% without loss of content (SC 1.4.4); reflow at 320px (SC 1.4.10)
 - [ ] Keyboard-only run of the entire flow, start to result ⚠ VERIFY
 - [ ] Screen-reader pass (NVDA or VoiceOver) of one full run ⚠ VERIFY
+
+---
+
+## UX critique — emotional journey and flow
+
+From an `/impeccable critique` pass. Method notes are at the end of this section: parts of
+the standard method could not run here, and the scores are weakened accordingly.
+
+**Nielsen heuristics: 26/40.** Solid, not yet excellent.
+
+| Heuristic | Score | Note |
+|---|---|---|
+| Visibility of system status | 3 | `Step 1 of 6`, `Your result is being prepared`, `Select an answer to continue` all present |
+| Match with the real world | 3 | Plain language is strong; `Impasse` and `Catalytic` are Harwood jargon, but each carries a plain subtitle |
+| User control and freedom | 3 | `Back` and a skippable context step exist; no retake or start-over |
+| Consistency and standards | 2 | Internally consistent but breaks the brand's ALL CAPS rule, and mixes shadcn defaults with the palette — two different reds in one product |
+| Error prevention | 3 | Empty answers are blocked; email validation unverified |
+| Recognition over recall | 3 | Questions are self-contained; `About this factor` and `All five factors` are available |
+| Flexibility and efficiency | 2 | No save/resume, no retake |
+| Aesthetic and minimalist design | 2 | Caps eyebrows add noise; internal handoff frames ship publicly; not visually verified |
+| Error recovery | 2 | Wrong error colour; association with fields unverified |
+| Help and documentation | 3 | `About this factor`, framework attribution, `Using this with a team?` |
+
+**Cognitive load: low — 0 confirmed failures of 8.** This is the tool's real strength and
+should be protected during finishing. One factor per step, three options per question,
+questions independent of each other, detail on demand rather than up front. Two items
+(visual grouping, hierarchy) could not be checked without rendering.
+
+### 4. The email gate breaks the peak-end rule ⚠ high value
+
+Beyond the CASL problem in P0.1, the gate is in the worst possible *place*. The emotional
+peak of this product is the result reveal — the single moment the user came for. The gate
+sits immediately before it, taxing maximum anticipation. People remember the peak and the
+ending; this design puts friction exactly on the peak.
+
+Moving the email capture to *after* the result fixes the legal exposure and the emotional
+arc in the same edit.
+
+- [ ] Move email capture after the result reveal
+
+### 5. Reassurance arrives after the judgement ⚠ VERIFY order
+
+The tool has an excellent line — *"This result is a reflection, not a verdict"* — but in
+the shipped string order it appears around the feedback step, after the user has absorbed
+the stage and been asked to rate it.
+
+The deepest emotional valley is a neighbourhood told it is in the **Waiting Place**, where
+residents "feel powerless." That reassurance belongs beside the stage reveal, not two
+screens later.
+
+- [ ] Confirm where the line renders; move it adjacent to the stage reveal
+- [ ] Check the Waiting Place result reads as a starting point, not a diagnosis of failure
+
+### 6. The accuracy check asks for labour before delivering the payoff
+
+`ACCURACY CHECK` sits between the result and the next steps. The user is asked to evaluate
+the tool before receiving the practical advice they came for. Reversing the order — next
+steps first, feedback after — asks for help once the value has landed, which is also when
+feedback quality is highest.
+
+The scale itself is well built: `Not accurate` / `Somewhat accurate` / `Very accurate` is
+balanced, with a free-text follow-up. No change needed there.
+
+- [ ] Move the accuracy check after the next-steps screen
+
+### 7. The experience ends on a citation
+
+The flow summary ends with `Source acknowledgement`. Endings are remembered
+disproportionately, and this one closes on attribution — necessary, but not an ending.
+`Share with your network` and `Using this with a team?` are the natural closers; the
+citation belongs as a footer, not a final step.
+
+- [ ] End on next steps and a forward action; demote the acknowledgement to a footer
+
+### 8. Smaller findings
+
+- [ ] `backdrop-filter` appears 4 times — glassmorphism should be rare and purposeful, or
+      removed. Verify what it is applied to.
+- [ ] The ALL CAPS in P0.2 is **authored into the copy strings**, not a CSS
+      `text-transform` (only one such rule exists). It is a content pass across many
+      strings, not a one-line fix — budget accordingly.
+- [ ] Consider a retake or start-over affordance. Neighbourhood conditions change, and the
+      strategy expects repeat engagement through membership.
+
+### What's working — protect these
+
+- **Cognitive load discipline.** One decision at a time, three options, five minutes. Do
+  not let "finishing" add density.
+- **Plain-language stage writing.** Each stage has a description, a cause, and a focus.
+  This is the hardest part of the product and it is already good.
+- **Honest feedback design.** A balanced accuracy scale with a negative option, and candid
+  framing on why optional data is collected.
+- **No AI-slop tells in the CSS.** Zero gradients, no gradient text, no side-stripe
+  borders. The build reads as component-library default rather than generic AI output —
+  the fix for that is the token wiring in P1.1, not a redesign.
+
+### Method notes — what could not run
+
+The standard critique runs two isolated assessments and a browser overlay. Here:
+
+- **No browser pass.** The live URL is blocked by policy in this environment, so nothing
+  was visually verified. Every judgement above comes from shipped copy, flow structure and
+  CSS. Visual hierarchy, spacing, balance and the rendered emotional tone are **unassessed**.
+- **No automated detector run.** The bundled CLI needs markup files or Puppeteer against a
+  URL; neither was available. Deterministic checks were run directly against the shipped
+  CSS instead, which covers the colour and slop tells but not layout-level patterns.
+- **Not independently isolated.** The method calls for two separate assessments that cannot
+  see each other, specifically so the scores do not anchor to one another. Both were done
+  in one pass here, so treat the heuristic scores as indicative rather than calibrated.
+
+The right next step is to re-run this against the live UI once it can be opened — that
+closes the visual gap and the six ⚠ VERIFY items in one sitting.
 
 ---
 
