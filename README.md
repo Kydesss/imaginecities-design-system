@@ -99,8 +99,9 @@ reads backwards but is what the deck defines. Set 2 needed no corrections.
 ```
 CLAUDE.md      AI brand-context loader + hard rules
 plan.md        plan of record
-source/        brand-v2.0.1.md (the source of truth) + observed-*.md audits of
-               shipped builds, which are descriptive only and never authoritative
+source/        brand-v2.0.1.md (the source of truth); observed-*.md audits of shipped
+               builds; strategy-2026-03.md audience/product context. Only the first
+               is authoritative for visual values.
 schema/        vendored DSDS bundled schema
 dsds/          the DSDS document
 tokens/        W3C DTCG token values

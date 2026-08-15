@@ -1273,6 +1273,46 @@
         },
         {
           "kind": "guide",
+          "identifier": "organizational-strategy",
+          "name": "Who This Is For (March 2026 strategy)",
+          "description": "Audience and product context from the March 2026 strategy workshop. **This is not a brand document and does not supersede v2.0.1** — it specifies no colours, type or logo rules, and changes nothing in `tokens/tokens.json`. It is recorded because it changes what gets built and who reads it. Summary in `source/strategy-2026-03.md`.",
+          "metadata": {
+            "status": "stable",
+            "lastUpdated": "2026-08-15",
+            "docOrigin": "extracted",
+            "summary": "Three audiences, four products, and the design gaps that follow from them.",
+            "tags": ["strategy", "audience", "product", "context"]
+          },
+          "documentBlocks": [
+            {
+              "kind": "sections",
+              "items": [
+                {
+                  "title": "Three audiences, one system",
+                  "anchor": "audiences",
+                  "body": "The organization sells to institutions and serves residents, so an interface usually addresses three readers at once:\n\n| Tier | Who | What they buy |\n|---|---|---|\n| **Primary** | Provincial government and municipalities | Assessments · workshops · training |\n| **Secondary** | Foundations and non-profits | Assessments · impact reporting · training |\n| **End user** | Community practitioners and community associations | Assessments · training · lab |\n\nBuyers hold procurement budgets and need measurable outcomes; end users are described as cash-poor but the actual unit of change. A single page often has to earn institutional credibility and community warmth simultaneously.\n\nThe palette already supports that split without new colours: Deep Azure and Charcoal Black carry institutional surfaces, Gold and the 20% tints carry community-facing ones."
+                },
+                {
+                  "title": "Four products",
+                  "anchor": "products",
+                  "body": "Under a **LEARN · SOLVE · GROW** framework:\n\n1. **Educational courses** — self-directed or cohort skill building.\n2. **Problem solving and hackathons** — time-bounded facilitation producing an implementation plan.\n3. **Neighbourhood assessments and measurement** — diagnostics that baseline a neighbourhood; funders use them to validate grants, municipalities to target programs.\n4. **Membership and peer networks** — annual access to courses, data and a peer network.\n\nThe assessment tool documented in the `assessment-tool` guide is product 3 — not a side experiment, but one of four core products and the one institutional buyers use to justify spend."
+                },
+                {
+                  "title": "What this exposes in the system",
+                  "anchor": "gaps",
+                  "body": "The undocumented areas stop being theoretical once these products are built:\n\n- **Data display.** Diagnostics, baselines and impact reporting need charts, scales and result states. v2.0.1 documents none.\n- **Long-form reading.** Courses and guides need sustained body copy and hierarchy. The twelve type styles cover it, but the absent spacing scale is felt hardest here.\n- **Authenticated states.** Membership implies accounts, dashboards and gated content — all undocumented component territory.\n\nNone of this licenses inventing brand values. It sharpens what to ask the brand owner to document."
+                },
+                {
+                  "title": "A question for the brand owner",
+                  "anchor": "voice-question",
+                  "body": "The v2.0.1 messaging and the 2026 strategy do not describe the organization in the same words. The brand deck's About text is about providing residents with resources to learn and plan; the strategy leads with talent pipelines, the innovation economy, and selling to municipalities and foundations.\n\nBoth can be true, but the brand's written voice predates the strategy by roughly eighteen months. Whether the About text and tagline should be revised is a **brand-owner decision** — flagged, not acted on. This system does not rewrite brand copy."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "guide",
           "identifier": "assessment-tool",
           "name": "Assessment Tool (observed, not normative)",
           "description": "The Neighbourhood Adaptability Assessment Flow, audited 2026-08-15 at `fun-tested-13948191.figma.site`. **Descriptive only** — a build is not a source of brand truth. The most brand-compliant Imagine Cities build so far, and the only one with a real component set. Full audit in `source/observed-assessment-tool.md`.",

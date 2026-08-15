@@ -14,6 +14,10 @@ truth. They record what shipped builds do today (descriptive only). Never promot
 from them into `tokens/tokens.json`; where a build and the deck disagree, the deck wins and
 the build is what needs fixing.
 
+`source/strategy-2026-03.md` is organizational strategy — audiences, products, positioning.
+It is **newer than v2.0.1 but does not supersede it**: it specifies no visual values at all.
+Use it to understand who the work addresses; never to change a token.
+
 ## Hard rules
 - **Only** use Brand Guidelines **v2.0.1 (Oct 2024)** values. Brand font is **Poppins**
   (system fallback **Roboto**). Hero colour is **Gold `#FFB827`**.
