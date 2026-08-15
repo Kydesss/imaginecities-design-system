@@ -1,9 +1,10 @@
 > **Handoff note:** Steps 1–5 are DONE. `source/brand-v2.0.1.md` holds the full
 > transcription; `tokens/tokens.json` (DTCG) and `dsds/imagine-cities.dsds.json` (54
 > entities) are authored from it and `npm run validate` passes both schema and
-> cross-reference checks (73 entities). Logo assets are in `assets/`. Remaining: resolve
-> the Headline line height, source vector logo artwork, optional docs site. See README
-> "Known gaps".
+> cross-reference checks (73 entities). Logo assets are in `assets/`. Every value is
+> transcribed and confirmed against the deck — nothing left to read. Remaining: raise the
+> two source defects with the brand owner, source vector logo artwork, optional docs site.
+> See README "Two defects in the guidelines".
 >
 > The plan below is fully executed, all of it from the deck rather than derived. §3 tint
 > sub-groups hold the 20 real values at `color.tint.<colour>.<stop>` — note they are mixed
@@ -15,9 +16,12 @@
 > Headline and Subheadline both 20px) and the 2.4 pairing matrix (13 pairings, three
 > classes).
 >
-> **One defect found in the guidelines:** the 2.2 chart pairs Serene White with the Deep
-> Azure 60% tint `#6697D4` at 2.80:1, below every WCAG threshold. Recorded as stated,
-> flagged, and blocked by a `must-not` rule. Needs raising with the brand owner.
+> **Two defects found in the guidelines**, both recorded as stated, flagged `draft`, and
+> left uncorrected — amending a brand document is the brand owner's call:
+> - The 2.2 chart pairs Serene White with the Deep Azure 60% tint `#6697D4` at 2.80:1,
+>   below every WCAG threshold. Blocked by a `must-not` rule.
+> - Headline's line height reads 24%, which renders 4.8px at 20px. Confirmed as what the
+>   slide says. Likely meant 24px (= 120% at that size), but not substituted.
 
 # Imagine Cities Design System (DSDS + DTCG)
 

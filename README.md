@@ -19,7 +19,8 @@ authored from it (see `plan.md`):
 - [x] Record the 20 tint values from the deck, with each stop's font colour
 - [ ] Resolve the Headline line height (the slide reads 24%, which renders 4.8px)
 - [x] Copy logo assets from Drive into `assets/`
-- [ ] Raise the Deep Azure 60% white-text pairing with the brand owner (2.80:1)
+- [x] Confirm the Headline line height against the slide — the deck does read 24%
+- [ ] Raise both source defects with the brand owner (see below)
 - [ ] Source vector logo artwork — every file in Drive is raster
 - [ ] Download logo + mark assets from Drive into `assets/`
 - [ ] `git commit` (repo has no commits yet)
@@ -69,18 +70,24 @@ differently — `npm run validate` scans only the token file for that reason.
 
 Every logo file is raster; there is no vector artwork anywhere in the shared Drive.
 
-### Known gaps — read before relying on this
-Nothing here is guessed. Two items are open, and one is a defect in the guidelines
-themselves:
+### Two defects in the guidelines — raise these with the brand owner
+Every value here is now transcribed and confirmed against the deck; nothing is guessed and
+nothing is outstanding to read. What remains are two places where **the deck itself is
+wrong**. Both are recorded exactly as stated, flagged `draft`, and left uncorrected,
+because fixing a brand document is the brand owner's call.
 
-1. **Headline line height.** The slide reads 24%, which at 20px renders 4.8px. It is
-   transcribed verbatim and the token is `draft`. Confirm the intended value with whoever
-   owns the deck — do not silently substitute 120%.
-2. **Deep Azure 60% + Serene White is not accessible.** The 2.2 chart pairs them, but
-   white on `#6697D4` measures **2.80:1** — below even the 3:1 floor for large text, while
-   Charcoal Black on that stop is 5.08:1. It is recorded as the deck states it, flagged on
-   the token, and blocked by a `must-not` rule in the accessibility guide. Raise it with
-   the brand owner. Every other pairing in both charts holds up when measured.
+1. **Headline line height reads 24%.** Confirmed — not a transcription error. At 20px that
+   is 4.8px, so lines would overlap and no layout can use it. The likely intent is **24px**,
+   entered with a `%` unit: at 20px that is exactly 120%, which every other Set 1 heading
+   uses. Persuasive, but an inference — so the literal `24%` stands until confirmed.
+2. **Deep Azure 60% + Serene White is not accessible.** The 2.2 chart pairs them, but white
+   on `#6697D4` measures **2.80:1** — below even the 3:1 floor for large text, while
+   Charcoal Black on that stop is 5.08:1. Blocked by a `must-not` rule in the accessibility
+   guide. Every other pairing in both charts holds up when measured.
+
+Also outstanding, though not a defect: **no vector logo artwork exists** anywhere in the
+shared Drive, and the Secondary Logo is a low-resolution JPEG with a baked white
+background that cannot sit on a coloured surface.
 
 **Resolved:** the type scale's label→spec mapping. The deck prints each style's Aa
 sample beside its spec, and a first pass mapped them by reading order, which shuffled

@@ -195,8 +195,18 @@ here. Do not infer a classification for them.
 | Title - Display | SemiBold | 72px | 120% | -3% |
 | Title Page | Bold | 48px | 120% | -2% |
 | Subtitle | SemiBold | 48px | 120% | -2% |
-| Headline | Regular | 20px | 24% (verify — renders 4.8px) | -2% |
+| Headline | Regular | 20px | 24% (see note — unusable as literal) | -2% |
 | Subheadline | SemiBold | 20px | 120% | 0% |
+
+**Headline line height is a defect in the deck.** The slide really does read "24%"
+(confirmed by Joaquin, 2026-08-15) — this is not a transcription error. But 24% of 20px is
+4.8px, which is less than a quarter of the glyph height and would set the lines on top of
+one another. No layout can use it as written.
+
+The likely intent: **24px**, entered with a `%` unit by mistake. At a 20px font size 24px
+is exactly 120%, which is what every other heading style in Set 1 uses. That reasoning is
+persuasive but it is still an inference, so the token keeps the literal `24%` and stays
+`draft`. Confirm with the brand owner before setting it to 120%.
 
 **Set 2 (body / UI)** — confirmed from the slide image:
 | Style | Weight | Size | Line height | Letter spacing |

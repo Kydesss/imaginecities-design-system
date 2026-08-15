@@ -34,8 +34,9 @@ built (the IC website, graphics, docs) matches the brand without re-reading a sl
   the deck does not show.
 - **Type scale sizes are counter-intuitive and confirmed:** Subtitle is 48px; Headline and
   Subheadline are both 20px. Do not "correct" them to a conventional hierarchy.
-- Headline's line height is **24%** as printed on the slide, which renders 4.8px at 20px.
-  It is unresolved, not a value to build on — do not substitute 120% for it.
+- Headline's line height is **24%** as printed on the slide — confirmed, not a mis-read. It
+  renders 4.8px at 20px, so it is a defect in the deck awaiting the brand owner. Likely
+  meant 24px (= 120%). Do not substitute 120% until that is confirmed.
 - **Never ingest credentials.** The shared Drive folder contains a `Usernames & Passwords`
   doc; it is out of scope and must never enter this repo.
 

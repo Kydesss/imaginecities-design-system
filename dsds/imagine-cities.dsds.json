@@ -296,7 +296,7 @@
                   "token": "typography.headline",
                   "name": "Headline",
                   "value": "20px",
-                  "description": "Regular 20px, letter spacing -2%. The slide gives a line height of 24%, which at 20px would render 4.8px — transcribed verbatim and unresolved."
+                  "description": "Regular 20px, letter spacing -2%. Line height is a defect in the deck: the slide reads 24%, which at 20px resolves to 4.8px. Likely intended as 24px, i.e. 120% — but unconfirmed, so the literal value stands. See the typography foundation."
                 },
                 {
                   "token": "typography.subheadline",
@@ -939,7 +939,7 @@
               "kind": "token",
               "identifier": "typography.headline",
               "name": "Headline",
-              "description": "Regular 20px / -2%. The slide gives a line height of 24%, which at 20px would render 4.8px. Transcribed verbatim and left unresolved — confirm the intended value before using this style.",
+              "description": "Regular 20px / -2%. **The line height is a defect in the guidelines, not a transcription error** — the slide really does read 24%, confirmed against it. At 20px that is 4.8px, less than a quarter of the glyph height, so the lines would overlap and no layout can use it.\n\nThe likely intent is **24px**, entered with a `%` unit by mistake: at a 20px font size 24px is exactly 120%, which every other Set 1 heading uses. Persuasive, but an inference — so this token keeps the literal `24%` and stays `draft`. Confirm with the brand owner before setting 120%.",
               "source": { "file": "../tokens/tokens.json", "path": "typography.headline" },
               "metadata": { "status": "draft" }
             },
