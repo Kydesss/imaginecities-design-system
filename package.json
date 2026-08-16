@@ -4,9 +4,13 @@
   "description": "Machine-readable design system for **Imagine Cities** (Calgary nonprofit). Captures the brand as **DSDS** (Design System Documentation Schema, v0.15.2) documentation plus a **W3C DTCG** `tokens.json` of raw values, so AI tools and future codebases (the IC website) consume the brand consistently.",
   "private": true,
   "scripts": {
+    "build:tokens": "node scripts/build-tokens.mjs",
     "validate:schema": "ajv validate -c ajv-formats --spec=draft2020 --strict=false -s schema/dsds.bundled.schema.json -d \"dsds/*.json\"",
     "validate:refs": "node scripts/check-refs.js",
-    "validate": "npm run validate:schema && npm run validate:refs",
+    "validate:tokens": "node scripts/build-tokens.mjs --check",
+    "validate": "npm run validate:schema && npm run validate:refs && npm run validate:tokens",
+    "dev": "npm --prefix apps/assessment run dev",
+    "build": "npm run build:tokens && npm --prefix apps/assessment run build",
     "test": "npm run validate"
   },
   "keywords": [
