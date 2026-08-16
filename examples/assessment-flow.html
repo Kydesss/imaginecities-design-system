@@ -205,7 +205,11 @@
     background:var(--gold-20);border-radius:var(--radius-surface);
     padding:var(--sp-5);margin:0 0 var(--sp-5);
   }
-  .result-band h1{margin-bottom:var(--sp-3);}
+  /* 1.5, not the global 1.2: this heading contains an inline-block chip whose padded
+     box needs room inside each line box. At 1.2 the chip overlapped the line above by
+     5.4px. 1.45 was enough on paper but left under 2px of clearance, which is too
+     little to trust when the fallback font's metrics differ from Poppins. */
+  .result-band h1{margin-bottom:var(--sp-3);line-height:1.5;}
   .reflection{
     background:var(--fresh-green);border-radius:var(--radius-surface);
     padding:var(--sp-4);margin:0 0 var(--sp-5);font-weight:var(--w-semibold);
@@ -213,10 +217,16 @@
   /* The stage name is the answer, so it stops being one more black word in a
      sentence. Charcoal on Gold is 8.88:1, safe at any size, and Gold is the hero
      colour, which is what makes the chip read as the payload. */
+  /* The chip's background box is taller than the text it wraps, so at the heading's
+     120% line height it bled into the line above. The heading gets a looser line
+     height, and the chip's own line-height is pinned tight so its box stays inside
+     the line box rather than growing with it. box-decoration-break keeps both ends
+     rounded if a long stage name ever wraps. */
   .stage-chip{
     display:inline-block;background:var(--gold);color:var(--charcoal);
     font-weight:var(--w-bold);border-radius:var(--radius-pill);
-    padding:.08em .5em;white-space:nowrap;
+    padding:.12em .5em;line-height:1.15;white-space:nowrap;
+    box-decoration-break:clone;-webkit-box-decoration-break:clone;
   }
 
   /* ---- spectrum graphic ---- */
