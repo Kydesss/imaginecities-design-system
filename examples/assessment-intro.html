@@ -11,6 +11,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<!-- Material Symbols, outlined, per v2.0.1 §4.2. Icon colours are limited there to
+     Charcoal Black, Serene White and Deep Azure. All decorative and aria-hidden. -->
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
 
 <!--
   Worked example of the assessment tool's intro page, built from the design system.
@@ -138,11 +142,19 @@
     align-items: center;
     padding: var(--sp-7) 0 var(--sp-6);
   }
-  .eyebrow {
-    font-size: 11px; font-weight: var(--w-bold); letter-spacing: 0.06em;
-    color: var(--forest-green);            /* 5.11:1, passes at any size */
-    margin: 0 0 var(--sp-3);
+  .icon{
+    font-family:"Material Symbols Outlined";
+    font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;
+    text-transform:none;white-space:nowrap;direction:ltr;
+    -webkit-font-feature-settings:"liga";font-feature-settings:"liga";
+    -webkit-font-smoothing:antialiased;
+    font-variation-settings:"FILL" 0,"wght" 400,"GRAD" 0,"opsz" 24;
+    vertical-align:middle;
   }
+  /* Below 1em so the glyph accompanies the words rather than competing with them,
+     and inline rather than flex so headings still wrap as sentences. */
+  .icon-h{font-size:.8em;margin-right:.4em;position:relative;top:-.04em;}
+
   h1 {
     font-size: 48px; font-weight: var(--w-bold);
     line-height: 1.2; letter-spacing: -0.02em;
@@ -323,8 +335,7 @@
 <main>
   <section class="hero wrap">
     <div>
-      <p class="eyebrow">Neighbourhood tools</p>
-      <h1>Is Your Neighbourhood Ready for What's Next?</h1>
+        <h1>Is Your Neighbourhood Ready for What's Next?</h1>
       <p class="lede">
         Five questions, about five minutes. You get an understanding of where your
         neighbourhood stands today, and what to do about it.
@@ -374,7 +385,7 @@
 
   <section class="wrap">
     <div class="why">
-      <h2 id="why-heading">Why This Matters</h2>
+      <h2 id="why-heading"><span class="icon icon-h" aria-hidden="true">lightbulb</span>Why This Matters</h2>
       <!-- Not a blockquote. The earlier version put a paraphrase in quotation marks
            under a Harwood citation; the report's wording is "flounder or fail", not
            "stall". Since Harwood permission is unresolved, this is now plainly the
@@ -395,7 +406,7 @@
   </section>
 
   <section class="section wrap">
-    <h2>What You Get</h2>
+    <h2><span class="icon icon-h" aria-hidden="true">checklist</span>What You Get</h2>
     <ol class="steps" role="list">
       <li>
         <div class="n" aria-hidden="true">1</div>
@@ -423,7 +434,7 @@
 
   <section class="wrap">
     <div class="stages-band">
-      <h2>The Five Stages</h2>
+      <h2><span class="icon icon-h" aria-hidden="true">timeline</span>The Five Stages</h2>
       <p class="framing">
         The assessment asks about <strong>five factors</strong>: hope and optimism,
         collaboration, leadership, progress, and resilience. Your answers place your
@@ -517,7 +528,7 @@
          "Your Neighbourhood Knows Itself Best" also quietly argued against the
          product. This names the action and repeats the terms. -->
     <div class="closing">
-      <h2>See Where Your Neighbourhood Stands</h2>
+      <h2><span class="icon icon-h" aria-hidden="true">location_city</span>See Where Your Neighbourhood Stands</h2>
       <p class="closing-lede">
         Five questions, about five minutes. You will get something concrete to bring to
         your next conversation, and a result that is a reflection rather than a verdict.

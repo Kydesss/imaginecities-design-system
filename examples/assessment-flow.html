@@ -129,7 +129,11 @@
     vertical-align:middle;
   }
   .icon-inline{font-size:1.15em;margin-right:.35em;}
-  .icon-lead{font-size:28px;display:block;margin-bottom:var(--sp-2);}
+  /* Icons that sit inside a heading. Kept below 1em so the glyph reads as a companion
+     to the words rather than competing with them, and inline rather than flex so the
+     heading still wraps as a sentence. The result heading contains an inline chip,
+     which a flex row would break onto its own line. */
+  .icon-h{font-size:.8em;margin-right:.4em;position:relative;top:-.04em;}
 
   /* ---- progress ----
      A five-segment bar above the text label. Unlike the stage spectrum this IS a
@@ -369,13 +373,9 @@
   #guidance h2{margin-top:0;color:var(--serene-white);}
   #guidance h2:focus{outline:none;}
   #guidance h2:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
-  #guidance .eyebrow{
-    font-size:11px;font-weight:var(--w-bold);letter-spacing:.06em;
-    color:var(--gold);margin:0 0 var(--sp-3);
-  }
-  /* The eyebrow text is Gold, but §4.2 limits icons to Charcoal Black, Serene White
-     and Deep Azure. The icon does not inherit the Gold. */
-  #guidance .eyebrow .icon{color:var(--serene-white);}
+  /* The heading and its icon are Serene White on Charcoal, 14.25:1. Gold is not used
+     here: §4.2 limits icons to Charcoal Black, Serene White and Deep Azure. */
+  #guidance .icon{color:var(--serene-white);}
   /* Dividers have to invert too, or they vanish into the dark ground. */
   #guidance .next-steps li{border-top-color:rgba(245,247,242,.3);}
   #guidance .next-steps li:last-child{border-bottom-color:rgba(245,247,242,.3);}
@@ -474,8 +474,7 @@
   <!-- ===== step 1: optional context ===== -->
   <section class="step" id="step-context" tabindex="-1" aria-labelledby="h-context">
     <p class="progress">Before we start</p>
-    <span class="icon icon-lead" aria-hidden="true">place</span>
-    <h1 id="h-context">Tell us about your neighbourhood</h1>
+    <h1 id="h-context"><span class="icon icon-h" aria-hidden="true">place</span>Tell us about your neighbourhood</h1>
     <!-- [verbatim] -->
     <p>This helps us understand the local context behind your assessment. This is optional.</p>
     <div class="field">
@@ -504,7 +503,7 @@
     <form data-q="1">
       <div class="qcard">
       <fieldset>
-        <p class="factor-name">Hope and optimism</p>
+        <p class="factor-name"><span class="icon icon-inline" aria-hidden="true">volunteer_activism</span>Hope and optimism</p>
         <legend id="h-q1">How do most people in your neighbourhood feel about solving local problems?</legend>
         <p class="error" id="err-1">Select an answer to continue.</p>
         <div class="options" role="none">
@@ -545,7 +544,7 @@
     <form data-q="2">
       <div class="qcard">
       <fieldset>
-        <p class="factor-name">Collaboration</p>
+        <p class="factor-name"><span class="icon icon-inline" aria-hidden="true">groups</span>Collaboration</p>
         <legend id="h-q2">How do residents typically collaborate when addressing neighbourhood issues or small projects?</legend>
         <p class="error" id="err-2">Select an answer to continue.</p>
         <div class="options">
@@ -587,7 +586,7 @@
     <form data-q="3">
       <div class="qcard">
       <fieldset>
-        <p class="factor-name">Leadership</p>
+        <p class="factor-name"><span class="icon icon-inline" aria-hidden="true">flag</span>Leadership</p>
         <legend id="h-q3">How does leadership show up within your neighbourhood?</legend>
         <p class="error" id="err-3">Select an answer to continue.</p>
         <div class="options">
@@ -628,7 +627,7 @@
     <form data-q="4">
       <div class="qcard">
       <fieldset>
-        <p class="factor-name">Progress</p>
+        <p class="factor-name"><span class="icon icon-inline" aria-hidden="true">trending_up</span>Progress</p>
         <legend id="h-q4">In the last year, how many visible and tangible achievements have residents experienced or benefited from?</legend>
         <p class="error" id="err-4">Select an answer to continue.</p>
         <div class="options">
@@ -669,7 +668,7 @@
     <form data-q="5">
       <div class="qcard">
       <fieldset>
-        <p class="factor-name">Resilience</p>
+        <p class="factor-name"><span class="icon icon-inline" aria-hidden="true">eco</span>Resilience</p>
         <legend id="h-q5">What is your neighbourhood's capacity to adapt and continue solving future problems?</legend>
         <p class="error" id="err-5">Select an answer to continue.</p>
         <div class="options">
@@ -717,8 +716,7 @@
   -->
   <section class="step" id="step-result" tabindex="-1" aria-labelledby="h-result">
     <div class="result-band">
-      <p class="factor-name" style="color:var(--charcoal)"><span class="icon icon-inline" aria-hidden="true">location_city</span>Where your neighbourhood is now</p>
-      <h1 id="h-result">Your neighbourhood is in the <span class="stage-chip" id="stage-name"></span> stage</h1>
+      <h1 id="h-result"><span class="icon icon-h" aria-hidden="true">location_city</span>Your neighbourhood is in the <span class="stage-chip" id="stage-name"></span> stage</h1>
       <p id="stage-summary"></p>
     </div>
 
@@ -783,8 +781,7 @@
 
     <!-- ===== gated: the guidance ===== -->
     <div id="gate">
-      <span class="icon icon-lead" aria-hidden="true">lock</span>
-      <h2>Get the rest of your result</h2>
+      <h2><span class="icon icon-h" aria-hidden="true">lock</span>Get the rest of your result</h2>
       <p>
         Your stage is above. Enter your email and we will unlock why your neighbourhood
         is there and what to focus on next, and send you a copy to keep.
@@ -815,8 +812,7 @@
     </div>
 
     <div id="guidance" hidden>
-      <p class="eyebrow"><span class="icon icon-inline" aria-hidden="true">lock_open</span>Your guidance</p>
-      <h2 id="h-guidance" tabindex="-1">Why you are in this stage</h2>
+      <h2 id="h-guidance" tabindex="-1"><span class="icon icon-h" aria-hidden="true">lock_open</span>Why you are in this stage</h2>
       <p id="stage-why"></p>
 
       <h2>What to focus on next</h2>
@@ -829,8 +825,7 @@
          rather than by another colour, since every hue on this page already carries
          meaning and a sixth would dilute them. Outlined, unfilled, and labelled. -->
     <section class="feedback" aria-labelledby="h-feedback">
-      <p class="factor-name"><span class="icon icon-inline" aria-hidden="true">rate_review</span>Feedback</p>
-      <h2 id="h-feedback">Does this result feel accurate?</h2>
+      <h2 id="h-feedback"><span class="icon icon-h" aria-hidden="true">rate_review</span>Does this result feel accurate?</h2>
       <p class="muted">Your neighbourhood knows itself best. Let us know how well this reflects what you see.</p>
       <div class="scale">
         <button class="btn btn-quiet" data-feedback="Not accurate" aria-pressed="false">Not accurate</button>
