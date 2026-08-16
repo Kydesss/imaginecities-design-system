@@ -5,245 +5,218 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Neighbourhood Adaptability Assessment — worked example</title>
 
-<!-- Poppins, the brand font. Only the four weights the type scale actually uses:
-     Regular 400, Medium 500, SemiBold 600, Bold 700. The assessment tool currently
-     also loads 300, which is not a brand weight. Requires a network connection; with
-     no connection this falls back to Roboto, then to the system sans. -->
+<!-- Poppins at the four brand weights only. The assessment tool also loads 300, which is
+     not a brand weight. No network means a fallback to Roboto, per v2.0.1 §3.4. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+
 <!--
-  A worked example of the assessment tool's intro page, rebuilt from the design system.
+  Worked example of the assessment tool's intro page, built from the design system.
+  See docs/assessment-tool-feedback.md for the review this implements.
 
-  WHAT THIS DEMONSTRATES (see docs/assessment-tool-feedback.md):
-    1. Every text colour is Charcoal Black. Gold and Fresh Green are surfaces, never text.
-    2. Gold call to action, inverting to Charcoal on hover, matching the main website.
-    3. The logo is present.
-    4. No blurred decorative shapes, no gradients, no glass.
-    5. Hero is a hook plus one line. Repeated badges collapsed to a single meta line.
-    6. "Factors" and "stages" are distinguished in one sentence. "Dimensions" is gone.
-    7. The framework is framed as a spectrum, so no stage reads as a failing grade.
+  COLOUR: every pairing here is one the v2.0.1 accessibility chart clears.
+    Charcoal on Serene White      14.25:1   any size
+    Charcoal on Gold               8.88:1   any size
+    Charcoal on Fresh Green       13.34:1   any size
+    Charcoal on Gold 20% tint     12.86:1   any size
+    Serene White on Deep Azure     6.30:1   LARGE OR BOLD ONLY, so it is used only for
+                                            display headings, never for body or captions.
+  Gold and Fresh Green are surfaces, never text. In the live tool they are used as text
+  colours at 1.60:1 and 1.07:1.
 
-  BRAND VALUES: every colour and type value below traces to tokens/tokens.json.
-  In production these should be imported from that file, not copied as they are here.
+  NOT BRAND: the spacing scale, radii and motion timing are undocumented in v2.0.1.
+  Proposed here, to be approved before anyone treats them as brand.
 
-  NOT BRAND: the spacing scale, the radii and the hover timing are NOT documented in
-  Brand Guidelines v2.0.1. They are proposed here so the page can exist, and they are
-  the candidate set to take to the brand owner for approval. Do not treat them as brand
-  until that happens.
+  AVOIDED: the Headline type style, whose 24% line height is a known defect in the deck.
 
-  AVOIDED DELIBERATELY: the Headline type style. The deck gives it a line height of 24%,
-  which renders 4.8px at 20px and is a known defect awaiting the brand owner's ruling.
-  Section headings here use Subheadline, which is sound.
+  FRAMEWORK ATTRIBUTION: the five factors are Imagine Cities' own operationalisation.
+  They are NOT the Harwood Institute's factors, which are nine and named differently.
+  See the feedback document before changing any framework wording.
 -->
 <style>
   :root {
-    /* ---- brand: colour (tokens/tokens.json) ---- */
-    --ic-gold:            #FFB827;  /* color.gold           */
-    --ic-deep-azure:      #0656BF;  /* color.deep-azure     */
-    --ic-serene-white:    #F5F7F2;  /* color.serene-white   */
-    --ic-charcoal:        #242525;  /* color.charcoal-black */
-    --ic-forest-green:    #527302;  /* color.forest-green   */
-    --ic-gold-20:         #F7EAC9;  /* color.tint.gold.20   */
-    --ic-forest-20:       #D4DCC1;  /* color.tint.forest-green.20 */
+    /* brand colour — tokens/tokens.json */
+    --gold:         #FFB827;
+    --deep-azure:   #0656BF;
+    --serene-white: #F5F7F2;
+    --charcoal:     #242525;
+    --forest-green: #527302;
+    --fresh-green:  #C6FDC2;
+    --gold-20:      #F7EAC9;
+    --azure-20:     #C5D6E7;
 
-    /* ---- brand: type (tokens/tokens.json) ---- */
-    --ic-font: "Poppins", "Roboto", sans-serif;
-    --ic-w-regular: 400;
-    --ic-w-medium: 500;
-    --ic-w-semibold: 600;
-    --ic-w-bold: 700;
+    /* brand type */
+    --font: "Poppins", "Roboto", sans-serif;
+    --w-regular: 400; --w-medium: 500; --w-semibold: 600; --w-bold: 700;
 
-    /* ---- PROPOSED, NOT BRAND: spacing scale ----
-       A 4px base, doubling with two half steps. The smallest defensible set that builds
-       this page. Take to the brand owner before treating as documented. */
-    --sp-1: 4px;
-    --sp-2: 8px;
-    --sp-3: 16px;
-    --sp-4: 24px;
-    --sp-5: 40px;
-    --sp-6: 64px;
-    --sp-7: 96px;
+    /* PROPOSED, not brand: spacing (4px base) */
+    --sp-1: 4px; --sp-2: 8px; --sp-3: 16px; --sp-4: 24px;
+    --sp-5: 40px; --sp-6: 64px; --sp-7: 96px;
 
-    /* ---- PROPOSED, NOT BRAND: radii ----
-       Pill for actions, matching the live website. One modest radius for surfaces. */
+    /* PROPOSED, not brand: radii + easing */
     --radius-pill: 999px;
     --radius-surface: 12px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   *, *::before, *::after { box-sizing: border-box; }
 
   body {
     margin: 0;
-    background: var(--ic-serene-white);
-    color: var(--ic-charcoal);            /* every text colour on this page */
-    font-family: var(--ic-font);
+    background: var(--serene-white);
+    color: var(--charcoal);
+    font-family: var(--font);
     font-size: 16px;
-    line-height: 1.4;                     /* typography.paragraph-1 — 140% */
+    line-height: 1.4;
     -webkit-font-smoothing: antialiased;
   }
+  img { max-width: 100%; display: block; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 var(--sp-4); }
 
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 var(--sp-4); }
-
-  /* ---------- header ---------- */
+  /* ---------------- header ---------------- */
   .site-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--sp-4);
-    padding: var(--sp-4) 0;
-    border-bottom: 1px solid rgba(36, 37, 37, 0.12);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--sp-4); padding: var(--sp-4) 0;
+    border-bottom: 1px solid rgba(36,37,37,0.12);
   }
-  .site-header img { height: 34px; width: auto; display: block; }
+  .site-header img { height: 34px; width: auto; }
   .nav { display: flex; gap: var(--sp-4); flex-wrap: wrap; }
   .nav a {
-    color: var(--ic-charcoal);
-    text-decoration: none;                /* brand: never underline */
-    font-size: 14px;                      /* typography.paragraph-small */
-    font-weight: var(--ic-w-medium);
-    padding: var(--sp-1) 0;
-    border-bottom: 2px solid transparent;
+    color: var(--charcoal); text-decoration: none;
+    font-size: 14px; font-weight: var(--w-medium);
+    padding: var(--sp-1) 0; border-bottom: 2px solid transparent;
   }
-  .nav a:hover, .nav a:focus-visible { border-bottom-color: var(--ic-gold); }
+  .nav a:hover, .nav a:focus-visible { border-bottom-color: var(--gold); }
 
-  /* ---------- hero ---------- */
-  .hero { padding: var(--sp-7) 0 var(--sp-6); }
-
-  .eyebrow {
-    font-size: 11px;                      /* typography.label — Bold 11px */
-    font-weight: var(--ic-w-bold);
-    letter-spacing: 0.06em;
-    margin: 0 0 var(--sp-3);
-    /* Title case, not ALL CAPS. The deck forbids caps. */
-  }
-
-  h1 {
-    font-size: 48px;                      /* typography.title-page */
-    font-weight: var(--ic-w-bold);
-    line-height: 1.2;                     /* 120% */
-    letter-spacing: -0.02em;              /* -2% */
-    margin: 0 0 var(--sp-4);
-    max-width: 16ch;                      /* short measure for display type */
-  }
-
-  .lede {
-    font-size: 20px;
-    font-weight: var(--ic-w-regular);
-    line-height: 1.4;
-    margin: 0 0 var(--sp-5);
-    max-width: 58ch;                      /* body measure stays under 75ch */
-  }
-
-  /* ---------- the call to action ---------- */
-  .cta {
-    display: inline-flex;
+  /* ---------------- hero ---------------- */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--sp-6);
     align-items: center;
-    gap: 0.625em;
-    font-family: var(--ic-font);
-    font-size: 16px;                      /* typography.button-text */
-    font-weight: var(--ic-w-medium);      /* Medium 500, per the deck */
-    line-height: 1.5;                     /* 150% */
-    color: var(--ic-charcoal);            /* 8.88:1 on Gold, safe at any size */
-    background: var(--ic-gold);
-    border: none;
-    border-radius: var(--radius-pill);
-    padding: 1em 1.6em;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 140ms cubic-bezier(0.22, 1, 0.36, 1),
-                color 140ms cubic-bezier(0.22, 1, 0.36, 1);
+    padding: var(--sp-7) 0 var(--sp-6);
   }
-  .cta:hover {                            /* inversion, as the main website does */
-    background: var(--ic-charcoal);
-    color: var(--ic-gold);
+  .eyebrow {
+    font-size: 11px; font-weight: var(--w-bold); letter-spacing: 0.06em;
+    color: var(--forest-green);            /* 5.11:1, passes at any size */
+    margin: 0 0 var(--sp-3);
   }
-  .cta:focus-visible {
-    outline: 3px solid var(--ic-charcoal);
-    outline-offset: 3px;
+  h1 {
+    font-size: 48px; font-weight: var(--w-bold);
+    line-height: 1.2; letter-spacing: -0.02em;
+    margin: 0 0 var(--sp-4); max-width: 15ch;
+  }
+  .lede { font-size: 20px; line-height: 1.4; margin: 0 0 var(--sp-5); max-width: 52ch; }
+
+  .hero-figure { position: relative; }
+  .hero-figure img {
+    width: 100%; height: 100%; max-height: 430px;
+    object-fit: cover; border-radius: var(--radius-surface);
+  }
+  /* A flat Gold panel behind the photo. Solid colour, no gradient, no blur. */
+  .hero-figure::before {
+    content: ""; position: absolute; inset: auto -14px -14px 28px;
+    height: 72%; background: var(--gold);
+    border-radius: var(--radius-surface); z-index: -1;
   }
 
-  .meta {
-    margin: var(--sp-3) 0 0;
-    font-size: 14px;                      /* typography.paragraph-small */
-    /* One line replaces four repeated promotional badges. */
+  .cta {
+    display: inline-flex; align-items: center; gap: 0.625em;
+    font-family: var(--font); font-size: 16px; font-weight: var(--w-medium);
+    line-height: 1.5; color: var(--charcoal); background: var(--gold);
+    border: none; border-radius: var(--radius-pill); padding: 1em 1.6em;
+    text-decoration: none; cursor: pointer;
+    transition: background-color 140ms var(--ease), color 140ms var(--ease);
   }
+  .cta:hover { background: var(--charcoal); color: var(--gold); }
+  .cta:focus-visible { outline: 3px solid var(--charcoal); outline-offset: 3px; }
+  .cta.on-azure:focus-visible { outline-color: var(--serene-white); }
 
-  /* ---------- what you'll get ---------- */
+  .meta { margin: var(--sp-3) 0 0; font-size: 14px; }
+
+  /* ---------------- partners ---------------- */
+  .partners {
+    border-top: 1px solid rgba(36,37,37,0.12);
+    border-bottom: 1px solid rgba(36,37,37,0.12);
+    padding: var(--sp-4) 0;
+    display: flex; align-items: center; gap: var(--sp-5); flex-wrap: wrap;
+  }
+  .partners p { margin: 0; font-size: 14px; font-weight: var(--w-semibold); }
+  .partners ul { list-style: none; display: flex; gap: var(--sp-5); margin: 0; padding: 0; flex-wrap: wrap; align-items: center; }
+  .partners img { height: 40px; width: auto; }
+
+  /* ---------------- why it matters ---------------- */
+  .why {
+    background: var(--fresh-green);        /* Charcoal on Fresh Green, 13.34:1 */
+    border-radius: var(--radius-surface);
+    padding: var(--sp-6) var(--sp-5);
+    margin: var(--sp-7) 0;
+  }
+  .why blockquote {
+    margin: 0 0 var(--sp-4); max-width: 40ch;
+    font-size: 28px; font-weight: var(--w-semibold); line-height: 1.25;
+  }
+  .why cite { font-size: 14px; font-style: normal; display: block; max-width: 60ch; }
+  .why .after { margin: var(--sp-5) 0 0; max-width: 62ch; }
+
+  /* ---------------- what you get ---------------- */
   .section { padding: var(--sp-6) 0; }
-  h2 {
-    font-size: 20px;                      /* typography.subheadline */
-    font-weight: var(--ic-w-semibold);
-    line-height: 1.2;
-    margin: 0 0 var(--sp-5);
-  }
+  h2 { font-size: 20px; font-weight: var(--w-semibold); line-height: 1.2; margin: 0 0 var(--sp-5); }
 
-  /* An editorial numbered list, not a grid of identical cards. */
   .steps { list-style: none; margin: 0; padding: 0; }
   .steps li {
-    display: grid;
-    grid-template-columns: 3.5rem 1fr;
-    gap: var(--sp-4);
-    padding: var(--sp-4) 0;
-    border-top: 1px solid rgba(36, 37, 37, 0.12);
+    display: grid; grid-template-columns: 3.5rem 1fr; gap: var(--sp-4);
+    padding: var(--sp-4) 0; border-top: 1px solid rgba(36,37,37,0.12);
   }
-  .steps li:last-child { border-bottom: 1px solid rgba(36, 37, 37, 0.12); }
-  .steps .n {
-    font-size: 32px;
-    font-weight: var(--ic-w-bold);
-    line-height: 1;
-    color: var(--ic-charcoal);            /* NOT a light tint: that was 1.07:1 */
-  }
-  .steps h3 {
-    font-size: 16px;
-    font-weight: var(--ic-w-semibold);
-    margin: 0 0 var(--sp-1);
-  }
+  .steps li:last-child { border-bottom: 1px solid rgba(36,37,37,0.12); }
+  .steps .n { font-size: 32px; font-weight: var(--w-bold); line-height: 1; color: var(--charcoal); }
+  .steps h3 { font-size: 16px; font-weight: var(--w-semibold); margin: 0 0 var(--sp-1); }
   .steps p { margin: 0; max-width: 62ch; }
 
-  /* ---------- the five stages ---------- */
+  /* ---------------- the five stages ---------------- */
   .stages-band {
-    background: var(--ic-gold-20);        /* documented 20% tint as a section ground */
-    border-radius: var(--radius-surface);
-    padding: var(--sp-5);
-    margin: var(--sp-6) 0;
+    background: var(--gold-20); border-radius: var(--radius-surface);
+    padding: var(--sp-5); margin: var(--sp-6) 0;
   }
-  .stages-band p.framing { margin: 0 0 var(--sp-5); max-width: 66ch; }
-  .stages {
-    list-style: none;
-    margin: 0; padding: 0;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--sp-3);
-  }
-  .stages li { padding-top: var(--sp-3); border-top: 3px solid var(--ic-charcoal); }
-  .stages .name { font-weight: var(--ic-w-semibold); font-size: 16px; }
+  .stages-band .framing { margin: 0 0 var(--sp-5); max-width: 68ch; }
+  .stages { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--sp-3); }
+  /* Equal visual weight on purpose. No ramp, no progress bar: the framework is explicit
+     that this is not a scorecard, and a later stage is not a better grade. */
+  .stages li { padding-top: var(--sp-3); border-top: 3px solid var(--charcoal); }
+  .stages .name { font-weight: var(--w-semibold); font-size: 16px; }
   .stages .what { font-size: 14px; margin-top: var(--sp-1); }
+  .stages-band .note { margin: var(--sp-5) 0 0; font-size: 14px; max-width: 68ch; }
 
-  /* ---------- closing ---------- */
-  .closing { padding: var(--sp-6) 0 var(--sp-7); }
-  .closing p { max-width: 60ch; margin: 0 0 var(--sp-4); }
-
-  footer {
-    border-top: 1px solid rgba(36, 37, 37, 0.12);
-    padding: var(--sp-4) 0 var(--sp-6);
-    font-size: 14px;
+  /* ---------------- closing ---------------- */
+  .closing {
+    background: var(--deep-azure); color: var(--serene-white);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-6) var(--sp-5); margin: var(--sp-6) 0 var(--sp-7);
   }
-  footer a { color: var(--ic-deep-azure); }   /* Azure for links, per the deck */
+  /* Serene White on Deep Azure is large-or-bold only, so this heading is 34px and there
+     is no small white text in this block. */
+  .closing h2 { font-size: 34px; font-weight: var(--w-semibold); margin: 0 0 var(--sp-5); max-width: 20ch; }
 
-  @media (max-width: 720px) {
-    .hero { padding: var(--sp-6) 0 var(--sp-5); }
+  footer { border-top: 1px solid rgba(36,37,37,0.12); padding: var(--sp-4) 0 var(--sp-6); font-size: 14px; }
+  footer a { color: var(--deep-azure); }
+  footer p { max-width: 70ch; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: var(--sp-5); padding: var(--sp-6) 0 var(--sp-5); }
+    .hero-figure::before { display: none; }
     h1 { font-size: 34px; max-width: 20ch; }
     .lede { font-size: 18px; }
+    .why blockquote { font-size: 22px; }
     .stages { grid-template-columns: 1fr 1fr; }
-    .steps li { grid-template-columns: 2.5rem 1fr; gap: var(--sp-3); }
+    .closing h2 { font-size: 26px; }
   }
   @media (max-width: 460px) {
     .stages { grid-template-columns: 1fr; }
+    .steps li { grid-template-columns: 2.5rem 1fr; gap: var(--sp-3); }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .cta { transition: none; }
-  }
+  @media (prefers-reduced-motion: reduce) { .cta { transition: none; } }
 </style>
 </head>
 <body>
@@ -262,14 +235,50 @@
 
 <main>
   <section class="hero wrap">
-    <p class="eyebrow">Neighbourhood tools</p>
-    <h1>Is Your Neighbourhood Ready for What's Next?</h1>
-    <p class="lede">
-      Five questions, about five minutes. You get a plain language read on where your
-      neighbourhood stands today, and what to do about it.
-    </p>
-    <a class="cta" href="#">Start the assessment</a>
-    <p class="meta">Free. No expertise needed. Built with Calgary neighbourhoods.</p>
+    <div>
+      <p class="eyebrow">Neighbourhood tools</p>
+      <h1>Is Your Neighbourhood Ready for What's Next?</h1>
+      <p class="lede">
+        Five questions, about five minutes. You get an understanding of where your
+        neighbourhood stands today, and what to do about it.
+      </p>
+      <a class="cta" href="#">Start the assessment</a>
+      <p class="meta">Free. No expertise needed.</p>
+    </div>
+    <figure class="hero-figure">
+      <img src="img/hero-neighbourhood.webp"
+           alt="Residents talking together at a neighbourhood gathering">
+    </figure>
+  </section>
+
+  <section class="wrap">
+    <div class="partners">
+      <p>Built with community associations across Canada</p>
+      <ul>
+        <li><img src="img/Hillhurst.png" alt="Hillhurst Sunnyside Community Association"></li>
+        <li><img src="img/sunalta.png" alt="Sunalta Community Association"></li>
+        <li><img src="img/Kitsilano.png" alt="Kitsilano Neighbourhood House"></li>
+        <li><img src="img/marpole_neighbourhood_house.png" alt="Marpole Neighbourhood House"></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="why">
+      <blockquote>
+        Most people act as though their community is already growing, then wonder why so
+        many initiatives stall.
+      </blockquote>
+      <cite>
+        A finding of the Harwood Institute's Community Rhythms research, 1999, drawn from
+        fieldwork in five communities.
+      </cite>
+      <p class="after">
+        Strategies that work for a neighbourhood with momentum tend to fail in one that is
+        still rebuilding trust. Knowing where yours actually sits is what makes the
+        difference between effort that compounds and effort that disappears.
+      </p>
+    </div>
   </section>
 
   <section class="section wrap">
@@ -303,34 +312,37 @@
     <div class="stages-band">
       <h2>The Five Stages</h2>
       <p class="framing">
-        The assessment asks about <strong>five factors</strong>, things like trust,
-        leadership and recent progress. Your answers place your neighbourhood in one of
-        <strong>five stages</strong>. Neighbourhoods move along this spectrum over time.
-        There is no failing grade, and every stage has a sensible next step.
+        The assessment asks about <strong>five factors</strong>: hope and optimism,
+        collaboration, leadership, progress, and resilience. Your answers place your
+        neighbourhood in one of <strong>five stages</strong>.
       </p>
       <ol class="stages">
-        <li><div class="name">Waiting Place</div><div class="what">People feel local problems cannot be solved by residents.</div></li>
-        <li><div class="name">Impasse</div><div class="what">The problems are recognized, but action has stalled.</div></li>
-        <li><div class="name">Catalytic</div><div class="what">Small groups are starting to test what works.</div></li>
-        <li><div class="name">Growth</div><div class="what">Progress is visible and momentum is building.</div></li>
+        <li><div class="name">Waiting Place</div><div class="what">Something is not working, but nobody can quite name it.</div></li>
+        <li><div class="name">Impasse</div><div class="what">The problem is named and urgent, and action has stalled.</div></li>
+        <li><div class="name">Catalytic</div><div class="what">Small groups are testing what works.</div></li>
+        <li><div class="name">Growth</div><div class="what">Progress is visible and spreading.</div></li>
         <li><div class="name">Sustain &amp; Renew</div><div class="what">The neighbourhood adapts and keeps going.</div></li>
       </ol>
+      <p class="note">
+        This is not a score or a ranking. Neighbourhoods move along this spectrum in both
+        directions, and a stage can be temporary. Reaching Impasse is a step forward from
+        the Waiting Place, because the problem has become clear enough to act on.
+      </p>
     </div>
   </section>
 
-  <section class="closing wrap">
-    <h2>Ready When You Are</h2>
-    <p>
-      Your neighbourhood knows itself best. This takes about five minutes and gives you
-      something concrete to bring to your next conversation.
-    </p>
-    <a class="cta" href="#">Start the assessment</a>
+  <section class="wrap">
+    <div class="closing">
+      <h2>Your Neighbourhood Knows Itself Best</h2>
+      <a class="cta on-azure" href="#">Start the assessment</a>
+    </div>
   </section>
 </main>
 
 <footer class="wrap">
   <p>
-    Informed by the Harwood Institute's Community Rhythms framework.
+    The five stages come from the Harwood Institute's Stages of Community Life, part of
+    their Community Rhythms research. The five factors above are Imagine Cities' own.
     <a href="#">Read more about the framework</a>
   </p>
 </footer>

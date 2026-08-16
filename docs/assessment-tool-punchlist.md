@@ -250,10 +250,28 @@ These ship publicly today:
 - [ ] **Canadian spelling.** Copy mixes `organisations` (in Factor 3 and the Growth stage
       text) with Canadian spelling elsewhere. Standardize to `-ize`; the brand and the deck
       use Canadian English throughout.
-- [ ] **Harwood Institute attribution.** The tool says it is "informed by the Harwood
-      Institute's Community Rhythms framework," and the five stages are theirs. Confirm the
-      attribution is sufficient for a product sold to government — a contract-risk question
-      to ask out loud, not to settle in design.
+- [ ] **The five factors are attributed to the wrong source.** Checked against the 1999
+      Community Rhythms report: it assesses **nine** factors it calls Public Capital
+      (p. 34). Of our five, only **Leadership** appears in it; **Collaboration** and
+      **Resilience** appear nowhere in the document. Copy must present the *stages* as
+      Harwood's and the *factors* as Imagine Cities' own. Promote to P1 if any public copy
+      currently calls them the framework's factors.
+- [ ] **Impasse must not read as bad news.** The report states a Waiting Place community
+      *must* move into some form of Impasse (p. 6), so it is a step forward. To a reader it
+      sounds like the worst outcome. Highest-risk misreading in the product; design the
+      result screen against it.
+- [ ] **Drop any scorecard framing.** The report calls the Index a *touchstone*, not a
+      scorecard (p. 12). No progress bars, levels, tiers, or visuals implying a later stage
+      is a better grade.
+- [ ] **No quantitative claims.** The report contains no statistics of any kind — its
+      method was interviews and workshops across five US communities, 1996–1999 (p. 9).
+      Never "studies show", "X% fail", "proven", or "evidence-based".
+- [ ] **Harwood permission and attribution.** ©1999, and the terminology is trademarked
+      (Stages of Community Life™, Public Capital™, Centers of Strength™). Confirm
+      permission for a product sold to government. Also avoid calling this "the Harwood
+      assessment": the report contains no questionnaire, and its stage placements came from
+      researcher fieldwork, not self-assessment. A contract-risk question for Ron, not one
+      design settles.
 - [ ] **Move off `fun-tested-13948191.figma.site`.** An auto-generated URL with no IC
       branding is fine for a prototype, not for something shown to residents or funders.
 - [ ] **Logo asset quality.** If the tool renders the logo: no vector artwork exists

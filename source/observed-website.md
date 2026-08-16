@@ -85,6 +85,12 @@ inversion to Charcoal Black on Gold**, which is 8.88:1 — a fully compliant pai
 6. **Off-palette colours:** `#000000` (used for text and a hover background, where Charcoal
    Black `#242525` is the brand value), `#272728`, `#E0E0E0`, `#CCCCCC`, and `#C9DAF1` as a
    background. None is a v2.0.1 colour or a documented tint.
+7. **Multi-megabyte images.** Measured by download: `home_banner.png` is **4.12MB** at
+   1920×1163, `creativeNeighbourhoodLab.png` is **5.15MB** at 2667×1780, and
+   `home_learningGuides.png` is **4.51MB** at 2705×1804. That is roughly 14MB of PNGs on
+   one page, served at full size to phones. Re-encoding the banner to WebP at 1200px wide
+   produced a visually equivalent 189KB, a 95% reduction. Every one of these should be
+   resized and converted; PNG is the wrong format for photographs.
 
 ## What the site cannot supply
 
