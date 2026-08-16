@@ -516,6 +516,9 @@
     <div class="actions">
       <button class="btn btn-primary" data-go="start">Start over</button>
     </div>
+
+    <!-- Reviewer-only. Hidden unless ?debug=1. Users never see scoring. -->
+    <p class="muted" id="debug" hidden style="margin-top:var(--sp-5)"></p>
   </section>
 </main>
 
@@ -598,26 +601,99 @@
   var ORDER = ["waiting-place", "impasse", "catalytic", "growth", "sustain-renew"];
 
   /* ==================================================================
-     >>> PLACEHOLDER SCORING. REPLACE THIS FUNCTION. <<<
+     PROVISIONAL SCORING MODEL — needs validation before it ships.
 
      The real methodology is internal to the existing tool and was not
-     available when this prototype was built. Everything else here is
-     independent of it: swap the body of this function and the rest of
-     the flow is unaffected.
+     available. This is a designed stand-in rather than arithmetic, and
+     it is isolated here: replacing this one function and its table
+     leaves the rest of the flow untouched.
 
-     Current stand-in: each answer scores 1-3, giving a total of 5-15,
-     split into five even bands. This is arithmetic, NOT methodology.
-     It is almost certainly not how the real tool decides, and no result
-     it produces should be shown to a real user or quoted to anyone.
+     HOW IT WORKS. Not a total, and not an average. Averaging was tried
+     first and rejected: it collapses toward the middle, leaving the two
+     end stages reachable by one answer combination each out of 243, and
+     it classified "strong optimism and leadership but no visible
+     progress" as Growth, which the report defines by visible forward
+     movement.
+
+     Instead each stage has entry conditions, checked from the top down,
+     and a neighbourhood lands in the highest stage it qualifies for.
+     That matches the framework's position that stages are sequential
+     and cannot be skipped.
+
+     Answers are h = hope, c = collaboration, l = leadership,
+     p = progress, r = resilience, each 1 to 3.
+
+       Sustain & Renew   h>=2 && c>=2 && l=3 && p=3 && r=3
+         The report's Sustain & Renew has established leadership, shared
+         capacity to adapt, and a vision that is renewed. Everything at
+         the top, since this is the most demanding stage.
+
+       Growth            h>=2 && p=3 && l>=2 && c>=2
+         Growth is defined by visible forward movement experienced by a
+         growing number of residents, so p=3 is required rather than
+         merely helpful. Leadership and collaboration must be present,
+         and residents cannot feel powerless.
+
+       Catalytic         (p>=2 && (c>=2 || l>=2)) || (h>=2 && c>=2 && l>=2)
+         The report's Catalytic is small groups taking risks AND
+         producing enough visible result to build faith. So action alone
+         is not sufficient: one isolated win with nothing else stays at
+         Impasse. Either some action with some collective capacity, or
+         organized capacity plus belief before wins are visible.
+
+       Waiting Place     h=1 && p=1 && l=1
+         The report's markers: people feel powerless, nothing is
+         happening, and residents wait for someone external. Note this
+         is checked AFTER Catalytic, so it only catches profiles with no
+         action at all.
+
+       Impasse           everything else
+         The report's Impasse is the community that can name its problem
+         and feels urgency, but has not yet turned that into action. It
+         is a step FORWARD from the Waiting Place, not a lower score, so
+         it is the default landing place for any profile showing some
+         signal without enough for Catalytic.
+
+     DISTRIBUTION. Across all 243 combinations: Waiting Place 4%,
+     Impasse 27%, Catalytic 59%, Growth 8%, Sustain & Renew 2%. Uniform
+     random answers are not a real population, so this is not a target
+     to flatten, but the Catalytic share is worth revisiting once there
+     is real response data. That Growth and Sustain & Renew are hard to
+     reach is deliberate, and consistent with the report's central
+     finding that most people assume their community is further along
+     than it is.
+
+     WHAT THIS IS NOT. It is not validated, not Harwood's, and not the
+     existing tool's. It produces plausible, explainable, inspectable
+     results for review. It should not be described to users or funders
+     as a methodology until Imagine Cities confirms one.
      ================================================================== */
   function scoreToStage(answers) {
-    var total = answers.reduce(function (a, b) { return a + b; }, 0); // 5..15
-    if (total <= 6)  return "waiting-place";
-    if (total <= 8)  return "impasse";
-    if (total <= 11) return "catalytic";
-    if (total <= 13) return "growth";
-    return "sustain-renew";
+    var h = answers[0], c = answers[1], l = answers[2],
+        p = answers[3], r = answers[4];
+    var stage, why;
+
+    if (h >= 2 && c >= 2 && l === 3 && p === 3 && r === 3) {
+      stage = "sustain-renew";
+      why = "top leadership, progress and shared vision together";
+    } else if (h >= 2 && p === 3 && l >= 2 && c >= 2) {
+      stage = "growth";
+      why = "visible progress experienced widely, with leadership and collaboration behind it";
+    } else if ((p >= 2 && (c >= 2 || l >= 2)) || (h >= 2 && c >= 2 && l >= 2)) {
+      stage = "catalytic";
+      why = "action is happening and there is some collective capacity behind it";
+    } else if (h === 1 && p === 1 && l === 1) {
+      stage = "waiting-place";
+      why = "no action, no leadership, and residents feel powerless";
+    } else {
+      stage = "impasse";
+      why = "there is recognition or energy, but it has not turned into action yet";
+    }
+
+    lastWorking = { answers: answers.slice(), stage: stage, why: why };
+    return stage;
   }
+  var lastWorking = null;
   /* ================= end of replaceable scoring ===================== */
 
   var answers = {};
@@ -734,6 +810,17 @@
 
     var list = [1, 2, 3, 4, 5].map(function (n) { return answers[n] || 1; });
     renderResult(scoreToStage(list));
+
+    if (/[?&]debug=1/.test(window.location.search) && lastWorking) {
+      var d = document.getElementById("debug");
+      d.hidden = false;
+      d.textContent =
+        "Reviewer view. Answers (hope, collaboration, leadership, progress, resilience): " +
+        lastWorking.answers.join(", ") +
+        ". Result: " + lastWorking.stage +
+        ", because " + lastWorking.why +
+        ". Provisional model, not validated methodology.";
+    }
     show("result");
   });
 
