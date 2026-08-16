@@ -28,7 +28,10 @@ failure). The live site is `www.imaginecities.com`.
 - Every `font-family` declaration in the site's own CSS is **Poppins**. No exceptions.
 - The palette is v2.0.1: Charcoal Black `#242525` (11 uses), Serene White `#F5F7F2` (7),
   Gold `#FFB827` (6), Deep Azure `#0656BF` (1).
-- `#D4DDC2` appears once — exactly the documented Forest Green 20% tint.
+- `#D4DDC2` appears once. It is **one step off** the documented Forest Green 20% tint
+  `#D4DCC1`, differing in the last two channels. So the site carries an approximation of
+  the brand tint rather than the tint itself. Close enough to be invisible on screen, wrong
+  enough that it will not match anything generated from `tokens/tokens.json`.
 - Gold is used for calls to action, matching §2.3.
 
 ## Button implementations

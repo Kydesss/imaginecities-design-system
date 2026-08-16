@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neighbourhood Adaptability Assessment — worked example</title>
+<!--
+  A worked example of the assessment tool's intro page, rebuilt from the design system.
+
+  WHAT THIS DEMONSTRATES (see docs/assessment-tool-feedback.md):
+    1. Every text colour is Charcoal Black. Gold and Fresh Green are surfaces, never text.
+    2. Gold call to action, inverting to Charcoal on hover, matching the main website.
+    3. The logo is present.
+    4. No blurred decorative shapes, no gradients, no glass.
+    5. Hero is a hook plus one line. Repeated badges collapsed to a single meta line.
+    6. "Factors" and "stages" are distinguished in one sentence. "Dimensions" is gone.
+    7. The framework is framed as a spectrum, so no stage reads as a failing grade.
+
+  BRAND VALUES: every colour and type value below traces to tokens/tokens.json.
+  In production these should be imported from that file, not copied as they are here.
+
+  NOT BRAND: the spacing scale, the radii and the hover timing are NOT documented in
+  Brand Guidelines v2.0.1. They are proposed here so the page can exist, and they are
+  the candidate set to take to the brand owner for approval. Do not treat them as brand
+  until that happens.
+
+  AVOIDED DELIBERATELY: the Headline type style. The deck gives it a line height of 24%,
+  which renders 4.8px at 20px and is a known defect awaiting the brand owner's ruling.
+  Section headings here use Subheadline, which is sound.
+-->
+<style>
+  :root {
+    /* ---- brand: colour (tokens/tokens.json) ---- */
+    --ic-gold:            #FFB827;  /* color.gold           */
+    --ic-deep-azure:      #0656BF;  /* color.deep-azure     */
+    --ic-serene-white:    #F5F7F2;  /* color.serene-white   */
+    --ic-charcoal:        #242525;  /* color.charcoal-black */
+    --ic-forest-green:    #527302;  /* color.forest-green   */
+    --ic-gold-20:         #F7EAC9;  /* color.tint.gold.20   */
+    --ic-forest-20:       #D4DCC1;  /* color.tint.forest-green.20 */
+
+    /* ---- brand: type (tokens/tokens.json) ---- */
+    --ic-font: "Poppins", "Roboto", sans-serif;
+    --ic-w-regular: 400;
+    --ic-w-medium: 500;
+    --ic-w-semibold: 600;
+    --ic-w-bold: 700;
+
+    /* ---- PROPOSED, NOT BRAND: spacing scale ----
+       A 4px base, doubling with two half steps. The smallest defensible set that builds
+       this page. Take to the brand owner before treating as documented. */
+    --sp-1: 4px;
+    --sp-2: 8px;
+    --sp-3: 16px;
+    --sp-4: 24px;
+    --sp-5: 40px;
+    --sp-6: 64px;
+    --sp-7: 96px;
+
+    /* ---- PROPOSED, NOT BRAND: radii ----
+       Pill for actions, matching the live website. One modest radius for surfaces. */
+    --radius-pill: 999px;
+    --radius-surface: 12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ic-serene-white);
+    color: var(--ic-charcoal);            /* every text colour on this page */
+    font-family: var(--ic-font);
+    font-size: 16px;
+    line-height: 1.4;                     /* typography.paragraph-1 — 140% */
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 var(--sp-4); }
+
+  /* ---------- header ---------- */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding: var(--sp-4) 0;
+    border-bottom: 1px solid rgba(36, 37, 37, 0.12);
+  }
+  .site-header img { height: 34px; width: auto; display: block; }
+  .nav { display: flex; gap: var(--sp-4); flex-wrap: wrap; }
+  .nav a {
+    color: var(--ic-charcoal);
+    text-decoration: none;                /* brand: never underline */
+    font-size: 14px;                      /* typography.paragraph-small */
+    font-weight: var(--ic-w-medium);
+    padding: var(--sp-1) 0;
+    border-bottom: 2px solid transparent;
+  }
+  .nav a:hover, .nav a:focus-visible { border-bottom-color: var(--ic-gold); }
+
+  /* ---------- hero ---------- */
+  .hero { padding: var(--sp-7) 0 var(--sp-6); }
+
+  .eyebrow {
+    font-size: 11px;                      /* typography.label — Bold 11px */
+    font-weight: var(--ic-w-bold);
+    letter-spacing: 0.06em;
+    margin: 0 0 var(--sp-3);
+    /* Title case, not ALL CAPS. The deck forbids caps. */
+  }
+
+  h1 {
+    font-size: 48px;                      /* typography.title-page */
+    font-weight: var(--ic-w-bold);
+    line-height: 1.2;                     /* 120% */
+    letter-spacing: -0.02em;              /* -2% */
+    margin: 0 0 var(--sp-4);
+    max-width: 16ch;                      /* short measure for display type */
+  }
+
+  .lede {
+    font-size: 20px;
+    font-weight: var(--ic-w-regular);
+    line-height: 1.4;
+    margin: 0 0 var(--sp-5);
+    max-width: 58ch;                      /* body measure stays under 75ch */
+  }
+
+  /* ---------- the call to action ---------- */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625em;
+    font-family: var(--ic-font);
+    font-size: 16px;                      /* typography.button-text */
+    font-weight: var(--ic-w-medium);      /* Medium 500, per the deck */
+    line-height: 1.5;                     /* 150% */
+    color: var(--ic-charcoal);            /* 8.88:1 on Gold, safe at any size */
+    background: var(--ic-gold);
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 1em 1.6em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 140ms cubic-bezier(0.22, 1, 0.36, 1),
+                color 140ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .cta:hover {                            /* inversion, as the main website does */
+    background: var(--ic-charcoal);
+    color: var(--ic-gold);
+  }
+  .cta:focus-visible {
+    outline: 3px solid var(--ic-charcoal);
+    outline-offset: 3px;
+  }
+
+  .meta {
+    margin: var(--sp-3) 0 0;
+    font-size: 14px;                      /* typography.paragraph-small */
+    /* One line replaces four repeated promotional badges. */
+  }
+
+  /* ---------- what you'll get ---------- */
+  .section { padding: var(--sp-6) 0; }
+  h2 {
+    font-size: 20px;                      /* typography.subheadline */
+    font-weight: var(--ic-w-semibold);
+    line-height: 1.2;
+    margin: 0 0 var(--sp-5);
+  }
+
+  /* An editorial numbered list, not a grid of identical cards. */
+  .steps { list-style: none; margin: 0; padding: 0; }
+  .steps li {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: var(--sp-4);
+    padding: var(--sp-4) 0;
+    border-top: 1px solid rgba(36, 37, 37, 0.12);
+  }
+  .steps li:last-child { border-bottom: 1px solid rgba(36, 37, 37, 0.12); }
+  .steps .n {
+    font-size: 32px;
+    font-weight: var(--ic-w-bold);
+    line-height: 1;
+    color: var(--ic-charcoal);            /* NOT a light tint: that was 1.07:1 */
+  }
+  .steps h3 {
+    font-size: 16px;
+    font-weight: var(--ic-w-semibold);
+    margin: 0 0 var(--sp-1);
+  }
+  .steps p { margin: 0; max-width: 62ch; }
+
+  /* ---------- the five stages ---------- */
+  .stages-band {
+    background: var(--ic-gold-20);        /* documented 20% tint as a section ground */
+    border-radius: var(--radius-surface);
+    padding: var(--sp-5);
+    margin: var(--sp-6) 0;
+  }
+  .stages-band p.framing { margin: 0 0 var(--sp-5); max-width: 66ch; }
+  .stages {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--sp-3);
+  }
+  .stages li { padding-top: var(--sp-3); border-top: 3px solid var(--ic-charcoal); }
+  .stages .name { font-weight: var(--ic-w-semibold); font-size: 16px; }
+  .stages .what { font-size: 14px; margin-top: var(--sp-1); }
+
+  /* ---------- closing ---------- */
+  .closing { padding: var(--sp-6) 0 var(--sp-7); }
+  .closing p { max-width: 60ch; margin: 0 0 var(--sp-4); }
+
+  footer {
+    border-top: 1px solid rgba(36, 37, 37, 0.12);
+    padding: var(--sp-4) 0 var(--sp-6);
+    font-size: 14px;
+  }
+  footer a { color: var(--ic-deep-azure); }   /* Azure for links, per the deck */
+
+  @media (max-width: 720px) {
+    .hero { padding: var(--sp-6) 0 var(--sp-5); }
+    h1 { font-size: 34px; max-width: 20ch; }
+    .lede { font-size: 18px; }
+    .stages { grid-template-columns: 1fr 1fr; }
+    .steps li { grid-template-columns: 2.5rem 1fr; gap: var(--sp-3); }
+  }
+  @media (max-width: 460px) {
+    .stages { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header wrap">
+  <a href="#" aria-label="Imagine Cities home">
+    <img src="../assets/logos/primary-logo-black.png" alt="Imagine Cities">
+  </a>
+  <nav class="nav" aria-label="Main">
+    <a href="#">Courses</a>
+    <a href="#">Assessments</a>
+    <a href="#">Membership</a>
+    <a href="#">About</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="eyebrow">Neighbourhood tools</p>
+    <h1>Is Your Neighbourhood Ready for What's Next?</h1>
+    <p class="lede">
+      Five questions, about five minutes. You get a plain language read on where your
+      neighbourhood stands today, and what to do about it.
+    </p>
+    <a class="cta" href="#">Start the assessment</a>
+    <p class="meta">Free. No expertise needed. Built with Calgary neighbourhoods.</p>
+  </section>
+
+  <section class="section wrap">
+    <h2>What You Get</h2>
+    <ol class="steps">
+      <li>
+        <div class="n">1</div>
+        <div>
+          <h3>Where your neighbourhood stands</h3>
+          <p>Which of five stages best matches what you described, explained without jargon.</p>
+        </div>
+      </li>
+      <li>
+        <div class="n">2</div>
+        <div>
+          <h3>Why it is there</h3>
+          <p>What shaped the result, and what that usually means for a neighbourhood like yours.</p>
+        </div>
+      </li>
+      <li>
+        <div class="n">3</div>
+        <div>
+          <h3>What to do next</h3>
+          <p>Practical steps suited to where your neighbourhood actually is, not generic advice.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="wrap">
+    <div class="stages-band">
+      <h2>The Five Stages</h2>
+      <p class="framing">
+        The assessment asks about <strong>five factors</strong>, things like trust,
+        leadership and recent progress. Your answers place your neighbourhood in one of
+        <strong>five stages</strong>. Neighbourhoods move along this spectrum over time.
+        There is no failing grade, and every stage has a sensible next step.
+      </p>
+      <ol class="stages">
+        <li><div class="name">Waiting Place</div><div class="what">People feel local problems cannot be solved by residents.</div></li>
+        <li><div class="name">Impasse</div><div class="what">The problems are recognized, but action has stalled.</div></li>
+        <li><div class="name">Catalytic</div><div class="what">Small groups are starting to test what works.</div></li>
+        <li><div class="name">Growth</div><div class="what">Progress is visible and momentum is building.</div></li>
+        <li><div class="name">Sustain &amp; Renew</div><div class="what">The neighbourhood adapts and keeps going.</div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="closing wrap">
+    <h2>Ready When You Are</h2>
+    <p>
+      Your neighbourhood knows itself best. This takes about five minutes and gives you
+      something concrete to bring to your next conversation.
+    </p>
+    <a class="cta" href="#">Start the assessment</a>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>
+    Informed by the Harwood Institute's Community Rhythms framework.
+    <a href="#">Read more about the framework</a>
+  </p>
+</footer>
+
+</body>
+</html>

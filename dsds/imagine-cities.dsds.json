@@ -1404,7 +1404,7 @@
                 {
                   "title": "What the site gets right",
                   "anchor": "compliant",
-                  "body": "Every `font-family` in the site's own CSS is Poppins. The palette is v2.0.1 — Charcoal Black (11 uses), Serene White (7), Gold (6), Deep Azure (1) — and `#D4DDC2` matches the documented Forest Green 20% tint exactly. Gold is used for calls to action, per §2.3."
+                  "body": "Every `font-family` in the site's own CSS is Poppins. The palette is v2.0.1 — Charcoal Black (11 uses), Serene White (7), Gold (6), Deep Azure (1) — and `#D4DDC2` is within one step of the documented Forest Green 20% tint `#D4DCC1` — an approximation of the brand tint rather than the tint itself, invisible on screen but incompatible with anything generated from the token file. Gold is used for calls to action, per §2.3."
                 },
                 {
                   "title": "The CTA pattern worth keeping",
