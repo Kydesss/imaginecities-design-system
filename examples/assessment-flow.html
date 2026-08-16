@@ -337,6 +337,18 @@
   .next-steps strong{display:block;}
 
   .scale{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin:0 0 var(--sp-4);}
+  /* Once an answer is given the whole scale locks. The chosen button is filled Gold
+     with a check mark, so selection is never carried by colour alone, and the others
+     keep full-strength Charcoal text rather than being faded out: they are still
+     readable as the options that were available. */
+  .scale .btn[aria-disabled="true"]{cursor:default;}
+  .scale .btn[aria-disabled="true"]:hover{border-color:rgba(36,37,37,.3);}
+  .scale .btn.is-chosen{
+    background:var(--gold);border-color:var(--charcoal);
+    font-weight:var(--w-semibold);
+  }
+  .scale .btn.is-chosen::before{content:"\2713";margin-right:.4em;font-weight:var(--w-bold);}
+  .scale .btn[aria-disabled="true"]:not(.is-chosen){border-color:rgba(36,37,37,.18);}
 
   /* The rule needs air on both sides. Previously the footer text sat 24px under the
      line while the line sat 64px below the content, so the attribution read as stuck
@@ -738,9 +750,9 @@
     <h2 style="margin-top:var(--sp-6)">Does this result feel accurate?</h2>
     <p class="muted">Your neighbourhood knows itself best. Let us know how well this reflects what you see.</p>
     <div class="scale">
-      <button class="btn btn-quiet" data-feedback="Not accurate">Not accurate</button>
-      <button class="btn btn-quiet" data-feedback="Somewhat accurate">Somewhat accurate</button>
-      <button class="btn btn-quiet" data-feedback="Very accurate">Very accurate</button>
+      <button class="btn btn-quiet" data-feedback="Not accurate" aria-pressed="false">Not accurate</button>
+      <button class="btn btn-quiet" data-feedback="Somewhat accurate" aria-pressed="false">Somewhat accurate</button>
+      <button class="btn btn-quiet" data-feedback="Very accurate" aria-pressed="false">Very accurate</button>
     </div>
     <p class="muted" id="feedback-thanks" hidden>Thank you. Your response helps us improve this tool.</p>
 
@@ -933,6 +945,7 @@
   /* ================= end of replaceable scoring ===================== */
 
   var answers = {};
+  var feedbackGiven = false;
   var live = document.getElementById("live");
 
   // Fill the five-segment bar on each question screen. Done, current, remaining.
@@ -1065,6 +1078,13 @@
         var forms = document.querySelectorAll("form");
         for (var i = 0; i < forms.length; i++) forms[i].reset();
         document.getElementById("feedback-thanks").hidden = true;
+        feedbackGiven = false;
+        var fbs = document.querySelectorAll("[data-feedback]");
+        for (var f = 0; f < fbs.length; f++) {
+          fbs[f].removeAttribute("aria-disabled");
+          fbs[f].setAttribute("aria-pressed", "false");
+          fbs[f].classList.remove("is-chosen");
+        }
         // re-lock the guidance for the next run
         document.getElementById("gate").hidden = false;
         document.getElementById("guidance").hidden = true;
@@ -1074,8 +1094,27 @@
     }
     var fb = e.target.closest("[data-feedback]");
     if (fb) {
-      document.getElementById("feedback-thanks").hidden = false;
-      live.textContent = "Thank you. Your response helps us improve this tool.";
+      // One response only. aria-disabled rather than the disabled attribute: a truly
+      // disabled button loses focus to the body, which would drop a screen-reader
+      // user out of the page at the moment we are confirming their answer. The guard
+      // below is what actually prevents a second submission.
+      if (feedbackGiven) return;
+      feedbackGiven = true;
+
+      var choice = fb.getAttribute("data-feedback");
+      var buttons = document.querySelectorAll("[data-feedback]");
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].setAttribute("aria-disabled", "true");
+        var chosen = buttons[i] === fb;
+        buttons[i].setAttribute("aria-pressed", chosen ? "true" : "false");
+        if (chosen) buttons[i].classList.add("is-chosen");
+      }
+
+      var thanks = document.getElementById("feedback-thanks");
+      thanks.textContent = "Thank you. You said this result feels “" + choice.toLowerCase() +
+                           "”. Your response helps us improve this tool.";
+      thanks.hidden = false;
+      live.textContent = thanks.textContent;
     }
   });
 
