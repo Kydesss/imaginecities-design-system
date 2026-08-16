@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
+import { DevToolbar } from '@/components/DevToolbar';
 import './tokens.css';
 import './globals.css';
 
@@ -52,7 +53,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        {/*
+          Development-only annotation toolbar, dynamically imported inside DevToolbar so
+          its code is not bundled into the pages residents load. See that file for why a
+          plain import plus a NODE_ENV check is not enough.
+
+          Licence note: agentation is PolyForm-Shield-1.0.0, not an OSI open-source
+          licence. Fine as internal tooling; worth knowing before it is treated as a
+          normal dependency of a handed-off project.
+        */}
+        <DevToolbar />
+      </body>
     </html>
   );
 }
