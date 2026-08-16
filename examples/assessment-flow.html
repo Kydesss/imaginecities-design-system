@@ -545,11 +545,12 @@
     </svg>
     <ol class="stage-list" id="stage-list"></ol>
 
-    <p class="reflection">
-      This result is a reflection, not a verdict. Every stage has a sensible next step,
-      and reaching Impasse is a step forward from the Waiting Place, because the problem
-      has become clear enough to act on.
-    </p>
+    <!-- Written per stage. A single line cannot do this job: the reassurance a Waiting
+         Place reader needs is not the one a Sustain & Renew reader needs, and the
+         previous copy explained Impasse to everyone, including the four stages it does
+         not apply to. Each version does the same two things: says this is not a
+         verdict, then names the actual risk or misreading at that stage. -->
+    <p class="reflection" id="stage-reflection"></p>
 
     <!-- ===== gated: the guidance ===== -->
     <div id="gate">
@@ -626,6 +627,7 @@
      ------------------------------------------------------------------ */
   var STAGES = {
     "waiting-place": {
+      reflection: "This result is a reflection, not a verdict. The Waiting Place is a starting point rather than a failure. The next move is not a big project, it is naming out loud what is not working, because a problem nobody can name is one nobody can act on.",
       name: "Waiting Place",
       summary: "Hope and shared confidence are low, and residents may be waiting for outside help rather than acting together.",
       why: "The neighbourhood may not yet have enough trust, connection, or leadership to turn concern into action.",
@@ -638,6 +640,7 @@
       ]
     },
     "impasse": {
+      reflection: "This result is a reflection, not a verdict. Impasse sounds like the worst news here, and it is not. It is a step forward from the Waiting Place, because the problem has become clear enough to act on. What is missing is a way to act together, not awareness.",
       name: "Impasse",
       summary: "Energy exists, but it has not yet turned into coordinated action.",
       why: "The problems are named and the urgency is real, which is further along than it feels. What is missing is a way to act together.",
@@ -650,6 +653,7 @@
       ]
     },
     "catalytic": {
+      reflection: "This result is a reflection, not a verdict. Something here is genuinely working. The risk at this stage is not failure, it is that scattered efforts stay scattered and fade quietly before they ever connect.",
       name: "Catalytic",
       summary: "There is energy to act, and some groups are already testing new approaches.",
       why: "Action exists, but it may still be scattered and not yet connected into a shared movement.",
@@ -662,6 +666,7 @@
       ]
     },
     "growth": {
+      reflection: "This result is a reflection, not a verdict. Momentum is real here, and momentum can hide who has been left out of it. The work at this stage is widening participation rather than protecting what already works.",
       name: "Growth",
       summary: "Your neighbourhood is building visible momentum, stronger connections, and a clearer sense of shared purpose.",
       why: "Residents and organizations are beginning to see steady progress and a stronger collective identity.",
@@ -674,6 +679,7 @@
       ]
     },
     "sustain-renew": {
+      reflection: "This result is a reflection, not a verdict. This stage is not an endpoint. Neighbourhoods move in both directions, and the risk here is comfort: leadership and shared vision need renewing before anyone notices they are missing.",
       name: "Sustain & Renew",
       summary: "There are strong assets, established leadership, and a shared capacity to respond to change.",
       why: "The neighbourhood has built enough structure and trust to adapt, but long-term momentum still needs care.",
@@ -819,6 +825,7 @@
     var s = STAGES[key];
     document.getElementById("stage-name").textContent = s.name;
     document.getElementById("stage-summary").textContent = s.summary;
+    document.getElementById("stage-reflection").textContent = s.reflection;
     document.getElementById("stage-why").textContent = s.why;
     document.getElementById("stage-focus").textContent = s.focus;
 
