@@ -336,6 +336,18 @@
   .next-steps li:last-child{border-bottom:1px solid rgba(36,37,37,.12);}
   .next-steps strong{display:block;}
 
+  /* ---- feedback ----
+     Distinguished by treatment, not by hue. Every colour on this page is carrying a
+     meaning from the emotion map, so adding a sixth ground here would weaken them all.
+     An outlined, unfilled block reads as a different kind of thing: the page stops
+     telling the reader something and starts asking. */
+  .feedback{
+    border:2px solid var(--charcoal);border-radius:var(--radius-surface);
+    padding:var(--sp-5);margin:var(--sp-6) 0 var(--sp-5);
+  }
+  .feedback h2{margin-top:0;}
+  .feedback .factor-name{color:var(--charcoal);}
+
   .scale{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin:0 0 var(--sp-4);}
   /* Once an answer is given the whole scale locks. The chosen button is filled Gold
      with a check mark, so selection is never carried by colour alone, and the others
@@ -747,15 +759,23 @@
       <ul class="next-steps" id="stage-steps"></ul>
     </div>
 
-    <h2 style="margin-top:var(--sp-6)">Does this result feel accurate?</h2>
-    <p class="muted">Your neighbourhood knows itself best. Let us know how well this reflects what you see.</p>
-    <div class="scale">
-      <button class="btn btn-quiet" data-feedback="Not accurate" aria-pressed="false">Not accurate</button>
-      <button class="btn btn-quiet" data-feedback="Somewhat accurate" aria-pressed="false">Somewhat accurate</button>
-      <button class="btn btn-quiet" data-feedback="Very accurate" aria-pressed="false">Very accurate</button>
-    </div>
-    <p class="muted" id="feedback-thanks" hidden>Thank you. Your response helps us improve this tool.</p>
+    <!-- Feedback is a different kind of thing from the result: it asks something of
+         the reader rather than telling them something. It is set apart by treatment
+         rather than by another colour, since every hue on this page already carries
+         meaning and a sixth would dilute them. Outlined, unfilled, and labelled. -->
+    <section class="feedback" aria-labelledby="h-feedback">
+      <p class="factor-name">Feedback</p>
+      <h2 id="h-feedback">Does this result feel accurate?</h2>
+      <p class="muted">Your neighbourhood knows itself best. Let us know how well this reflects what you see.</p>
+      <div class="scale">
+        <button class="btn btn-quiet" data-feedback="Not accurate" aria-pressed="false">Not accurate</button>
+        <button class="btn btn-quiet" data-feedback="Somewhat accurate" aria-pressed="false">Somewhat accurate</button>
+        <button class="btn btn-quiet" data-feedback="Very accurate" aria-pressed="false">Very accurate</button>
+      </div>
+      <p class="muted" id="feedback-thanks" hidden>Thank you. Your response helps us improve this tool.</p>
+    </section>
 
+    <!-- Outside the feedback block: starting over is navigation, not feedback. -->
     <div class="actions">
       <button class="btn btn-primary" data-go="start">Start over</button>
     </div>
