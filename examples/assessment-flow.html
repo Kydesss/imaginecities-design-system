@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neighbourhood Adaptability Assessment</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+
+<!--
+  ============================================================================
+  REFERENCE PROTOTYPE — the assessment flow, built from the design system.
+  Not production. No backend, no data is stored or sent anywhere.
+  ============================================================================
+
+  SCORING IS A PLACEHOLDER. See scoreToStage() near the bottom. It is isolated in
+  one function with one table so the real methodology can be dropped in without
+  touching anything else. Until then the result shown is NOT a real diagnosis.
+
+  PREVIEW ANY RESULT: append ?stage=waiting-place | impasse | catalytic | growth |
+  sustain-renew to jump straight to that result screen. For reviewing copy.
+
+  COPY PROVENANCE: question and result text marked [verbatim] was extracted from the
+  published build. Text marked [reconstructed] could not be recovered from the bundle
+  and is written to match the surrounding voice — replace it with the real copy.
+  Spelling normalised to Canadian (-ize), per the brand's own usage.
+
+  FRAMEWORK: the five STAGES are the Harwood Institute's. The five FACTORS are
+  Imagine Cities' own; the Harwood report assesses nine differently-named factors,
+  and two of ours appear nowhere in it. Do not reattribute.
+
+  EMAIL GATE: placed before the result, matching the current tool, per direction.
+  The marketing consent is unbundled into its own unticked checkbox, which is the
+  minimum needed to avoid bundled consent under CASL. The open question of whether
+  the gate should move after the result stays in the punch list.
+
+  ACCESSIBILITY implemented here: fieldset/legend per question, native radios so
+  arrow keys work, selection indicated by mark and border rather than colour alone,
+  visible focus, text progress, focus moved to the step heading on change, errors
+  associated via aria-describedby and announced in a live region, 24px+ targets,
+  reflow to 320px, reduced-motion honoured.
+
+  COLOUR: every pairing is one the v2.0.1 chart clears at the size used. Gold and
+  Fresh Green are surfaces, never text. Errors use Bold Red #C73124, not the
+  shadcn default the current build ships.
+-->
+<style>
+  :root {
+    --gold:#FFB827; --deep-azure:#0656BF; --serene-white:#F5F7F2; --charcoal:#242525;
+    --forest-green:#527302; --fresh-green:#C6FDC2; --bold-red:#C73124;
+    --gold-20:#F7EAC9; --azure-20:#C5D6E7; --forest-20:#D4DCC1;
+
+    --font:"Poppins","Roboto",sans-serif;
+    --w-regular:400; --w-medium:500; --w-semibold:600; --w-bold:700;
+
+    /* PROPOSED, not brand */
+    --sp-1:4px; --sp-2:8px; --sp-3:16px; --sp-4:24px; --sp-5:40px; --sp-6:64px;
+    --radius-pill:999px; --radius-surface:12px;
+    --ease:cubic-bezier(0.22,1,0.36,1);
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--serene-white); color:var(--charcoal);
+    font-family:var(--font); font-size:16px; line-height:1.4;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 var(--sp-4);}
+
+  header.bar{
+    border-bottom:1px solid rgba(36,37,37,.12);
+    padding:var(--sp-3) 0; margin-bottom:var(--sp-5);
+  }
+  header.bar img{height:30px;width:auto;display:block;}
+
+  h1{font-size:34px;font-weight:var(--w-bold);line-height:1.2;letter-spacing:-.02em;margin:0 0 var(--sp-4);}
+  h2{font-size:20px;font-weight:var(--w-semibold);line-height:1.3;margin:0 0 var(--sp-3);}
+  p{margin:0 0 var(--sp-3);max-width:62ch;}
+  .muted{font-size:14px;}
+
+  /* ---- progress ---- */
+  .progress{font-size:14px;font-weight:var(--w-semibold);margin:0 0 var(--sp-3);}
+
+  /* ---- steps ---- */
+  .step{display:none;}
+  .step.active{display:block;}
+  .step:focus{outline:none;}
+
+  /* ---- questions ---- */
+  fieldset{border:0;margin:0;padding:0;}
+  legend{
+    font-size:20px;font-weight:var(--w-semibold);line-height:1.3;
+    margin:0 0 var(--sp-4);padding:0;max-width:40ch;
+  }
+  .factor-name{
+    font-size:11px;font-weight:var(--w-bold);letter-spacing:.06em;
+    color:var(--forest-green);margin:0 0 var(--sp-2);
+  }
+  .options{display:grid;gap:var(--sp-3);margin:0 0 var(--sp-4);}
+  .option{position:relative;}
+  .option input{
+    position:absolute;top:18px;left:18px;width:20px;height:20px;margin:0;
+    accent-color:var(--charcoal);
+  }
+  .option label{
+    display:block;padding:var(--sp-3) var(--sp-3) var(--sp-3) 52px;
+    border:2px solid rgba(36,37,37,.25);border-radius:var(--radius-surface);
+    background:transparent;cursor:pointer;min-height:44px;
+    transition:border-color 120ms var(--ease), background-color 120ms var(--ease);
+  }
+  .option label:hover{border-color:var(--charcoal);}
+  .option input:focus-visible + label{outline:3px solid var(--charcoal);outline-offset:2px;}
+  /* Selection is shown by border weight, background AND a check mark, never colour alone */
+  .option input:checked + label{border-color:var(--charcoal);background:var(--gold-20);}
+  .option input:checked + label .tick{opacity:1;}
+  .option .tick{
+    position:absolute;right:var(--sp-3);top:50%;transform:translateY(-50%);
+    opacity:0;font-weight:var(--w-bold);
+  }
+  .option .short{display:block;font-weight:var(--w-semibold);margin-bottom:2px;}
+  .option .long{display:block;font-size:14px;}
+
+  /* ---- buttons ---- */
+  .actions{display:flex;gap:var(--sp-3);align-items:center;flex-wrap:wrap;margin-top:var(--sp-4);}
+  .btn{
+    font-family:var(--font);font-size:16px;font-weight:var(--w-medium);line-height:1.5;
+    border-radius:var(--radius-pill);padding:.75em 1.5em;border:none;cursor:pointer;
+    min-height:44px;text-decoration:none;display:inline-flex;align-items:center;gap:.5em;
+    transition:background-color 140ms var(--ease),color 140ms var(--ease);
+  }
+  .btn-primary{background:var(--gold);color:var(--charcoal);}
+  .btn-primary:hover{background:var(--charcoal);color:var(--gold);}
+  .btn-quiet{background:transparent;color:var(--charcoal);border:2px solid rgba(36,37,37,.3);}
+  .btn-quiet:hover{border-color:var(--charcoal);}
+  .btn:focus-visible{outline:3px solid var(--charcoal);outline-offset:3px;}
+
+  /* ---- fields ---- */
+  .field{margin:0 0 var(--sp-4);max-width:420px;}
+  .field label{display:block;font-weight:var(--w-semibold);margin-bottom:var(--sp-2);}
+  .field .hint{font-size:14px;margin:0 0 var(--sp-2);}
+  .field input[type=text],.field input[type=email]{
+    width:100%;font-family:var(--font);font-size:16px;padding:.7em .8em;
+    border:2px solid rgba(36,37,37,.35);border-radius:8px;background:transparent;color:var(--charcoal);
+    min-height:44px;
+  }
+  .field input:focus-visible{outline:3px solid var(--charcoal);outline-offset:2px;border-color:var(--charcoal);}
+  .field input[aria-invalid="true"]{border-color:var(--bold-red);}
+
+  .consent{display:flex;gap:var(--sp-2);align-items:flex-start;max-width:52ch;margin:0 0 var(--sp-4);}
+  .consent input{margin-top:3px;width:20px;height:20px;accent-color:var(--charcoal);}
+  .consent label{font-size:14px;}
+
+  /* Error text is Charcoal on Serene White for readability; Bold Red is the marker.
+     Red text on near-white is only 5.0:1 and the brand restricts it, so the colour
+     carries the icon and border, not the sentence. */
+  .error{
+    display:none;margin:0 0 var(--sp-3);font-size:14px;font-weight:var(--w-semibold);
+    padding-left:var(--sp-3);border-left:none;
+  }
+  .error::before{content:"! ";color:var(--bold-red);font-weight:var(--w-bold);}
+  .error.show{display:block;}
+
+  /* ---- result ---- */
+  .result-band{
+    background:var(--gold-20);border-radius:var(--radius-surface);
+    padding:var(--sp-5);margin:0 0 var(--sp-5);
+  }
+  .result-band h1{margin-bottom:var(--sp-3);}
+  .reflection{
+    background:var(--fresh-green);border-radius:var(--radius-surface);
+    padding:var(--sp-4);margin:0 0 var(--sp-5);font-weight:var(--w-semibold);
+  }
+  .stage-list{list-style:none;margin:var(--sp-4) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:var(--sp-2);}
+  .stage-list li{padding-top:var(--sp-2);border-top:3px solid rgba(36,37,37,.25);font-size:14px;}
+  .stage-list li[aria-current="step"]{border-top-color:var(--charcoal);font-weight:var(--w-semibold);}
+  .next-steps{list-style:none;margin:0;padding:0;}
+  .next-steps li{padding:var(--sp-3) 0;border-top:1px solid rgba(36,37,37,.12);}
+  .next-steps li:last-child{border-bottom:1px solid rgba(36,37,37,.12);}
+  .next-steps strong{display:block;}
+
+  .scale{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin:0 0 var(--sp-4);}
+
+  footer{border-top:1px solid rgba(36,37,37,.12);margin-top:var(--sp-6);padding:var(--sp-4) 0 var(--sp-6);font-size:14px;}
+  footer a{color:var(--deep-azure);}
+
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0 0 0 0);white-space:nowrap;border:0;
+  }
+
+  @media (max-width:560px){
+    h1{font-size:26px;}
+    legend{font-size:18px;}
+    .stage-list{grid-template-columns:1fr 1fr;}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none !important;}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <img src="../assets/logos/primary-logo-black.png" alt="Imagine Cities">
+  </div>
+</header>
+
+<main class="wrap" id="main">
+
+  <!-- announcements for assistive tech -->
+  <p class="sr-only" role="status" aria-live="polite" id="live"></p>
+
+  <!-- ===== step 0: start ===== -->
+  <section class="step active" id="step-start" tabindex="-1" aria-labelledby="h-start">
+    <h1 id="h-start">Neighbourhood Adaptability Assessment</h1>
+    <p>
+      Five questions, about five minutes. You get an understanding of where your
+      neighbourhood stands today, and what to do about it.
+    </p>
+    <p class="muted">
+      There are no right answers, and nothing here is a score. Answer from what you see
+      around you.
+    </p>
+    <div class="actions">
+      <button class="btn btn-primary" data-go="context">Start the assessment</button>
+    </div>
+  </section>
+
+  <!-- ===== step 1: optional context ===== -->
+  <section class="step" id="step-context" tabindex="-1" aria-labelledby="h-context">
+    <p class="progress">Step 1 of 7</p>
+    <h1 id="h-context">Tell us about your neighbourhood</h1>
+    <!-- [verbatim] -->
+    <p>This helps us understand the local context behind your assessment. This is optional.</p>
+    <div class="field">
+      <label for="postal">Postal code (optional)</label>
+      <input type="text" id="postal" name="postal" autocomplete="postal-code"
+             inputmode="text" maxlength="7">
+    </div>
+    <div class="field">
+      <label for="hood">Neighbourhood name (optional)</label>
+      <input type="text" id="hood" name="hood" autocomplete="address-level3">
+    </div>
+    <p class="muted">
+      We use this to understand where our tools are being used, and to improve them.
+    </p>
+    <div class="actions">
+      <button class="btn btn-primary" data-go="q1">Continue</button>
+      <button class="btn btn-quiet" data-go="q1">Skip</button>
+    </div>
+  </section>
+
+  <!-- ===== steps 2-6: the five factors ===== -->
+  <!-- Question and option text [verbatim] except where noted. -->
+  <section class="step" id="step-q1" tabindex="-1" aria-labelledby="h-q1">
+    <p class="progress">Step 2 of 7</p>
+    <form data-q="1">
+      <fieldset>
+        <p class="factor-name">Factor 1 of 5 &middot; Hope and optimism</p>
+        <legend id="h-q1">How do most people in your neighbourhood feel about solving local problems?</legend>
+        <p class="error" id="err-1">Select an answer to continue.</p>
+        <div class="options" role="none">
+          <div class="option">
+            <input type="radio" id="q1a" name="q1" value="1" aria-describedby="err-1">
+            <label for="q1a"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Low collective confidence</span>
+              <span class="long">Most people feel powerless and believe that local problems cannot be solved by residents.</span>
+            </label>
+          </div>
+          <div class="option">
+            <input type="radio" id="q1b" name="q1" value="2" aria-describedby="err-1">
+            <label for="q1b"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Frustrated but not moving yet</span>
+              <span class="long">Most people recognize the problems exist, but collective action feels stalled.</span>
+            </label>
+          </div>
+          <div class="option">
+            <input type="radio" id="q1c" name="q1" value="3" aria-describedby="err-1">
+            <label for="q1c"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Strong collective belief</span>
+              <span class="long">Most people are optimistic that local residents can identify problems and implement solutions.</span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+      <div class="actions">
+        <button type="button" class="btn btn-quiet" data-go="context">Back</button>
+        <button type="button" class="btn btn-primary" data-next="1" data-go="q2">Next question</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="step" id="step-q2" tabindex="-1" aria-labelledby="h-q2">
+    <p class="progress">Step 3 of 7</p>
+    <form data-q="2">
+      <fieldset>
+        <p class="factor-name">Factor 2 of 5 &middot; Collaboration</p>
+        <legend id="h-q2">How do residents typically collaborate when addressing neighbourhood issues or small projects?</legend>
+        <p class="error" id="err-2">Select an answer to continue.</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="q2a" name="q2" value="1" aria-describedby="err-2">
+            <label for="q2a"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Limited connection</span>
+              <span class="long">People mostly keep to themselves, with little to no connection or collaboration between neighbours.</span>
+            </label>
+          </div>
+          <div class="option">
+            <input type="radio" id="q2b" name="q2" value="2" aria-describedby="err-2">
+            <label for="q2b"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Occasional collaboration</span>
+              <span class="long">Small groups occasionally form to tackle minor neighbourhood issues, but efforts are short-lived.</span>
+            </label>
+          </div>
+          <div class="option">
+            <input type="radio" id="q2c" name="q2" value="3" aria-describedby="err-2">
+            <label for="q2c"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Regular collaboration</span>
+              <!-- [reconstructed] the third option's full text was not recoverable -->
+              <span class="long">Residents and groups work together regularly, and efforts carry on beyond a single project.</span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+      <div class="actions">
+        <button type="button" class="btn btn-quiet" data-go="q1">Back</button>
+        <button type="button" class="btn btn-primary" data-next="2" data-go="q3">Next question</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="step" id="step-q3" tabindex="-1" aria-labelledby="h-q3">
+    <p class="progress">Step 4 of 7</p>
+    <form data-q="3">
+      <fieldset>
+        <p class="factor-name">Factor 3 of 5 &middot; Leadership</p>
+        <legend id="h-q3">How does leadership show up within your neighbourhood?</legend>
+        <p class="error" id="err-3">Select an answer to continue.</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="q3a" name="q3" value="1" aria-describedby="err-3">
+            <label for="q3a"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Passive leadership</span>
+              <span class="long">Leadership is absent or passive, and residents wait for someone external to solve local problems.</span>
+            </label>
+          </div>
+          <div class="option">
+            <input type="radio" id="q3b" name="q3" value="2" aria-describedby="err-3">
+            <label for="q3b"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Emerging leadership</span>
+              <span class="long">A few individuals or groups are stepping up, but leadership remains limited, informal, or inconsistent.</span>
+            </label>
+          </div>
+          <div class="option">
+            <input type="radio" id="q3c" name="q3" value="3" aria-describedby="err-3">
+            <label for="q3c"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Shared leadership</span>
+              <span class="long">Leadership is visible across levels, with people and organizations working together toward shared goals.</span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+      <div class="actions">
+        <button type="button" class="btn btn-quiet" data-go="q2">Back</button>
+        <button type="button" class="btn btn-primary" data-next="3" data-go="q4">Next question</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="step" id="step-q4" tabindex="-1" aria-labelledby="h-q4">
+    <p class="progress">Step 5 of 7</p>
+    <form data-q="4">
+      <fieldset>
+        <p class="factor-name">Factor 4 of 5 &middot; Progress</p>
+        <legend id="h-q4">In the last year, how many visible and tangible achievements have residents experienced or benefited from?</legend>
+        <p class="error" id="err-4">Select an answer to continue.</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="q4a" name="q4" value="1" aria-describedby="err-4">
+            <label for="q4a"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">No visible progress</span>
+              <span class="long">There are no visible changes or achievements that most residents can identify.</span>
+            </label>
+          </div>
+          <div class="option">
+            <input type="radio" id="q4b" name="q4" value="2" aria-describedby="err-4">
+            <label for="q4b"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Some isolated wins</span>
+              <span class="long">There have been a couple of successes, but they are not widely visible or experienced across the neighbourhood.</span>
+            </label>
+          </div>
+          <div class="option">
+            <input type="radio" id="q4c" name="q4" value="3" aria-describedby="err-4">
+            <label for="q4c"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Visible momentum</span>
+              <span class="long">There are several visible improvements experienced by a growing number of residents.</span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+      <div class="actions">
+        <button type="button" class="btn btn-quiet" data-go="q3">Back</button>
+        <button type="button" class="btn btn-primary" data-next="4" data-go="q5">Next question</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="step" id="step-q5" tabindex="-1" aria-labelledby="h-q5">
+    <p class="progress">Step 6 of 7</p>
+    <form data-q="5">
+      <fieldset>
+        <p class="factor-name">Factor 5 of 5 &middot; Resilience</p>
+        <legend id="h-q5">What is your neighbourhood's capacity to adapt and continue solving future problems?</legend>
+        <p class="error" id="err-5">Select an answer to continue.</p>
+        <div class="options">
+          <div class="option">
+            <input type="radio" id="q5a" name="q5" value="1" aria-describedby="err-5">
+            <label for="q5a"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">No shared vision</span>
+              <span class="long">There is no tangible, shared vision for the future.</span>
+            </label>
+          </div>
+          <div class="option">
+            <input type="radio" id="q5b" name="q5" value="2" aria-describedby="err-5">
+            <label for="q5b"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Ideas not yet aligned</span>
+              <!-- [reconstructed] -->
+              <span class="long">People have ideas about the future, but they have not been brought together into a shared direction.</span>
+            </label>
+          </div>
+          <div class="option">
+            <input type="radio" id="q5c" name="q5" value="3" aria-describedby="err-5">
+            <label for="q5c"><span class="tick" aria-hidden="true">&#10003;</span>
+              <span class="short">Adaptive shared vision</span>
+              <!-- [reconstructed] -->
+              <span class="long">There is a shared vision that residents can adapt as circumstances change.</span>
+            </label>
+          </div>
+        </div>
+      </fieldset>
+      <div class="actions">
+        <button type="button" class="btn btn-quiet" data-go="q4">Back</button>
+        <button type="button" class="btn btn-primary" data-next="5" data-go="email">See my result</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ===== step 7: email ===== -->
+  <section class="step" id="step-email" tabindex="-1" aria-labelledby="h-email">
+    <p class="progress">Step 7 of 7</p>
+    <h1 id="h-email">All five factors captured</h1>
+    <p>
+      Enter your email to view your result and receive a copy of your stage explanation
+      and recommended next steps.
+    </p>
+    <form id="email-form" novalidate>
+      <div class="field">
+        <label for="email">Email address</label>
+        <p class="hint" id="email-hint">We send your result to this address.</p>
+        <p class="error" id="err-email">Enter an email address so we can send your result.</p>
+        <input type="email" id="email" name="email" autocomplete="email"
+               inputmode="email" aria-describedby="email-hint err-email" required>
+      </div>
+      <!-- Consent unbundled: viewing the result does not depend on this box. -->
+      <div class="consent">
+        <input type="checkbox" id="optin" name="optin">
+        <label for="optin">
+          Also send me related resources from Imagine Cities. You can unsubscribe at any
+          time. Leaving this unticked will not affect your result.
+        </label>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-quiet" data-go="q5">Back</button>
+        <button type="submit" class="btn btn-primary">View my result</button>
+      </div>
+    </form>
+    <p class="muted" style="margin-top:var(--sp-4)">
+      This is a prototype. Nothing you enter is stored or sent.
+    </p>
+  </section>
+
+  <!-- ===== result ===== -->
+  <section class="step" id="step-result" tabindex="-1" aria-labelledby="h-result">
+    <div class="result-band">
+      <p class="factor-name" style="color:var(--charcoal)">Where your neighbourhood is now</p>
+      <h1 id="h-result">Your neighbourhood is in the <span id="stage-name"></span> stage</h1>
+      <p id="stage-summary"></p>
+      <ol class="stage-list" id="stage-list"></ol>
+    </div>
+
+    <!-- The framework's own position, placed beside the result rather than two screens later -->
+    <p class="reflection">
+      This result is a reflection, not a verdict. Neighbourhoods move along this spectrum
+      in both directions, and every stage has a sensible next step.
+    </p>
+
+    <h2>Why you are in this stage</h2>
+    <p id="stage-why"></p>
+
+    <h2>What to focus on next</h2>
+    <p id="stage-focus"></p>
+    <ul class="next-steps" id="stage-steps"></ul>
+
+    <h2 style="margin-top:var(--sp-6)">Does this result feel accurate?</h2>
+    <p class="muted">Your neighbourhood knows itself best. Let us know how well this reflects what you see.</p>
+    <div class="scale">
+      <button class="btn btn-quiet" data-feedback="Not accurate">Not accurate</button>
+      <button class="btn btn-quiet" data-feedback="Somewhat accurate">Somewhat accurate</button>
+      <button class="btn btn-quiet" data-feedback="Very accurate">Very accurate</button>
+    </div>
+    <p class="muted" id="feedback-thanks" hidden>Thank you. Your response helps us improve this tool.</p>
+
+    <div class="actions">
+      <button class="btn btn-primary" data-go="start">Start over</button>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>
+    The five stages come from the Harwood Institute's Stages of Community Life, part of
+    their Community Rhythms research. The five factors are Imagine Cities' own.
+  </p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ------------------------------------------------------------------
+     STAGE CONTENT. Descriptions marked [verbatim] came from the build.
+     ------------------------------------------------------------------ */
+  var STAGES = {
+    "waiting-place": {
+      name: "Waiting Place",
+      summary: "Hope and shared confidence are low, and residents may be waiting for outside help rather than acting together.",
+      why: "The neighbourhood may not yet have enough trust, connection, or leadership to turn concern into action.",
+      focus: "Start by building relationships, trust, and small signs that local action is possible.",
+      steps: [
+        ["Build one real relationship", "Start with a single neighbour or group, not a committee."],
+        ["Show that action is possible", "Pick something small enough to finish and visible enough to notice."],
+        ["Find a willing anchor", "One person or organization willing to host or convene changes what is possible."],
+        ["Create a reason to gather", "People need somewhere to meet before they can decide anything together."]
+      ]
+    },
+    "impasse": {
+      name: "Impasse",
+      summary: "Energy exists, but it has not yet turned into coordinated action.",
+      why: "The problems are named and the urgency is real, which is further along than it feels. What is missing is a way to act together.",
+      focus: "Turn frustration into small visible wins and emerging leadership.",
+      steps: [
+        ["Surface shared frustration", "Name the problem publicly so people discover they are not alone in it."],
+        ["Create a visible win", "One completed thing does more for belief than any amount of planning."],
+        ["Support a willing leader", "Back the person already trying, rather than waiting for a better candidate."],
+        ["Find common ground", "Start where interests overlap, not where they conflict."]
+      ]
+    },
+    "catalytic": {
+      name: "Catalytic",
+      summary: "There is energy to act, and some groups are already testing new approaches.",
+      why: "Action exists, but it may still be scattered and not yet connected into a shared movement.",
+      focus: "Connect isolated efforts, support emerging leaders, and turn small wins into shared momentum.",
+      steps: [
+        ["Connect existing efforts", "The groups already working often do not know about each other."],
+        ["Make small wins visible", "Progress that nobody hears about does not build belief."],
+        ["Support emerging leadership", "Give new leaders something real to lead."],
+        ["Build a shared story", "A common account of what is happening is what holds efforts together."]
+      ]
+    },
+    "growth": {
+      name: "Growth",
+      summary: "Your neighbourhood is building visible momentum, stronger connections, and a clearer sense of shared purpose.",
+      why: "Residents and organizations are beginning to see steady progress and a stronger collective identity.",
+      focus: "Broaden participation, share the benefits of progress, and prepare for deeper long-term challenges.",
+      steps: [
+        ["Broaden participation", "Reach the people and blocks that momentum has not touched yet."],
+        ["Share credit and progress", "Widely shared credit is what keeps participation growing."],
+        ["Develop new leaders", "The people who started this cannot carry it indefinitely."],
+        ["Prepare for complexity", "The next set of problems will be harder than the last."]
+      ]
+    },
+    "sustain-renew": {
+      name: "Sustain & Renew",
+      summary: "There are strong assets, established leadership, and a shared capacity to respond to change.",
+      why: "The neighbourhood has built enough structure and trust to adapt, but long-term momentum still needs care.",
+      focus: "Cultivate new leaders, renew networks, address deeper issues, and avoid stagnation.",
+      steps: [
+        ["Renew your leadership pipeline", "Bring in people who were not part of the original push."],
+        ["Revisit your shared vision", "What the neighbourhood wanted five years ago may not be what it wants now."],
+        ["Address deeper issues", "The capacity now exists for problems that were previously out of reach."],
+        ["Protect against stagnation", "Comfort is the main risk at this stage."]
+      ]
+    }
+  };
+  var ORDER = ["waiting-place", "impasse", "catalytic", "growth", "sustain-renew"];
+
+  /* ==================================================================
+     >>> PLACEHOLDER SCORING. REPLACE THIS FUNCTION. <<<
+
+     The real methodology is internal to the existing tool and was not
+     available when this prototype was built. Everything else here is
+     independent of it: swap the body of this function and the rest of
+     the flow is unaffected.
+
+     Current stand-in: each answer scores 1-3, giving a total of 5-15,
+     split into five even bands. This is arithmetic, NOT methodology.
+     It is almost certainly not how the real tool decides, and no result
+     it produces should be shown to a real user or quoted to anyone.
+     ================================================================== */
+  function scoreToStage(answers) {
+    var total = answers.reduce(function (a, b) { return a + b; }, 0); // 5..15
+    if (total <= 6)  return "waiting-place";
+    if (total <= 8)  return "impasse";
+    if (total <= 11) return "catalytic";
+    if (total <= 13) return "growth";
+    return "sustain-renew";
+  }
+  /* ================= end of replaceable scoring ===================== */
+
+  var answers = {};
+  var live = document.getElementById("live");
+
+  function show(id) {
+    var steps = document.querySelectorAll(".step");
+    for (var i = 0; i < steps.length; i++) steps[i].classList.remove("active");
+    var el = document.getElementById("step-" + id);
+    el.classList.add("active");
+    // Move focus to the step so screen readers land on the new heading, and
+    // announce the change for anyone not tracking focus.
+    el.focus();
+    var heading = el.querySelector("h1, legend");
+    if (heading) live.textContent = heading.textContent;
+    window.scrollTo(0, 0);
+  }
+
+  function validate(q) {
+    var picked = document.querySelector('input[name="q' + q + '"]:checked');
+    var err = document.getElementById("err-" + q);
+    if (!picked) {
+      err.classList.add("show");
+      live.textContent = err.textContent;
+      var first = document.querySelector('input[name="q' + q + '"]');
+      if (first) first.focus();
+      return false;
+    }
+    err.classList.remove("show");
+    answers[q] = parseInt(picked.value, 10);
+    return true;
+  }
+
+  function renderResult(key) {
+    var s = STAGES[key];
+    document.getElementById("stage-name").textContent = s.name;
+    document.getElementById("stage-summary").textContent = s.summary;
+    document.getElementById("stage-why").textContent = s.why;
+    document.getElementById("stage-focus").textContent = s.focus;
+
+    var stepsEl = document.getElementById("stage-steps");
+    stepsEl.innerHTML = "";
+    s.steps.forEach(function (pair) {
+      var li = document.createElement("li");
+      var strong = document.createElement("strong");
+      strong.textContent = pair[0];
+      var span = document.createElement("span");
+      span.textContent = pair[1];
+      li.appendChild(strong); li.appendChild(span);
+      stepsEl.appendChild(li);
+    });
+
+    // The five stages, current one marked. Equal weight: not a progress bar.
+    var listEl = document.getElementById("stage-list");
+    listEl.innerHTML = "";
+    ORDER.forEach(function (k) {
+      var li = document.createElement("li");
+      li.textContent = STAGES[k].name;
+      if (k === key) {
+        li.setAttribute("aria-current", "step");
+        var sr = document.createElement("span");
+        sr.className = "sr-only";
+        sr.textContent = " (your result)";
+        li.appendChild(sr);
+      }
+      listEl.appendChild(li);
+    });
+  }
+
+  // navigation
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-go]");
+    if (t) {
+      var q = t.getAttribute("data-next");
+      if (q && !validate(q)) return;
+      if (t.getAttribute("data-go") === "start") {
+        answers = {};
+        var forms = document.querySelectorAll("form");
+        for (var i = 0; i < forms.length; i++) forms[i].reset();
+        document.getElementById("feedback-thanks").hidden = true;
+      }
+      show(t.getAttribute("data-go"));
+      return;
+    }
+    var fb = e.target.closest("[data-feedback]");
+    if (fb) {
+      document.getElementById("feedback-thanks").hidden = false;
+      live.textContent = "Thank you. Your response helps us improve this tool.";
+    }
+  });
+
+  // clearing an error as soon as the user answers
+  document.addEventListener("change", function (e) {
+    if (e.target.name && /^q[1-5]$/.test(e.target.name)) {
+      var err = document.getElementById("err-" + e.target.name.slice(1));
+      if (err) err.classList.remove("show");
+    }
+  });
+
+  document.getElementById("email-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var input = document.getElementById("email");
+    var err = document.getElementById("err-email");
+    var value = input.value.trim();
+    if (!value || value.indexOf("@") < 1 || value.lastIndexOf(".") < value.indexOf("@")) {
+      err.classList.add("show");
+      input.setAttribute("aria-invalid", "true");
+      live.textContent = err.textContent;
+      input.focus();
+      return;
+    }
+    err.classList.remove("show");
+    input.removeAttribute("aria-invalid");
+
+    var list = [1, 2, 3, 4, 5].map(function (n) { return answers[n] || 1; });
+    renderResult(scoreToStage(list));
+    show("result");
+  });
+
+  // ?stage=... jumps straight to a result, for reviewing copy
+  var m = /[?&]stage=([a-z-]+)/.exec(window.location.search);
+  if (m && STAGES[m[1]]) { renderResult(m[1]); show("result"); }
+})();
+</script>
+</body>
+</html>
