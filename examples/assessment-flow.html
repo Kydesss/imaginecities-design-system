@@ -82,7 +82,7 @@
   }
   main{flex:1 0 auto;}
   footer{flex-shrink:0;}
-  .wrap{max-width:720px;margin:0 auto;padding:0 var(--sp-4);}
+  .wrap{max-width:720px;margin:0 auto;padding-left:var(--sp-4);padding-right:var(--sp-4);}
   /* Must come after .wrap and match it on specificity, or the shorthand padding above
      resets the bottom padding to zero. */
   main.wrap{padding-bottom:var(--sp-7);}
@@ -104,8 +104,22 @@
   p{margin:0 0 var(--sp-3);max-width:62ch;}
   .muted{font-size:14px;}
 
-  /* ---- progress ---- */
-  .progress{font-size:14px;font-weight:var(--w-semibold);margin:0 0 var(--sp-3);}
+  /* ---- progress ----
+     A five-segment bar above the text label. Unlike the stage spectrum this IS a
+     sequence with a fixed direction, so a filling bar is honest here. It stays
+     aria-hidden: "Question 3 of 5" already says the same thing, and duplicating it
+     would just make screen readers repeat themselves. */
+  .qbar{
+    list-style:none;display:grid;grid-template-columns:repeat(5,1fr);
+    gap:var(--sp-1);margin:0 0 var(--sp-3);padding:0;
+  }
+  .qbar li{
+    height:6px;border-radius:var(--radius-pill);
+    background:var(--gold-20);              /* remaining */
+  }
+  .qbar li.is-done{background:var(--charcoal);}
+  .qbar li.is-current{background:var(--gold);}
+  .progress{font-size:14px;font-weight:var(--w-semibold);margin:0 0 var(--sp-4);}
 
   /* ---- steps ---- */
   .step{display:none;}
@@ -243,7 +257,9 @@
   /* One mechanism for the gap: main's padding-bottom. Padding does not collapse, so
      the distance is predictable, unlike a margin here which would silently merge with
      whatever the last block happens to carry. */
-  footer{border-top:1px solid rgba(36,37,37,.12);padding:var(--sp-5) 0 var(--sp-6);font-size:14px;}
+  /* Longhands only. A padding shorthand here loses to .wrap's, which is a class and
+     outranks this element selector, so the vertical padding was silently zeroed. */
+  footer{border-top:1px solid rgba(36,37,37,.12);padding-top:var(--sp-6);padding-bottom:var(--sp-7);font-size:14px;}
   footer a{color:var(--deep-azure);}
 
   .sr-only{
@@ -319,10 +335,11 @@
   <!-- ===== steps 2-6: the five factors ===== -->
   <!-- Question and option text [verbatim] except where noted. -->
   <section class="step" id="step-q1" tabindex="-1" aria-labelledby="h-q1">
-    <p class="progress">Question 1 of 5</p>
+    <ol class="qbar" data-current="1" aria-hidden="true"></ol>
+      <p class="progress">Question 1 of 5</p>
     <form data-q="1">
       <fieldset>
-        <p class="factor-name">Factor 1 of 5 &middot; Hope and optimism</p>
+        <p class="factor-name">Hope and optimism</p>
         <legend id="h-q1">How do most people in your neighbourhood feel about solving local problems?</legend>
         <p class="error" id="err-1">Select an answer to continue.</p>
         <div class="options" role="none">
@@ -357,10 +374,11 @@
   </section>
 
   <section class="step" id="step-q2" tabindex="-1" aria-labelledby="h-q2">
-    <p class="progress">Question 2 of 5</p>
+    <ol class="qbar" data-current="2" aria-hidden="true"></ol>
+      <p class="progress">Question 2 of 5</p>
     <form data-q="2">
       <fieldset>
-        <p class="factor-name">Factor 2 of 5 &middot; Collaboration</p>
+        <p class="factor-name">Collaboration</p>
         <legend id="h-q2">How do residents typically collaborate when addressing neighbourhood issues or small projects?</legend>
         <p class="error" id="err-2">Select an answer to continue.</p>
         <div class="options">
@@ -396,10 +414,11 @@
   </section>
 
   <section class="step" id="step-q3" tabindex="-1" aria-labelledby="h-q3">
-    <p class="progress">Question 3 of 5</p>
+    <ol class="qbar" data-current="3" aria-hidden="true"></ol>
+      <p class="progress">Question 3 of 5</p>
     <form data-q="3">
       <fieldset>
-        <p class="factor-name">Factor 3 of 5 &middot; Leadership</p>
+        <p class="factor-name">Leadership</p>
         <legend id="h-q3">How does leadership show up within your neighbourhood?</legend>
         <p class="error" id="err-3">Select an answer to continue.</p>
         <div class="options">
@@ -434,10 +453,11 @@
   </section>
 
   <section class="step" id="step-q4" tabindex="-1" aria-labelledby="h-q4">
-    <p class="progress">Question 4 of 5</p>
+    <ol class="qbar" data-current="4" aria-hidden="true"></ol>
+      <p class="progress">Question 4 of 5</p>
     <form data-q="4">
       <fieldset>
-        <p class="factor-name">Factor 4 of 5 &middot; Progress</p>
+        <p class="factor-name">Progress</p>
         <legend id="h-q4">In the last year, how many visible and tangible achievements have residents experienced or benefited from?</legend>
         <p class="error" id="err-4">Select an answer to continue.</p>
         <div class="options">
@@ -472,10 +492,11 @@
   </section>
 
   <section class="step" id="step-q5" tabindex="-1" aria-labelledby="h-q5">
-    <p class="progress">Question 5 of 5</p>
+    <ol class="qbar" data-current="5" aria-hidden="true"></ol>
+      <p class="progress">Question 5 of 5</p>
     <form data-q="5">
       <fieldset>
-        <p class="factor-name">Factor 5 of 5 &middot; Resilience</p>
+        <p class="factor-name">Resilience</p>
         <legend id="h-q5">What is your neighbourhood's capacity to adapt and continue solving future problems?</legend>
         <p class="error" id="err-5">Select an answer to continue.</p>
         <div class="options">
@@ -816,6 +837,20 @@
 
   var answers = {};
   var live = document.getElementById("live");
+
+  // Fill the five-segment bar on each question screen. Done, current, remaining.
+  (function buildProgressBars() {
+    var bars = document.querySelectorAll(".qbar");
+    for (var b = 0; b < bars.length; b++) {
+      var current = parseInt(bars[b].getAttribute("data-current"), 10);
+      for (var i = 1; i <= 5; i++) {
+        var seg = document.createElement("li");
+        if (i < current) seg.className = "is-done";
+        else if (i === current) seg.className = "is-current";
+        bars[b].appendChild(seg);
+      }
+    }
+  })();
 
   function show(id) {
     var steps = document.querySelectorAll(".step");
