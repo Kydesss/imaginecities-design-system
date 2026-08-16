@@ -87,6 +87,12 @@
      resets the bottom padding to zero. */
   main.wrap{padding-bottom:var(--sp-7);}
 
+  /* body is a column flex container, and a flex item with auto cross-axis margins
+     shrinks to its content instead of stretching. main and footer both carry .wrap,
+     which sets margin: 0 auto, so they collapsed to content width. Explicit width
+     restores the fill; max-width still caps it and the auto margins still centre it. */
+  body > header, body > main, body > footer{width:100%;}
+
   header.bar{
     border-bottom:1px solid rgba(36,37,37,.12);
     padding:var(--sp-3) 0; margin-bottom:var(--sp-5);

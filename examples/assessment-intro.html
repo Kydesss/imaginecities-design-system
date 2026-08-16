@@ -102,6 +102,14 @@
      this to zero. main is also a flex item here, not a .wrap, but sections inside are. */
   main { padding-bottom: var(--sp-7); }
 
+  /* body is a column flex container, and a flex item with auto cross-axis margins
+     does NOT stretch: it shrinks to its content. .wrap sets margin: 0 auto, so the
+     header and footer collapsed to the width of their contents while the sections
+     inside main stayed at 1100px, leaving the nav visibly narrower than the page.
+     Explicit width restores the fill; max-width still caps it and the auto margins
+     still centre it. */
+  body > header, body > main, body > footer { width: 100%; }
+
   /* ---------------- header ---------------- */
   .site-header {
     display: flex; align-items: center; justify-content: space-between;
