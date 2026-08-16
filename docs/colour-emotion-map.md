@@ -37,9 +37,9 @@ any size.
 |---|---|---|---|
 | Hope and optimism | Gold 40% | 11.70:1 | The question is about belief. Warmth, not judgement. |
 | Collaboration | Fresh Green | 13.34:1 | About people together. The lightest, most social ground. |
-| Leadership | Deep Azure 40% | 7.33:1 | About who steps up. Steady and serious without being heavy. |
+| Leadership | Deep Azure 20% | 10.35:1 | About who steps up. Steady without weight. Azure 40% was tried and sat heavy in the middle of the flow, which is where a volunteer is most likely to stop. |
 | Progress | Forest Green 40% | 8.10:1 | About work that has actually happened. |
-| Resilience | Deep Azure 20% | 10.35:1 | About holding steady over time. The calmest ground, and the last question. |
+| Resilience | Gold 20% | 12.86:1 | About staying power. Warm rather than cool, and it bookends the Gold of question one: belief at the start, endurance at the end. |
 
 ---
 
@@ -59,7 +59,7 @@ No hue is a score.
 | Waiting Place | Deep Azure 20% | 10.35:1 | Calm and permission. This is the hardest result to receive, so it gets the least alarming colour in the palette. |
 | Impasse | Gold 40% | 11.70:1 | Recognition and warmth. The energy is real and stuck; the colour says so. |
 | Catalytic | Fresh Green | 13.34:1 | Encouragement. Something is emerging and deserves to feel light. |
-| Growth | Forest Green 40% | 8.10:1 | A challenge, not a trophy. The deeper green asks for work rather than congratulating. |
+| Growth | Forest Green 60% | 5.87:1 | A challenge, not a trophy. The 40% stop was tried and read as drab rather than serious, which is the wrong note for the one result that should feel like responsibility. The 60% stop has enough saturation to feel deliberate. |
 | Sustain & Renew | Deep Azure 40% | 7.33:1 | Steadiness and vigilance. The risk here is comfort, so it returns to calm rather than escalating. |
 
 Note that Growth is **deeper** than Catalytic rather than brighter. That is intentional:

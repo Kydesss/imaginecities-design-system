@@ -59,7 +59,7 @@
     --forest-green:#527302; --fresh-green:#C6FDC2; --bold-red:#C73124;
     --gold-40:#F9DEA1; --gold-20:#F7EAC9;
     --azure-40:#95B6DD; --azure-20:#C5D6E7;
-    --forest-40:#B4C292; --forest-20:#D4DCC1;
+    --forest-60:#93A862; --forest-40:#B4C292; --forest-20:#D4DCC1;
 
     --font:"Poppins","Roboto",sans-serif;
     --w-regular:400; --w-medium:500; --w-semibold:600; --w-bold:700;
@@ -137,9 +137,14 @@
      Questions: the colour of what the question asks about.
        hope       Gold 40%      11.70:1   belief, warmth
        collab     Fresh Green   13.34:1   people together, lightest ground
-       lead       Azure 40%      7.33:1   steadiness, being taken seriously
+       lead       Azure 20%     10.35:1   steady and taken seriously, without weight
        progress   Forest 40%     8.10:1   work that actually happened
-       resilience Azure 20%     10.35:1   holding steady, the calmest ground
+       resilience Gold 20%      12.86:1   warm endurance; bookends hope, belief to staying power
+
+     Azure 40 was tried for leadership and felt heavy in the middle of the flow, which
+     is exactly where a volunteer is most likely to give up. Azure 20 keeps the calm
+     without the weight, and resilience moves to Gold 20 so no two adjacent screens
+     share a family.
 
      Results: the colour of what the reader NEEDS on arriving, which comes out
      non-monotonic on purpose. Calm, warm, light, serious, calm. No hue is a score,
@@ -148,14 +153,18 @@
   .qstep .qcard, .result-band{border-radius:var(--radius-surface);padding:var(--sp-5);}
   .ground-hope       .qcard{background:var(--gold-40);}
   .ground-collab     .qcard{background:var(--fresh-green);}
-  .ground-lead       .qcard{background:var(--azure-40);}
+  .ground-lead       .qcard{background:var(--azure-20);}
   .ground-progress   .qcard{background:var(--forest-40);}
-  .ground-resilience .qcard{background:var(--azure-20);}
+  .ground-resilience .qcard{background:var(--gold-20);}
 
   .result-band.ground-waiting-place{background:var(--azure-20);}
   .result-band.ground-impasse{background:var(--gold-40);}
   .result-band.ground-catalytic{background:var(--fresh-green);}
-  .result-band.ground-growth{background:var(--forest-40);}
+  /* Forest 60, not 40. The 40 stop is a washed sage that read as drab rather than
+     serious, which is the wrong note for the one result that should feel like
+     responsibility. The 60 stop is the same hue with enough saturation to feel
+     deliberate, and still clears 5.87:1 with Charcoal at any size. */
+  .result-band.ground-growth{background:var(--forest-60);}
   .result-band.ground-sustain-renew{background:var(--azure-40);}
 
   /* On a coloured ground the option cards need a ground of their own, or the tint
