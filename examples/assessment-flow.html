@@ -115,12 +115,26 @@
     list-style:none;display:grid;grid-template-columns:repeat(5,1fr);
     gap:var(--sp-1);margin:0 0 var(--sp-3);padding:0;
   }
+  /* Each segment carries the colour of the question it stands for, so the bar is a
+     map of the flow rather than a generic meter, and the colour you are about to see
+     is announced a moment before you see it. Order is fixed, so nth-child is safe.
+     Colours must stay in step with the .ground-* rules below and with
+     docs/colour-emotion-map.md. */
   .qbar li{
-    height:6px;border-radius:var(--radius-pill);
-    background:var(--gold-20);              /* remaining */
+    height:8px;border-radius:var(--radius-pill);
+    opacity:.35;                            /* not yet reached */
+    transition:opacity 160ms var(--ease);
   }
-  .qbar li.is-done{background:var(--charcoal);}
-  .qbar li.is-current{background:var(--gold);}
+  .qbar li:nth-child(1){background:var(--gold-40);}     /* hope */
+  .qbar li:nth-child(2){background:var(--fresh-green);}  /* collaboration */
+  .qbar li:nth-child(3){background:var(--azure-20);}     /* leadership */
+  .qbar li:nth-child(4){background:var(--forest-40);}    /* progress */
+  .qbar li:nth-child(5){background:var(--gold-20);}      /* resilience */
+  .qbar li.is-done,.qbar li.is-current{opacity:1;}
+  /* Position is marked by a Charcoal ring rather than by a different colour, since the
+     colour slot is already carrying meaning. box-shadow rather than outline so it
+     follows the pill radius everywhere. 14.25:1 against the page. */
+  .qbar li.is-current{box-shadow:0 0 0 2px var(--charcoal);}
   .progress{font-size:14px;font-weight:var(--w-semibold);margin:0 0 var(--sp-4);}
 
   /* ---- steps ---- */

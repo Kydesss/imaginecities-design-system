@@ -41,6 +41,15 @@ any size.
 | Progress | Forest Green 40% | 8.10:1 | About work that has actually happened. |
 | Resilience | Gold 20% | 12.86:1 | About staying power. Warm rather than cool, and it bookends the Gold of question one: belief at the start, endurance at the end. |
 
+The progress bar carries the same five colours in the same order, so the bar is a map
+of the flow rather than a generic meter, and the colour of the next question is
+announced a moment before it arrives. Segments not yet reached sit at 35% opacity;
+the current one is marked with a Charcoal ring rather than a different colour, since
+the colour slot is already carrying meaning.
+
+**If a question's ground changes, the bar changes with it.** They are two expressions
+of one decision, and letting them drift would make the bar a lie.
+
 ---
 
 ## The five results
