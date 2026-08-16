@@ -68,12 +68,24 @@
     --ease:cubic-bezier(0.22,1,0.36,1);
   }
   *,*::before,*::after{box-sizing:border-box;}
+  /* Question screens are short, so the page used to end partway down the viewport
+     with the footer sitting immediately under the content. That reads as cramped no
+     matter how large the margin is, because the problem is the footer being in the
+     middle of the screen rather than at the bottom of it. Column flex with a growing
+     main pins the footer to the bottom on short screens and lets it flow normally on
+     long ones. */
   body{
     margin:0; background:var(--serene-white); color:var(--charcoal);
     font-family:var(--font); font-size:16px; line-height:1.4;
     -webkit-font-smoothing:antialiased;
+    min-height:100vh; display:flex; flex-direction:column;
   }
+  main{flex:1 0 auto;}
+  footer{flex-shrink:0;}
   .wrap{max-width:720px;margin:0 auto;padding:0 var(--sp-4);}
+  /* Must come after .wrap and match it on specificity, or the shorthand padding above
+     resets the bottom padding to zero. */
+  main.wrap{padding-bottom:var(--sp-7);}
 
   header.bar{
     border-bottom:1px solid rgba(36,37,37,.12);
@@ -222,7 +234,10 @@
   /* The rule needs air on both sides. Previously the footer text sat 24px under the
      line while the line sat 64px below the content, so the attribution read as stuck
      to the rule rather than as its own region. */
-  footer{border-top:1px solid rgba(36,37,37,.12);margin-top:var(--sp-7);padding:var(--sp-5) 0 var(--sp-7);font-size:14px;}
+  /* One mechanism for the gap: main's padding-bottom. Padding does not collapse, so
+     the distance is predictable, unlike a margin here which would silently merge with
+     whatever the last block happens to carry. */
+  footer{border-top:1px solid rgba(36,37,37,.12);padding:var(--sp-5) 0 var(--sp-6);font-size:14px;}
   footer a{color:var(--deep-azure);}
 
   .sr-only{

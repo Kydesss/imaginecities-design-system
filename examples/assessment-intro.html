@@ -88,9 +88,19 @@
     font-size: 16px;
     line-height: 1.4;
     -webkit-font-smoothing: antialiased;
+    /* Same footer handling as the flow: pinned to the bottom on short viewports,
+       normal flow on long ones. */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
+  main { flex: 1 0 auto; }
+  footer { flex-shrink: 0; }
   img { max-width: 100%; display: block; }
   .wrap { max-width: 1100px; margin: 0 auto; padding: 0 var(--sp-4); }
+  /* After .wrap, and matching its specificity, so the shorthand above does not reset
+     this to zero. main is also a flex item here, not a .wrap, but sections inside are. */
+  main { padding-bottom: var(--sp-7); }
 
   /* ---------------- header ---------------- */
   .site-header {
@@ -243,7 +253,7 @@
   .closing {
     background: var(--deep-azure); color: var(--serene-white);
     border-radius: var(--radius-surface);
-    padding: var(--sp-6) var(--sp-5); margin: var(--sp-6) 0 var(--sp-7);
+    padding: var(--sp-6) var(--sp-5); margin: var(--sp-6) 0 0;
   }
   /* Serene White on Deep Azure is large-or-bold only, so this heading is 34px and there
      is no small white text in this block. */
@@ -258,8 +268,7 @@
      than as a separate region. */
   footer {
     border-top: 1px solid var(--hairline);
-    margin-top: var(--sp-7);
-    padding: var(--sp-5) 0 var(--sp-7);
+    padding: var(--sp-5) 0 var(--sp-6);
     font-size: 14px;
   }
   footer a { color: var(--deep-azure); }
