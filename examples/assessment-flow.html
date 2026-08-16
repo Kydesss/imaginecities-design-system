@@ -134,6 +134,12 @@
      heading still wraps as a sentence. The result heading contains an inline chip,
      which a flex row would break onto its own line. */
   .icon-h{font-size:.8em;margin-right:.4em;position:relative;top:-.04em;}
+  /* The factor icon leads the question rather than sitting in the 11px label above it,
+     where it rendered at about 13px and was too small to identify. On the 20px question
+     it is 1.6em, so roughly 32px. Kept inline rather than floated: legend elements
+     render floats inconsistently across browsers, and a float would also pull the
+     second line of a wrapping question up beside the glyph. */
+  .icon-q{font-size:1.6em;margin-right:.4em;vertical-align:-.18em;}
 
   /* ---- progress ----
      A five-segment bar above the text label. Unlike the stage spectrum this IS a
@@ -503,8 +509,8 @@
     <form data-q="1">
       <div class="qcard">
       <fieldset>
-        <p class="factor-name"><span class="icon icon-inline" aria-hidden="true">volunteer_activism</span>Hope and optimism</p>
-        <legend id="h-q1">How do most people in your neighbourhood feel about solving local problems?</legend>
+        <p class="factor-name">Hope and optimism</p>
+        <legend id="h-q1"><span class="icon icon-q" aria-hidden="true">volunteer_activism</span>How do most people in your neighbourhood feel about solving local problems?</legend>
         <p class="error" id="err-1">Select an answer to continue.</p>
         <div class="options" role="none">
           <div class="option">
@@ -544,8 +550,8 @@
     <form data-q="2">
       <div class="qcard">
       <fieldset>
-        <p class="factor-name"><span class="icon icon-inline" aria-hidden="true">groups</span>Collaboration</p>
-        <legend id="h-q2">How do residents typically collaborate when addressing neighbourhood issues or small projects?</legend>
+        <p class="factor-name">Collaboration</p>
+        <legend id="h-q2"><span class="icon icon-q" aria-hidden="true">groups</span>How do residents typically collaborate when addressing neighbourhood issues or small projects?</legend>
         <p class="error" id="err-2">Select an answer to continue.</p>
         <div class="options">
           <div class="option">
@@ -586,8 +592,8 @@
     <form data-q="3">
       <div class="qcard">
       <fieldset>
-        <p class="factor-name"><span class="icon icon-inline" aria-hidden="true">flag</span>Leadership</p>
-        <legend id="h-q3">How does leadership show up within your neighbourhood?</legend>
+        <p class="factor-name">Leadership</p>
+        <legend id="h-q3"><span class="icon icon-q" aria-hidden="true">flag</span>How does leadership show up within your neighbourhood?</legend>
         <p class="error" id="err-3">Select an answer to continue.</p>
         <div class="options">
           <div class="option">
@@ -627,8 +633,8 @@
     <form data-q="4">
       <div class="qcard">
       <fieldset>
-        <p class="factor-name"><span class="icon icon-inline" aria-hidden="true">trending_up</span>Progress</p>
-        <legend id="h-q4">In the last year, how many visible and tangible achievements have residents experienced or benefited from?</legend>
+        <p class="factor-name">Progress</p>
+        <legend id="h-q4"><span class="icon icon-q" aria-hidden="true">trending_up</span>In the last year, how many visible and tangible achievements have residents experienced or benefited from?</legend>
         <p class="error" id="err-4">Select an answer to continue.</p>
         <div class="options">
           <div class="option">
@@ -668,8 +674,8 @@
     <form data-q="5">
       <div class="qcard">
       <fieldset>
-        <p class="factor-name"><span class="icon icon-inline" aria-hidden="true">eco</span>Resilience</p>
-        <legend id="h-q5">What is your neighbourhood's capacity to adapt and continue solving future problems?</legend>
+        <p class="factor-name">Resilience</p>
+        <legend id="h-q5"><span class="icon icon-q" aria-hidden="true">eco</span>What is your neighbourhood's capacity to adapt and continue solving future problems?</legend>
         <p class="error" id="err-5">Select an answer to continue.</p>
         <div class="options">
           <div class="option">
