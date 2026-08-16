@@ -262,8 +262,11 @@
     position:absolute;top:18px;left:18px;width:20px;height:20px;margin:0;
     accent-color:var(--charcoal);
   }
+  /* The right padding reserves a lane for the check mark, which is absolutely
+     positioned at right:16px. At the old 16px the two occupied the same space and long
+     option text ran underneath the glyph. 48px leaves the mark clear at every width. */
   .option label{
-    display:block;padding:var(--sp-3) var(--sp-3) var(--sp-3) 52px;
+    display:block;padding:var(--sp-3) 48px var(--sp-3) 52px;
     border:2px solid rgba(36,37,37,.25);border-radius:var(--radius-surface);
     background:transparent;cursor:pointer;min-height:44px;
     transition:border-color 120ms var(--ease), background-color 120ms var(--ease);
