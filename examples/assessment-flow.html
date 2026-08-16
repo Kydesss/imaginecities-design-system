@@ -326,7 +326,31 @@
     padding:var(--sp-5);margin:0 0 var(--sp-5);
   }
   #gate h2{margin-top:0;}
+
+  /* ---- the unlocked guidance ----
+     This is what the email was traded for, so it should read as the payload rather
+     than as more page. Serene White on Charcoal is 14.25:1, the same ratio as the
+     body text everywhere else, so unlike every tint on this page it takes small copy
+     as happily as headings.
+
+     Charcoal is also the only ground that cannot clash with the result band above it,
+     which changes colour with the stage. Any tint chosen here would collide with at
+     least one of the five. */
+  #guidance{
+    background:var(--charcoal);color:var(--serene-white);
+    border-radius:var(--radius-surface);
+    padding:var(--sp-5);margin:0 0 var(--sp-5);
+  }
+  #guidance h2{margin-top:0;color:var(--serene-white);}
   #guidance h2:focus{outline:none;}
+  #guidance h2:focus-visible{outline:3px solid var(--gold);outline-offset:3px;}
+  #guidance .eyebrow{
+    font-size:11px;font-weight:var(--w-bold);letter-spacing:.06em;
+    color:var(--gold);margin:0 0 var(--sp-3);
+  }
+  /* Dividers have to invert too, or they vanish into the dark ground. */
+  #guidance .next-steps li{border-top-color:rgba(245,247,242,.3);}
+  #guidance .next-steps li:last-child{border-bottom-color:rgba(245,247,242,.3);}
 
   .stage-list{list-style:none;margin:var(--sp-4) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:var(--sp-2);}
   .stage-list li{padding-top:var(--sp-2);border-top:3px solid rgba(36,37,37,.25);font-size:14px;}
@@ -751,6 +775,7 @@
     </div>
 
     <div id="guidance" hidden>
+      <p class="eyebrow">Your guidance</p>
       <h2 id="h-guidance" tabindex="-1">Why you are in this stage</h2>
       <p id="stage-why"></p>
 

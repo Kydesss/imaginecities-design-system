@@ -85,6 +85,13 @@ one result that should feel like responsibility rather than reward.
   with the stage colour beside it.
 - **The email gate** is deliberately the quietest block on the page. An ask should not
   shout.
+- **The unlocked guidance** is the one deliberate inversion: Serene White on Charcoal,
+  14.25:1. It is what the email was traded for, so it should read as the payload rather
+  than as more page. Charcoal is also the only ground that cannot clash with the result
+  band above it, since that band changes colour with the stage and any tint chosen here
+  would collide with at least one of the five.
+- **The feedback block** is outlined and unfilled rather than coloured, because the page
+  stops telling and starts asking there, and a sixth ground would dilute the other five.
 - **Errors** are Bold Red, and Bold Red is nothing else.
 
 ---
