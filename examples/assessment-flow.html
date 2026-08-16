@@ -63,7 +63,7 @@
     --w-regular:400; --w-medium:500; --w-semibold:600; --w-bold:700;
 
     /* PROPOSED, not brand */
-    --sp-1:4px; --sp-2:8px; --sp-3:16px; --sp-4:24px; --sp-5:40px; --sp-6:64px;
+    --sp-1:4px; --sp-2:8px; --sp-3:16px; --sp-4:24px; --sp-5:40px; --sp-6:64px; --sp-7:96px;
     --radius-pill:999px; --radius-surface:12px;
     --ease:cubic-bezier(0.22,1,0.36,1);
   }
@@ -219,7 +219,10 @@
 
   .scale{display:flex;gap:var(--sp-2);flex-wrap:wrap;margin:0 0 var(--sp-4);}
 
-  footer{border-top:1px solid rgba(36,37,37,.12);margin-top:var(--sp-6);padding:var(--sp-4) 0 var(--sp-6);font-size:14px;}
+  /* The rule needs air on both sides. Previously the footer text sat 24px under the
+     line while the line sat 64px below the content, so the attribution read as stuck
+     to the rule rather than as its own region. */
+  footer{border-top:1px solid rgba(36,37,37,.12);margin-top:var(--sp-7);padding:var(--sp-5) 0 var(--sp-7);font-size:14px;}
   footer a{color:var(--deep-azure);}
 
   .sr-only{

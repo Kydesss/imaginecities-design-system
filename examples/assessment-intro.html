@@ -253,7 +253,15 @@
      below 24px regular may be Serene White inside this block. */
   .closing-lede { font-size: var(--size-azure-body); margin: 0 0 var(--sp-5); max-width: 42ch; }
 
-  footer { border-top: 1px solid var(--hairline); padding: var(--sp-4) 0 var(--sp-6); font-size: 14px; }
+  /* Air on both sides of the rule. The footer previously had 96px above the line and
+     24px below it, which made the attribution read as attached to the rule rather
+     than as a separate region. */
+  footer {
+    border-top: 1px solid var(--hairline);
+    margin-top: var(--sp-7);
+    padding: var(--sp-5) 0 var(--sp-7);
+    font-size: 14px;
+  }
   footer a { color: var(--deep-azure); }
   footer p { max-width: 70ch; }
 
