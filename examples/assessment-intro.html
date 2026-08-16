@@ -45,7 +45,6 @@
     --forest-green: #527302;
     --fresh-green:  #C6FDC2;
     --gold-20:      #F7EAC9;
-    --azure-20:     #C5D6E7;
 
     /* brand type */
     --font: "Poppins", "Roboto", sans-serif;
@@ -59,6 +58,24 @@
     --radius-pill: 999px;
     --radius-surface: 12px;
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* PROPOSED, not brand: intermediate type sizes.
+       v2.0.1 jumps 20px straight to 48px with nothing between, so a page with more
+       than two heading levels has to fill the gap. These are the sizes this page
+       needs, declared rather than scattered through the stylesheet. Take them to the
+       brand owner with the spacing scale. */
+    --size-lede: 20px;      /* documented: Subheadline / Subtitle size */
+    --size-quote: 28px;
+    --size-numeral: 20px;
+    --size-closing: 34px;
+    --size-azure-body: 24px;  /* the floor for Serene White on Deep Azure: 18pt */
+
+    /* PROPOSED, not brand: hairline.
+       The brand documents tints for Deep Azure, Gold, Forest Green and Bold Red
+       only, so there is no defined rule colour. This is Charcoal at 12%. It is the
+       same category of gap as the spacing scale, and is named here rather than
+       repeated inline six times. */
+    --hairline: rgba(36, 37, 37, 0.12);
   }
 
   *, *::before, *::after { box-sizing: border-box; }
@@ -79,16 +96,21 @@
   .site-header {
     display: flex; align-items: center; justify-content: space-between;
     gap: var(--sp-4); padding: var(--sp-4) 0;
-    border-bottom: 1px solid rgba(36,37,37,0.12);
+    border-bottom: 1px solid var(--hairline);
   }
-  .site-header img { height: 34px; width: auto; }
+  .site-header img { height: 40px; width: auto; }
+  .site-header a:focus-visible { outline: 3px solid var(--charcoal); outline-offset: 4px; }
   .nav { display: flex; gap: var(--sp-4); flex-wrap: wrap; }
   .nav a {
     color: var(--charcoal); text-decoration: none;
     font-size: 14px; font-weight: var(--w-medium);
-    padding: var(--sp-1) 0; border-bottom: 2px solid transparent;
+    padding: var(--sp-1) 0; border-bottom: 3px solid transparent;
   }
-  .nav a:hover, .nav a:focus-visible { border-bottom-color: var(--gold); }
+  /* Charcoal, not Gold. Gold on Serene White is 1.60:1 and cannot carry a focus
+     indicator, which needs 3:1 under WCAG 1.4.11. This page exists to demonstrate
+     that rule, so it must not break it. */
+  .nav a:hover, .nav a:focus-visible { border-bottom-color: var(--charcoal); }
+  .nav a:focus-visible { outline: 3px solid var(--charcoal); outline-offset: 3px; }
 
   /* ---------------- hero ---------------- */
   .hero {
@@ -106,15 +128,24 @@
   h1 {
     font-size: 48px; font-weight: var(--w-bold);
     line-height: 1.2; letter-spacing: -0.02em;
-    margin: 0 0 var(--sp-4); max-width: 15ch;
+    margin: 0 0 var(--sp-4); max-width: 20ch;
   }
-  .lede { font-size: 20px; line-height: 1.4; margin: 0 0 var(--sp-5); max-width: 52ch; }
+  .lede { font-size: var(--size-lede); line-height: 1.4; margin: 0 0 var(--sp-5); max-width: 52ch; }
 
-  .hero-figure { position: relative; }
+  /* isolation, so the Gold panel's negative z-index cannot escape this figure and
+     disappear behind any ancestor that later gains a background */
+  .hero-figure { position: relative; isolation: isolate; }
   .hero-figure img {
     width: 100%; height: 100%; max-height: 430px;
     object-fit: cover; border-radius: var(--radius-surface);
   }
+  .photo-slot {
+    min-height: 340px; border: 2px dashed var(--charcoal);
+    border-radius: var(--radius-surface); background: var(--gold-20);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: var(--sp-5); gap: var(--sp-2);
+  }
+  .photo-slot p { margin: 0; font-size: 14px; max-width: 34ch; }
   /* A flat Gold panel behind the photo. Solid colour, no gradient, no blur. */
   .hero-figure::before {
     content: ""; position: absolute; inset: auto -14px -14px 28px;
@@ -133,13 +164,17 @@
   .cta:hover { background: var(--charcoal); color: var(--gold); }
   .cta:focus-visible { outline: 3px solid var(--charcoal); outline-offset: 3px; }
   .cta.on-azure:focus-visible { outline-color: var(--serene-white); }
+  /* On the Azure block the standard inversion would put a Charcoal button on Deep
+     Azure at 2.26:1, dissolving the button's shape. Invert to Serene White instead,
+     which holds 6.30:1 against the block. */
+  .cta.on-azure:hover { background: var(--serene-white); color: var(--charcoal); }
 
   .meta { margin: var(--sp-3) 0 0; font-size: 14px; }
 
   /* ---------------- partners ---------------- */
   .partners {
-    border-top: 1px solid rgba(36,37,37,0.12);
-    border-bottom: 1px solid rgba(36,37,37,0.12);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
     padding: var(--sp-4) 0;
     display: flex; align-items: center; gap: var(--sp-5); flex-wrap: wrap;
   }
@@ -154,11 +189,11 @@
     padding: var(--sp-6) var(--sp-5);
     margin: var(--sp-7) 0;
   }
-  .why blockquote {
+  .why .claim {
     margin: 0 0 var(--sp-4); max-width: 40ch;
-    font-size: 28px; font-weight: var(--w-semibold); line-height: 1.25;
+    font-size: var(--size-quote); font-weight: var(--w-semibold); line-height: 1.25;
   }
-  .why cite { font-size: 14px; font-style: normal; display: block; max-width: 60ch; }
+  .why .source { font-size: 14px; max-width: 60ch; }
   .why .after { margin: var(--sp-5) 0 0; max-width: 62ch; }
 
   /* ---------------- what you get ---------------- */
@@ -168,10 +203,10 @@
   .steps { list-style: none; margin: 0; padding: 0; }
   .steps li {
     display: grid; grid-template-columns: 3.5rem 1fr; gap: var(--sp-4);
-    padding: var(--sp-4) 0; border-top: 1px solid rgba(36,37,37,0.12);
+    padding: var(--sp-4) 0; border-top: 1px solid var(--hairline);
   }
-  .steps li:last-child { border-bottom: 1px solid rgba(36,37,37,0.12); }
-  .steps .n { font-size: 32px; font-weight: var(--w-bold); line-height: 1; color: var(--charcoal); }
+  .steps li:last-child { border-bottom: 1px solid var(--hairline); }
+  .steps .n { font-size: var(--size-numeral); font-weight: var(--w-bold); line-height: 1; color: var(--charcoal); }
   .steps h3 { font-size: 16px; font-weight: var(--w-semibold); margin: 0 0 var(--sp-1); }
   .steps p { margin: 0; max-width: 62ch; }
 
@@ -197,18 +232,22 @@
   }
   /* Serene White on Deep Azure is large-or-bold only, so this heading is 34px and there
      is no small white text in this block. */
-  .closing h2 { font-size: 34px; font-weight: var(--w-semibold); margin: 0 0 var(--sp-5); max-width: 20ch; }
+  .closing h2 { font-size: var(--size-closing); font-weight: var(--w-semibold); margin: 0 0 var(--sp-4); max-width: 20ch; }
+  /* 24px, not 20px. Serene White on Deep Azure is 6.30:1, which the deck permits only
+     at 18pt regular or 14pt bold. 18pt is 24px, so 20px regular would fail. Nothing
+     below 24px regular may be Serene White inside this block. */
+  .closing-lede { font-size: var(--size-azure-body); margin: 0 0 var(--sp-5); max-width: 42ch; }
 
-  footer { border-top: 1px solid rgba(36,37,37,0.12); padding: var(--sp-4) 0 var(--sp-6); font-size: 14px; }
+  footer { border-top: 1px solid var(--hairline); padding: var(--sp-4) 0 var(--sp-6); font-size: 14px; }
   footer a { color: var(--deep-azure); }
   footer p { max-width: 70ch; }
 
   @media (max-width: 900px) {
     .hero { grid-template-columns: 1fr; gap: var(--sp-5); padding: var(--sp-6) 0 var(--sp-5); }
     .hero-figure::before { display: none; }
-    h1 { font-size: 34px; max-width: 20ch; }
+    h1 { font-size: var(--size-closing); max-width: 22ch; }
     .lede { font-size: 18px; }
-    .why blockquote { font-size: 22px; }
+    .why .claim { font-size: 22px; }
     .stages { grid-template-columns: 1fr 1fr; }
     .closing h2 { font-size: 26px; }
   }
@@ -243,18 +282,40 @@
         neighbourhood stands today, and what to do about it.
       </p>
       <a class="cta" href="assessment-flow.html">Start the assessment</a>
-      <p class="meta">Free. No expertise needed.</p>
+      <!-- States the real deal. The flow asks for an email before showing the result,
+           so a page that says only "free" is setting up an ambush at step 7. -->
+      <p class="meta">Free. No expertise needed. We ask for an email to send your result.</p>
     </div>
+    <!--
+      DELIBERATELY EMPTY. The image that was here came from Imagine Cities' own
+      home page, which made it seem safe. It is Sheep Meadow in Central Park, with
+      the Manhattan skyline behind it, and nobody in it is talking to anybody. A New
+      York stock photograph, on a page whose entire argument is local familiarity,
+      under a logo built from the Calgary Tower.
+
+      The other banner on their site is a stock café interior. Both are findings
+      about the live site, recorded in source/observed-website.md.
+
+      What belongs here: a photograph of a real Calgary neighbourhood, or of an
+      actual Imagine Cities session, showing people in conversation, per the brand's
+      imagery rule that images reflect collaboration between people of all ages and
+      backgrounds. The Drive photo library is the place to look.
+    -->
     <figure class="hero-figure">
-      <img src="img/hero-neighbourhood.webp"
-           alt="Residents talking together at a neighbourhood gathering">
+      <div class="photo-slot">
+        <p><strong>Photograph goes here</strong></p>
+        <p>A real Calgary neighbourhood, or an Imagine Cities session. People in
+           conversation, not a stock crowd.</p>
+      </div>
     </figure>
   </section>
 
   <section class="wrap">
     <div class="partners">
-      <p>Built with community associations across Canada</p>
-      <ul>
+      <!-- "across Canada" was four logos from two cities. Say what is true. Each of
+           these relationships still needs written confirmation before this ships. -->
+      <p>Built with community associations in Calgary and Vancouver</p>
+      <ul role="list">
         <li><img src="img/Hillhurst.png" alt="Hillhurst Sunnyside Community Association"></li>
         <li><img src="img/sunalta.png" alt="Sunalta Community Association"></li>
         <li><img src="img/Kitsilano.png" alt="Kitsilano Neighbourhood House"></li>
@@ -265,14 +326,18 @@
 
   <section class="wrap">
     <div class="why">
-      <blockquote>
-        Most people act as though their community is already growing, then wonder why so
-        many initiatives stall.
-      </blockquote>
-      <cite>
-        A finding of the Harwood Institute's Community Rhythms research, 1999, drawn from
-        fieldwork in five communities.
-      </cite>
+      <h2 id="why-heading">Why This Matters</h2>
+      <!-- Not a blockquote. The earlier version put a paraphrase in quotation marks
+           under a Harwood citation; the report's wording is "flounder or fail", not
+           "stall". Since Harwood permission is unresolved, this is now plainly the
+           page's own sentence reporting their finding. -->
+      <p class="claim">
+        The Harwood Institute found that most people act as though their community is
+        already growing, and then wonder why so many initiatives flounder or fail.
+      </p>
+      <p class="source">
+        Community Rhythms, 1999, from fieldwork in five American cities.
+      </p>
       <p class="after">
         Strategies that work for a neighbourhood with momentum tend to fail in one that is
         still rebuilding trust. Knowing where yours actually sits is what makes the
@@ -283,23 +348,23 @@
 
   <section class="section wrap">
     <h2>What You Get</h2>
-    <ol class="steps">
+    <ol class="steps" role="list">
       <li>
-        <div class="n">1</div>
+        <div class="n" aria-hidden="true">1</div>
         <div>
           <h3>Where your neighbourhood stands</h3>
           <p>Which of five stages best matches what you described, explained without jargon.</p>
         </div>
       </li>
       <li>
-        <div class="n">2</div>
+        <div class="n" aria-hidden="true">2</div>
         <div>
           <h3>Why it is there</h3>
           <p>What shaped the result, and what that usually means for a neighbourhood like yours.</p>
         </div>
       </li>
       <li>
-        <div class="n">3</div>
+        <div class="n" aria-hidden="true">3</div>
         <div>
           <h3>What to do next</h3>
           <p>Practical steps suited to where your neighbourhood actually is, not generic advice.</p>
@@ -316,7 +381,7 @@
         collaboration, leadership, progress, and resilience. Your answers place your
         neighbourhood in one of <strong>five stages</strong>.
       </p>
-      <ol class="stages">
+      <ol class="stages" role="list">
         <li><div class="name">Waiting Place</div><div class="what">Something is not working, but nobody can quite name it.</div></li>
         <li><div class="name">Impasse</div><div class="what">The problem is named and urgent, and action has stalled.</div></li>
         <li><div class="name">Catalytic</div><div class="what">Small groups are testing what works.</div></li>
@@ -332,8 +397,16 @@
   </section>
 
   <section class="wrap">
+    <!-- The reader who reaches here is the most persuaded reader on the page and was
+         previously given the least support: a flattering heading and a bare button.
+         "Your Neighbourhood Knows Itself Best" also quietly argued against the
+         product. This names the action and repeats the terms. -->
     <div class="closing">
-      <h2>Your Neighbourhood Knows Itself Best</h2>
+      <h2>See Where Your Neighbourhood Stands</h2>
+      <p class="closing-lede">
+        Five questions, about five minutes. You will get something concrete to bring to
+        your next conversation, and a result that is a reflection rather than a verdict.
+      </p>
       <a class="cta on-azure" href="assessment-flow.html">Start the assessment</a>
     </div>
   </section>
