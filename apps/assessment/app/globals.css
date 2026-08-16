@@ -1,49 +1,193 @@
+/*
+ * Base styles.
+ *
+ * Brand values are NOT defined here. They come from tokens.css, which is generated
+ * from tokens/tokens.json at the repo root. If a colour or type value is needed and
+ * is not in there, it is not brand and does not belong in this file either.
+ *
+ * What IS here: the spacing, radius, motion and intermediate type values that v2.0.1
+ * does not document. They are proposals awaiting the brand owner, kept in one place
+ * and clearly labelled so nothing unapproved gets mistaken for brand.
+ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ---- PROPOSED, NOT BRAND ---- */
+
+  /* spacing, 4px base */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 16px;
+  --sp-4: 24px;
+  --sp-5: 40px;
+  --sp-6: 64px;
+  --sp-7: 96px;
+
+  /* radii: pill for actions, matching the live website; one radius for surfaces */
+  --radius-pill: 999px;
+  --radius-surface: 12px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /*
+   * Intermediate type sizes. v2.0.1 jumps from 20px straight to 48px with nothing
+   * between, so any page with more than two heading levels has to fill the gap.
+   */
+  --size-quote: 28px;
+  --size-closing: 34px;
+  /* the floor for Serene White on Deep Azure: 18pt, which is 24px */
+  --size-azure-body: 24px;
+
+  /*
+   * Hairline. The brand documents tints for Deep Azure, Gold, Forest Green and Bold
+   * Red only, so there is no defined rule colour. Charcoal at 12%.
+   */
+  /* Derived from the token with color-mix rather than retyped as rgba: an rgba
+     literal is a brand colour written by hand, which a hex scan does not catch and
+     which stops tracking the token the moment either changes. */
+  --hairline: color-mix(in srgb, var(--ic-color-charcoal-black) 12%, transparent);
+  --border-quiet: color-mix(in srgb, var(--ic-color-charcoal-black) 30%, transparent);
+  --border-faint: color-mix(in srgb, var(--ic-color-charcoal-black) 18%, transparent);
+  /* 3.05:1 against the page, which form control borders need under WCAG 1.4.11 */
+  --border-strong: color-mix(in srgb, var(--ic-color-charcoal-black) 50%, transparent);
+  /* on the inverted guidance block, where the ground is Charcoal */
+  --border-on-dark: color-mix(in srgb, var(--ic-color-serene-white) 30%, transparent);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  /* honour the OS text-size setting rather than pinning to px */
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  min-height: 100%;
+  margin: 0;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ic-color-background);
+  color: var(--ic-color-text);
+  font-family: var(--ic-font-poppins), var(--ic-font-family-system);
+  font-size: var(--ic-typography-paragraph-1-font-size);
+  line-height: var(--ic-typography-paragraph-1-line-height);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+main {
+  flex: 1 0 auto;
+  padding-bottom: var(--sp-7);
+}
+
+footer {
+  flex-shrink: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+  color: var(--ic-color-link);
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+/* Focus is Charcoal, never Gold: Gold on Serene White is 1.60:1 and cannot carry a
+   focus indicator, which needs 3:1 under WCAG 1.4.11. */
+:focus-visible {
+  outline: 3px solid var(--ic-color-charcoal-black);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0 0 var(--sp-3);
+}
+
+h1 {
+  font-size: var(--size-closing);
+  font-weight: var(--ic-font-weight-bold);
+  line-height: var(--ic-typography-title-page-line-height);
+  letter-spacing: var(--ic-typography-title-page-letter-spacing);
+}
+
+h2 {
+  font-size: var(--ic-typography-subheadline-font-size);
+  font-weight: var(--ic-font-weight-semibold);
+  line-height: 1.3;
+}
+
+p {
+  margin: 0 0 var(--sp-3);
+  max-width: 62ch;
+}
+
+/*
+ * Material Symbols. §4.2 limits icon colours to Charcoal Black, Serene White and Deep
+ * Azure, so no icon in this app is Gold.
+ */
+.icon {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+/* inside a heading: below 1em so the glyph accompanies the words rather than
+   competing, and inline so headings still wrap as sentences */
+.iconHeading {
+  font-size: 0.8em;
+  margin-right: 0.4em;
+  position: relative;
+  top: -0.04em;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-left: var(--sp-4);
+  padding-right: var(--sp-4);
+}
+
+/* A flex item with auto cross-axis margins does not stretch, it shrinks to its
+   content, so .wrap on a body-level element would collapse the header and footer to
+   the width of their contents. */
+body > header,
+body > main,
+body > footer {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

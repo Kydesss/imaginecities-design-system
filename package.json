@@ -8,10 +8,11 @@
     "validate:schema": "ajv validate -c ajv-formats --spec=draft2020 --strict=false -s schema/dsds.bundled.schema.json -d \"dsds/*.json\"",
     "validate:refs": "node scripts/check-refs.js",
     "validate:tokens": "node scripts/build-tokens.mjs --check",
-    "validate": "npm run validate:schema && npm run validate:refs && npm run validate:tokens",
+    "validate": "npm run validate:schema && npm run validate:refs && npm run validate:tokens && npm run validate:app",
     "dev": "npm --prefix apps/assessment run dev",
     "build": "npm run build:tokens && npm --prefix apps/assessment run build",
-    "test": "npm run validate"
+    "test": "npm run validate",
+    "validate:app": "node scripts/check-app-colours.mjs"
   },
   "keywords": [
     "design-system",

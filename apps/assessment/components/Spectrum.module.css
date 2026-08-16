@@ -1,0 +1,86 @@
+.spectrum {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--ic-font-poppins), var(--ic-font-family-system);
+  margin: 0 0 var(--sp-4);
+}
+
+/* Nodes are identical apart from the one the reader is on. Not a ramp: a ramp would
+   say the stages are ranked, which the framework explicitly rejects. */
+.node {
+  fill: var(--ic-color-serene-white);
+  stroke: var(--ic-color-charcoal-black);
+  stroke-width: 3;
+}
+
+.nodeCurrent {
+  fill: var(--ic-color-gold);
+  stroke-width: 5;
+}
+
+.labelCurrent {
+  font-weight: var(--ic-font-weight-bold);
+}
+
+/*
+ * The text equivalent of the graphic. Above 900px it is hidden VISUALLY ONLY, never
+ * with display:none: the SVG is aria-hidden, so removing this from the accessibility
+ * tree would leave screen-reader users with no stages at all.
+ */
+.stageList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.stageName {
+  display: block;
+  font-weight: var(--ic-font-weight-semibold);
+}
+
+.stageWhat {
+  display: block;
+  font-size: var(--ic-typography-paragraph-small-font-size);
+  margin-top: var(--sp-1);
+}
+
+@media (max-width: 900px) {
+  .spectrum {
+    display: none;
+  }
+
+  .stageList {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-3);
+    margin: 0 0 var(--sp-4);
+  }
+
+  .stageList li {
+    padding-top: var(--sp-2);
+    border-top: 3px solid var(--hairline);
+  }
+
+  .stageList li[aria-current='step'] {
+    border-top-color: var(--ic-color-charcoal-black);
+  }
+}
+
+@media (max-width: 460px) {
+  .stageList {
+    grid-template-columns: 1fr;
+  }
+}
