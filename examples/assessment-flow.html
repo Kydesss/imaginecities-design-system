@@ -32,10 +32,16 @@
   Imagine Cities' own; the Harwood report assesses nine differently-named factors,
   and two of ours appear nowhere in it. Do not reattribute.
 
-  EMAIL GATE: placed before the result, matching the current tool, per direction.
-  The marketing consent is unbundled into its own unticked checkbox, which is the
-  minimum needed to avoid bundled consent under CASL. The open question of whether
-  the gate should move after the result stays in the punch list.
+  EMAIL GATE: partial, and placed after the stage. The stage itself is free, which
+  is the answer the user came for. The email unlocks the guidance behind it: why the
+  neighbourhood is there and what to focus on next. The accuracy check is open to
+  everyone, since feedback from people who decline to identify themselves is the
+  feedback most worth having. Marketing consent is a separate unticked checkbox that
+  nothing on the page depends on.
+
+  This removes the CASL problem of making consent a condition of the result, takes
+  the friction off the emotional peak, and still gives the organization a reason to
+  ask that a user can see the value of.
 
   ACCESSIBILITY implemented here: fieldset/legend per question, native radios so
   arrow keys work, selection indicated by mark and border rather than colour alone,
@@ -172,6 +178,37 @@
     background:var(--fresh-green);border-radius:var(--radius-surface);
     padding:var(--sp-4);margin:0 0 var(--sp-5);font-weight:var(--w-semibold);
   }
+  /* The stage name is the answer, so it stops being one more black word in a
+     sentence. Charcoal on Gold is 8.88:1, safe at any size, and Gold is the hero
+     colour, which is what makes the chip read as the payload. */
+  .stage-chip{
+    display:inline-block;background:var(--gold);color:var(--charcoal);
+    font-weight:var(--w-bold);border-radius:var(--radius-pill);
+    padding:.08em .5em;white-space:nowrap;
+  }
+
+  /* ---- spectrum graphic ---- */
+  .spectrum{display:block;width:100%;height:auto;font-family:var(--font);margin:0 0 var(--sp-4);}
+  /* Nodes are identical except for the one the reader is on. Not a ramp. */
+  .spectrum .node{fill:var(--serene-white);stroke:var(--charcoal);stroke-width:3;}
+  .spectrum .node.is-current{fill:var(--gold);stroke-width:5;}
+  .spectrum .node-label.is-current{font-weight:var(--w-bold);}
+  /* Above 640px the graphic carries the stages and the list is hidden visually only,
+     never with display:none, since the SVG is aria-hidden and the list is the text
+     equivalent. */
+  .spectrum + .stage-list{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+  }
+
+  /* ---- the gate ---- */
+  #gate{
+    background:var(--gold-20);border-radius:var(--radius-surface);
+    padding:var(--sp-5);margin:0 0 var(--sp-5);
+  }
+  #gate h2{margin-top:0;}
+  #guidance h2:focus{outline:none;}
+
   .stage-list{list-style:none;margin:var(--sp-4) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:var(--sp-2);}
   .stage-list li{padding-top:var(--sp-2);border-top:3px solid rgba(36,37,37,.25);font-size:14px;}
   .stage-list li[aria-current="step"]{border-top-color:var(--charcoal);font-weight:var(--w-semibold);}
@@ -190,9 +227,14 @@
     clip:rect(0 0 0 0);white-space:nowrap;border:0;
   }
 
-  @media (max-width:560px){
+  @media (max-width:640px){
     h1{font-size:26px;}
     legend{font-size:18px;}
+    .spectrum{display:none;}
+    .spectrum + .stage-list{
+      position:static;width:auto;height:auto;margin:var(--sp-4) 0 0;
+      overflow:visible;clip:auto;white-space:normal;
+    }
     .stage-list{grid-template-columns:1fr 1fr;}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none !important;}}
@@ -440,66 +482,115 @@
       </fieldset>
       <div class="actions">
         <button type="button" class="btn btn-quiet" data-go="q4">Back</button>
-        <button type="button" class="btn btn-primary" data-next="5" data-go="email">See my result</button>
+        <button type="button" class="btn btn-primary" data-next="5" data-go="result">See my result</button>
       </div>
     </form>
   </section>
 
-  <!-- ===== step 7: email ===== -->
-  <section class="step" id="step-email" tabindex="-1" aria-labelledby="h-email">
-    <p class="progress">Last step</p>
-    <h1 id="h-email">All five factors captured</h1>
-    <p>
-      Enter your email to view your result and receive a copy of your stage explanation
-      and recommended next steps.
-    </p>
-    <form id="email-form" novalidate>
-      <div class="field">
-        <label for="email">Email address</label>
-        <p class="hint" id="email-hint">We send your result to this address.</p>
-        <p class="error" id="err-email">Enter an email address so we can send your result.</p>
-        <input type="email" id="email" name="email" autocomplete="email"
-               inputmode="email" aria-describedby="email-hint err-email" required>
-      </div>
-      <!-- Consent unbundled: viewing the result does not depend on this box. -->
-      <div class="consent">
-        <input type="checkbox" id="optin" name="optin">
-        <label for="optin">
-          Also send me related resources from Imagine Cities. You can unsubscribe at any
-          time. Leaving this unticked will not affect your result.
-        </label>
-      </div>
-      <div class="actions">
-        <button type="button" class="btn btn-quiet" data-go="q5">Back</button>
-        <button type="submit" class="btn btn-primary">View my result</button>
-      </div>
-    </form>
-    <p class="muted" style="margin-top:var(--sp-4)">
-      This is a prototype. Nothing you enter is stored or sent.
-    </p>
-  </section>
-
-  <!-- ===== result ===== -->
+  <!-- ===== result =====
+       The stage itself is free. The guidance behind it is the exchange for an email.
+       Rationale: the answer the user came for arrives without a toll, which removes the
+       CASL problem of making consent a condition of the result and takes the friction
+       off the emotional peak. What sits behind the form is genuinely additional, so the
+       ask is honest rather than a wall. The accuracy check stays open to everyone,
+       because feedback from people who decline to identify themselves is the feedback
+       most worth having.
+  -->
   <section class="step" id="step-result" tabindex="-1" aria-labelledby="h-result">
     <div class="result-band">
       <p class="factor-name" style="color:var(--charcoal)">Where your neighbourhood is now</p>
-      <h1 id="h-result">Your neighbourhood is in the <span id="stage-name"></span> stage</h1>
+      <h1 id="h-result">Your neighbourhood is in the <span class="stage-chip" id="stage-name"></span> stage</h1>
       <p id="stage-summary"></p>
-      <ol class="stage-list" id="stage-list"></ol>
     </div>
 
-    <!-- The framework's own position, placed beside the result rather than two screens later -->
+    <!-- Same spectrum as the intro page, with the reader's stage marked. Decorative:
+         the ordered list underneath is the text equivalent for assistive tech. -->
+    <svg class="spectrum" viewBox="0 0 1040 300" aria-hidden="true"
+         xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arw2" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,1 L9,5 L0,9 z" fill="#242525"/>
+        </marker>
+      </defs>
+      <g id="you-are-here">
+        <text id="yah-label" x="120" y="34" text-anchor="middle" font-size="15"
+              font-weight="700" fill="#242525">Your neighbourhood</text>
+        <line id="yah-line" x1="120" y1="48" x2="120" y2="86" stroke="#242525"
+              stroke-width="2"/>
+      </g>
+      <line x1="146" y1="120" x2="294" y2="120" stroke="#242525" stroke-width="2.5"
+            marker-start="url(#arw2)" marker-end="url(#arw2)"/>
+      <line x1="346" y1="120" x2="494" y2="120" stroke="#242525" stroke-width="2.5"
+            marker-start="url(#arw2)" marker-end="url(#arw2)"/>
+      <line x1="546" y1="120" x2="694" y2="120" stroke="#242525" stroke-width="2.5"
+            marker-start="url(#arw2)" marker-end="url(#arw2)"/>
+      <line x1="746" y1="120" x2="894" y2="120" stroke="#242525" stroke-width="2.5"
+            marker-start="url(#arw2)" marker-end="url(#arw2)"/>
+      <circle class="node" data-i="0" cx="120" cy="120" r="20"/>
+      <circle class="node" data-i="1" cx="320" cy="120" r="20"/>
+      <circle class="node" data-i="2" cx="520" cy="120" r="20"/>
+      <circle class="node" data-i="3" cx="720" cy="120" r="20"/>
+      <circle class="node" data-i="4" cx="920" cy="120" r="20"/>
+      <g font-size="17" fill="#242525" text-anchor="middle">
+        <text class="node-label" data-i="0" x="120" y="180">Waiting Place</text>
+        <text class="node-label" data-i="1" x="320" y="180">Impasse</text>
+        <text class="node-label" data-i="2" x="520" y="180">Catalytic</text>
+        <text class="node-label" data-i="3" x="720" y="180">Growth</text>
+        <text class="node-label" data-i="4" x="920" y="180">Sustain &amp; Renew</text>
+      </g>
+      <text x="520" y="240" text-anchor="middle" font-size="14" fill="#242525">
+        Neighbourhoods move in both directions, and a stage can be temporary.
+      </text>
+    </svg>
+    <ol class="stage-list" id="stage-list"></ol>
+
     <p class="reflection">
-      This result is a reflection, not a verdict. Neighbourhoods move along this spectrum
-      in both directions, and every stage has a sensible next step.
+      This result is a reflection, not a verdict. Every stage has a sensible next step,
+      and reaching Impasse is a step forward from the Waiting Place, because the problem
+      has become clear enough to act on.
     </p>
 
-    <h2>Why you are in this stage</h2>
-    <p id="stage-why"></p>
+    <!-- ===== gated: the guidance ===== -->
+    <div id="gate">
+      <h2>Get the rest of your result</h2>
+      <p>
+        Your stage is above. Enter your email and we will unlock why your neighbourhood
+        is there and what to focus on next, and send you a copy to keep.
+      </p>
+      <form id="email-form" novalidate>
+        <div class="field">
+          <label for="email">Email address</label>
+          <p class="hint" id="email-hint">We send your result and next steps to this address.</p>
+          <p class="error" id="err-email">Enter an email address so we can send your result.</p>
+          <input type="email" id="email" name="email" autocomplete="email"
+                 inputmode="email" aria-describedby="email-hint err-email" required>
+        </div>
+        <!-- Unbundled and unticked. Nothing on this page depends on it. -->
+        <div class="consent">
+          <input type="checkbox" id="optin" name="optin">
+          <label for="optin">
+            Also send me related resources from Imagine Cities. You can unsubscribe at any
+            time. Leaving this unticked changes nothing about what you receive here.
+          </label>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">Show the rest</button>
+        </div>
+      </form>
+      <p class="muted" style="margin-top:var(--sp-3)">
+        This is a prototype. Nothing you enter is stored or sent.
+      </p>
+    </div>
 
-    <h2>What to focus on next</h2>
-    <p id="stage-focus"></p>
-    <ul class="next-steps" id="stage-steps"></ul>
+    <div id="guidance" hidden>
+      <h2 id="h-guidance" tabindex="-1">Why you are in this stage</h2>
+      <p id="stage-why"></p>
+
+      <h2>What to focus on next</h2>
+      <p id="stage-focus"></p>
+      <ul class="next-steps" id="stage-steps"></ul>
+    </div>
 
     <h2 style="margin-top:var(--sp-6)">Does this result feel accurate?</h2>
     <p class="muted">Your neighbourhood knows itself best. Let us know how well this reflects what you see.</p>
@@ -743,6 +834,24 @@
       stepsEl.appendChild(li);
     });
 
+    // Mark the reader's node on the spectrum, and move the "Your neighbourhood"
+    // pointer to it. Node x positions are 120, 320, 520, 720, 920.
+    var current = ORDER.indexOf(key);
+    var nodes = document.querySelectorAll(".spectrum .node, .spectrum .node-label");
+    for (var n = 0; n < nodes.length; n++) {
+      var isCurrent = parseInt(nodes[n].getAttribute("data-i"), 10) === current;
+      if (isCurrent) nodes[n].classList.add("is-current");
+      else nodes[n].classList.remove("is-current");
+    }
+    var x = 120 + (200 * current);
+    var label = document.getElementById("yah-label");
+    var pointer = document.getElementById("yah-line");
+    if (label && pointer) {
+      label.setAttribute("x", x);
+      pointer.setAttribute("x1", x);
+      pointer.setAttribute("x2", x);
+    }
+
     // The five stages, current one marked. Equal weight: not a progress bar.
     var listEl = document.getElementById("stage-list");
     listEl.innerHTML = "";
@@ -766,13 +875,33 @@
     if (t) {
       var q = t.getAttribute("data-next");
       if (q && !validate(q)) return;
-      if (t.getAttribute("data-go") === "start") {
+      var target = t.getAttribute("data-go");
+
+      if (target === "result") {
+        var list = [1, 2, 3, 4, 5].map(function (n) { return answers[n] || 1; });
+        renderResult(scoreToStage(list));
+        if (/[?&]debug=1/.test(window.location.search) && lastWorking) {
+          var d = document.getElementById("debug");
+          d.hidden = false;
+          d.textContent =
+            "Reviewer view. Answers (hope, collaboration, leadership, progress, resilience): " +
+            lastWorking.answers.join(", ") +
+            ". Result: " + lastWorking.stage +
+            ", because " + lastWorking.why +
+            ". Provisional model, not validated methodology.";
+        }
+      }
+
+      if (target === "start") {
         answers = {};
         var forms = document.querySelectorAll("form");
         for (var i = 0; i < forms.length; i++) forms[i].reset();
         document.getElementById("feedback-thanks").hidden = true;
+        // re-lock the guidance for the next run
+        document.getElementById("gate").hidden = false;
+        document.getElementById("guidance").hidden = true;
       }
-      show(t.getAttribute("data-go"));
+      show(target);
       return;
     }
     var fb = e.target.closest("[data-feedback]");
@@ -790,6 +919,8 @@
     }
   });
 
+  // The email unlocks the guidance. It does not unlock the stage, which is already
+  // on screen by this point.
   document.getElementById("email-form").addEventListener("submit", function (e) {
     e.preventDefault();
     var input = document.getElementById("email");
@@ -805,25 +936,22 @@
     err.classList.remove("show");
     input.removeAttribute("aria-invalid");
 
-    var list = [1, 2, 3, 4, 5].map(function (n) { return answers[n] || 1; });
-    renderResult(scoreToStage(list));
-
-    if (/[?&]debug=1/.test(window.location.search) && lastWorking) {
-      var d = document.getElementById("debug");
-      d.hidden = false;
-      d.textContent =
-        "Reviewer view. Answers (hope, collaboration, leadership, progress, resilience): " +
-        lastWorking.answers.join(", ") +
-        ". Result: " + lastWorking.stage +
-        ", because " + lastWorking.why +
-        ". Provisional model, not validated methodology.";
-    }
-    show("result");
+    document.getElementById("gate").hidden = true;
+    var guidance = document.getElementById("guidance");
+    guidance.hidden = false;
+    live.textContent = "Your full result is now shown below.";
+    document.getElementById("h-guidance").focus();
   });
 
-  // ?stage=... jumps straight to a result, for reviewing copy
+  // ?stage=... jumps straight to a result, for reviewing copy. The gate is opened
+  // too, since the point is to review everything without filling in a form.
   var m = /[?&]stage=([a-z-]+)/.exec(window.location.search);
-  if (m && STAGES[m[1]]) { renderResult(m[1]); show("result"); }
+  if (m && STAGES[m[1]]) {
+    renderResult(m[1]);
+    document.getElementById("gate").hidden = true;
+    document.getElementById("guidance").hidden = false;
+    show("result");
+  }
 })();
 </script>
 </body>
