@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colour directions — Imagine Cities assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<!--
+  Five colour directions for the assessment, all inside the v2.0.1 rules.
+
+  The point: the prototype has been using only the three "any size" pairings, which
+  all involve Charcoal Black. That is the safe corner of the palette, not the whole
+  palette. Two things open it up.
+
+  1. The six "large or bold only" pairings are not off limits. They have a size
+     floor: 24px regular, or 18.7px bold. Display type clears that easily, so they
+     are available for headings, stage names and big numbers.
+
+  2. The tint ramps are barely used. With Charcoal text, every 60%, 40% and 20% stop
+     clears 4.5:1 at any size. That is twelve more usable coloured grounds.
+
+  Every sample below states its pairing and measured ratio. Nothing here invents a
+  colour, and the four forbidden pairings are shown at the end so the boundary is
+  visible rather than implied.
+-->
+<style>
+  :root{
+    --gold:#FFB827; --azure:#0656BF; --white:#F5F7F2; --charcoal:#242525;
+    --forest:#527302; --fresh:#C6FDC2; --red:#C73124;
+    --azure-80:#3677CA; --azure-60:#6697D4; --azure-40:#95B6DD; --azure-20:#C5D6E7;
+    --gold-80:#FDC550;  --gold-60:#FBD178;  --gold-40:#F9DEA1;  --gold-20:#F7EAC9;
+    --forest-80:#738E33;--forest-60:#93A862;--forest-40:#B4C292;--forest-20:#D4DCC1;
+    --red-80:#D0594E;   --red-60:#D98077;   --red-40:#E3A89F;   --red-20:#ECCFC8;
+    --font:"Poppins","Roboto",sans-serif;
+    --sp-2:8px; --sp-3:16px; --sp-4:24px; --sp-5:40px; --sp-6:64px;
+    --pill:999px; --surface:12px;
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  body{margin:0;background:var(--white);color:var(--charcoal);font-family:var(--font);
+       font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:960px;margin:0 auto;padding-left:var(--sp-4);padding-right:var(--sp-4);}
+  header{padding-top:var(--sp-6);padding-bottom:var(--sp-4);}
+  h1{font-size:48px;line-height:1.2;letter-spacing:-.02em;margin:0 0 var(--sp-3);max-width:18ch;}
+  h2{font-size:28px;line-height:1.25;margin:0 0 var(--sp-2);}
+  h3{font-size:20px;margin:0 0 var(--sp-2);}
+  p{margin:0 0 var(--sp-3);max-width:70ch;}
+  .lede{font-size:20px;}
+  .note{font-size:14px;}
+
+  .direction{padding-top:var(--sp-6);padding-bottom:var(--sp-4);border-top:1px solid rgba(36,37,37,.14);}
+  .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;
+       background:var(--charcoal);color:var(--white);padding:4px 10px;border-radius:var(--pill);
+       margin-bottom:var(--sp-3);}
+  .ratio{font-size:13px;font-weight:600;opacity:.85;margin-top:var(--sp-2);}
+
+  .sample{border-radius:var(--surface);padding:var(--sp-5);margin:0 0 var(--sp-3);}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);}
+  @media (max-width:760px){.row{grid-template-columns:1fr;} h1{font-size:34px;}}
+
+  /* display type only, so the large-text pairings are legal */
+  .display{font-size:34px;font-weight:600;line-height:1.35;margin:0 0 var(--sp-2);}
+  .display-sm{font-size:24px;font-weight:600;line-height:1.35;margin:0 0 var(--sp-2);}
+  .chip{display:inline-block;border-radius:var(--pill);padding:.12em .5em;
+        line-height:1.15;font-weight:700;box-decoration-break:clone;}
+
+  .btn{display:inline-flex;align-items:center;border:none;border-radius:var(--pill);
+       padding:.75em 1.5em;font:inherit;font-weight:500;font-size:16px;cursor:pointer;min-height:44px;}
+
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:var(--sp-2);}
+  .sw{border-radius:8px;padding:var(--sp-3);font-size:13px;font-weight:600;min-height:76px;}
+  .never{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:var(--sp-2);}
+  .never div{border-radius:8px;padding:var(--sp-3);font-size:14px;font-weight:600;}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <h1>Colour Directions</h1>
+  <p class="lede">
+    Five ways to use more of the palette without leaving the accessibility rules. Every
+    sample names its pairing and measured ratio.
+  </p>
+  <p class="note">
+    The prototype has been using only the three pairings that work at any size, and all
+    three involve Charcoal Black. The six large-text pairings have a size floor of 24px
+    regular or 18.7px bold, which display type clears easily. The tint ramps add twelve
+    more usable grounds. Nothing below is invented.
+  </p>
+</header>
+
+<main>
+
+  <!-- ============ A ============ -->
+  <section class="direction wrap">
+    <span class="tag">Direction A</span>
+    <h2>Azure Institutional</h2>
+    <p>Deep Azure carries the structural moments. Reads credible to a procurement
+       reader, which is the audience the current design serves least.</p>
+
+    <div class="sample" style="background:var(--azure);color:var(--white)">
+      <p class="display">Your neighbourhood is in the
+        <span class="chip" style="background:var(--gold);color:var(--charcoal)">Catalytic</span> stage</p>
+      <p class="display-sm" style="font-weight:400;margin:0">Small groups are testing what works.</p>
+    </div>
+    <p class="ratio">Serene White on Deep Azure 6.30:1 · display sizes only · Gold chip on Azure keeps
+       Charcoal text at 8.88:1</p>
+
+    <div class="row">
+      <div class="sample" style="background:var(--azure-20)">
+        <h3>Question 3 of 5</h3>
+        <p style="margin:0">Charcoal on Deep Azure 20%. Safe at any size, so body copy and
+           small labels are fine here.</p>
+        <p class="ratio">10.35:1</p>
+      </div>
+      <div class="sample" style="background:var(--azure-40)">
+        <h3>Question 4 of 5</h3>
+        <p style="margin:0">Charcoal on Deep Azure 40%. Still clears 4.5:1 at any size, and
+           noticeably stronger than the 20% stop.</p>
+        <p class="ratio">7.33:1</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ B ============ -->
+  <section class="direction wrap">
+    <span class="tag">Direction B</span>
+    <h2>Forest and Fresh</h2>
+    <p>The pairing nobody uses. Fresh Green on Forest Green is the most distinctive
+       combination in the palette and reads as neighbourhood rather than institution.</p>
+
+    <div class="sample" style="background:var(--forest);color:var(--fresh)">
+      <p class="display" style="margin-bottom:var(--sp-3)">Most people act as though their
+        community is already growing.</p>
+      <p class="display-sm" style="font-weight:400;margin:0;color:var(--white)">Then wonder why so many
+        initiatives flounder or fail.</p>
+    </div>
+    <p class="ratio">Fresh Green on Forest Green 4.78:1 · Serene White on Forest Green 5.11:1 ·
+       both display sizes only</p>
+
+    <div class="row">
+      <div class="sample" style="background:var(--fresh)">
+        <h3>Charcoal on Fresh Green</h3>
+        <p style="margin:0">13.34:1, any size. The brightest ground available that still
+           takes small text.</p>
+      </div>
+      <div class="sample" style="background:var(--forest-60)">
+        <h3>Charcoal on Forest 60%</h3>
+        <p style="margin:0">5.87:1, any size. A mid-tone green that the design has never
+           touched.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ C ============ -->
+  <section class="direction wrap">
+    <span class="tag">Direction C</span>
+    <h2>A Colour Per Question</h2>
+    <p>Each of the five factors takes its own ground, so moving through the assessment
+       feels like moving. All at 40%, all Charcoal text, all safe at any size.</p>
+    <div class="swatches">
+      <div class="sw" style="background:var(--gold-40)">1 · Hope<br><span style="font-weight:400">Gold 40% · 11.70:1</span></div>
+      <div class="sw" style="background:var(--azure-40)">2 · Collaboration<br><span style="font-weight:400">Azure 40% · 7.33:1</span></div>
+      <div class="sw" style="background:var(--forest-40)">3 · Leadership<br><span style="font-weight:400">Forest 40% · 8.10:1</span></div>
+      <div class="sw" style="background:var(--red-40)">4 · Progress<br><span style="font-weight:400">Red 40% · 7.59:1</span></div>
+      <div class="sw" style="background:var(--fresh)">5 · Resilience<br><span style="font-weight:400">Fresh Green · 13.34:1</span></div>
+    </div>
+    <p class="ratio">Caveat worth arguing about: Bold Red is reserved for alerts in §2.3.
+       Its 40% tint is soft enough that it may not read as a warning, but that is a
+       brand-owner call, not mine.</p>
+  </section>
+
+  <!-- ============ D ============ -->
+  <section class="direction wrap">
+    <span class="tag">Direction D</span>
+    <h2>Azure on Fresh Green</h2>
+    <p>The loudest legal pairing in the palette, and completely unused. Bright, modern,
+       and unmistakably not a government form.</p>
+    <div class="sample" style="background:var(--fresh)">
+      <p class="display" style="color:var(--azure);margin-bottom:var(--sp-3)">Is your neighbourhood
+        ready for what's next?</p>
+      <p style="margin:0 0 var(--sp-4);max-width:46ch">Body copy stays Charcoal at 13.34:1, so
+        only the display line uses the strong pairing.</p>
+      <button class="btn" style="background:var(--azure);color:var(--white)">Start the assessment</button>
+    </div>
+    <p class="ratio">Deep Azure on Fresh Green 5.90:1 · display sizes only · button label is
+       Serene White on Deep Azure at 6.30:1, and at 16px that is BELOW the floor —
+       it would need 18.7px bold, or a Gold button instead. Shown deliberately as the
+       trap in this direction.</p>
+  </section>
+
+  <!-- ============ E ============ -->
+  <section class="direction wrap">
+    <span class="tag">Direction E</span>
+    <h2>Full Ramp as Structure</h2>
+    <p>Use one colour's whole ramp down a page so sections feel related rather than
+       assembled. Charcoal text throughout, so everything takes small copy.</p>
+    <div class="swatches">
+      <div class="sw" style="background:var(--gold)">Gold 100%<br><span style="font-weight:400">8.88:1</span></div>
+      <div class="sw" style="background:var(--gold-80)">80%<br><span style="font-weight:400">9.72:1</span></div>
+      <div class="sw" style="background:var(--gold-60)">60%<br><span style="font-weight:400">10.61:1</span></div>
+      <div class="sw" style="background:var(--gold-40)">40%<br><span style="font-weight:400">11.70:1</span></div>
+      <div class="sw" style="background:var(--gold-20)">20%<br><span style="font-weight:400">12.86:1</span></div>
+    </div>
+    <p class="ratio">Gold is the only ramp where every stop takes Charcoal at any size.
+       The Azure, Forest and Red ramps drop below 4.5:1 at their 80% stop, so those stops
+       need display type or should be skipped.</p>
+  </section>
+
+  <!-- ============ boundary ============ -->
+  <section class="direction wrap">
+    <span class="tag">The boundary</span>
+    <h2>Four Pairings That Can Never Carry Text</h2>
+    <p>Shown so the limit is visible rather than assumed. These are backgrounds and
+       shapes only, never type, at any size.</p>
+    <div class="never">
+      <div style="background:var(--azure);color:var(--forest)">Deep Azure + Forest Green · 1.23:1</div>
+      <div style="background:var(--red);color:var(--azure)">Bold Red + Deep Azure · 1.26:1</div>
+      <div style="background:var(--gold);color:var(--fresh)">Gold + Fresh Green · 1.50:1</div>
+      <div style="background:var(--forest);color:var(--red)">Forest Green + Bold Red · 1.02:1</div>
+    </div>
+    <p class="ratio">Also excluded: Serene White on the Deep Azure 60% tint at 2.80:1, which
+       the 2.2 chart recommends and which fails every threshold. That one is a defect in
+       the guidelines, not a design choice.</p>
+  </section>
+
+</main>
+
+<footer class="wrap" style="padding-top:var(--sp-5);padding-bottom:var(--sp-6);border-top:1px solid rgba(36,37,37,.14)">
+  <p class="note" style="margin:0">
+    Every colour traces to tokens.json. Large-text pairings are legal at 24px regular or
+    18.7px bold and above; below that only Charcoal pairings are safe.
+  </p>
+</footer>
+
+</body>
+</html>
