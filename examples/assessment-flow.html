@@ -120,9 +120,15 @@
      is announced a moment before you see it. Order is fixed, so nth-child is safe.
      Colours must stay in step with the .ground-* rules below and with
      docs/colour-emotion-map.md. */
+  /* Opacity alone cannot carry this. Gold 20 is 1.11:1 against Serene White at full
+     strength, so the palest segment is near-invisible however high the opacity goes.
+     Measured: at 55% opacity the unreached segments sit between 1.04 and 1.35 against
+     the page, so the fill is not carrying the shape at all. The hairline does that, at
+     3.03:1, and the opacity only separates reached from unreached. */
   .qbar li{
     height:8px;border-radius:var(--radius-pill);
-    opacity:.35;                            /* not yet reached */
+    opacity:.55;                            /* not yet reached */
+    box-shadow:inset 0 0 0 1px rgba(36,37,37,.5);
     transition:opacity 160ms var(--ease);
   }
   .qbar li:nth-child(1){background:var(--gold-40);}     /* hope */
@@ -134,7 +140,7 @@
   /* Position is marked by a Charcoal ring rather than by a different colour, since the
      colour slot is already carrying meaning. box-shadow rather than outline so it
      follows the pill radius everywhere. 14.25:1 against the page. */
-  .qbar li.is-current{box-shadow:0 0 0 2px var(--charcoal);}
+  .qbar li.is-current{box-shadow:inset 0 0 0 1px rgba(36,37,37,.5), 0 0 0 2px var(--charcoal);}
   .progress{font-size:14px;font-weight:var(--w-semibold);margin:0 0 var(--sp-4);}
 
   /* ---- steps ---- */
@@ -251,7 +257,7 @@
   .field .hint{font-size:14px;margin:0 0 var(--sp-2);}
   .field input[type=text],.field input[type=email]{
     width:100%;font-family:var(--font);font-size:16px;padding:.7em .8em;
-    border:2px solid rgba(36,37,37,.35);border-radius:8px;background:transparent;color:var(--charcoal);
+    border:2px solid rgba(36,37,37,.5);border-radius:8px;background:transparent;color:var(--charcoal);
     min-height:44px;
   }
   .field input:focus-visible{outline:3px solid var(--charcoal);outline-offset:2px;border-color:var(--charcoal);}
