@@ -216,6 +216,21 @@
     padding: var(--sp-5); margin: var(--sp-6) 0;
   }
   .stages-band .framing { margin: 0 0 var(--sp-5); max-width: 68ch; }
+  /* The graphic carries the five stages visually above 900px; the list is the text
+     equivalent and becomes visible below that, where the SVG would be unreadable.
+     Above 900px the list is hidden VISUALLY ONLY, not with display:none, because
+     the SVG is aria-hidden and removing the list from the accessibility tree would
+     leave screen-reader users on desktop with no stages at all. */
+  .spectrum {
+    display: block; width: 100%; height: auto;
+    font-family: var(--font);
+    margin: 0 0 var(--sp-4);
+  }
+  .spectrum + .stages {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
   .stages { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--sp-3); }
   /* Equal visual weight on purpose. No ramp, no progress bar: the framework is explicit
      that this is not a scorecard, and a later stage is not a better grade. */
@@ -248,6 +263,11 @@
     h1 { font-size: var(--size-closing); max-width: 22ch; }
     .lede { font-size: 18px; }
     .why .claim { font-size: 22px; }
+    .spectrum { display: none; }
+    .spectrum + .stages {
+      position: static; width: auto; height: auto; margin: 0;
+      overflow: visible; clip: auto; white-space: normal;
+    }
     .stages { grid-template-columns: 1fr 1fr; }
     .closing h2 { font-size: 26px; }
   }
@@ -381,6 +401,73 @@
         collaboration, leadership, progress, and resilience. Your answers place your
         neighbourhood in one of <strong>five stages</strong>.
       </p>
+      <!--
+        The spectrum graphic. Decorative for assistive tech: the ordered list below
+        carries the same content as text, so the SVG is aria-hidden and hidden on
+        small screens where it cannot be read.
+
+        Deliberately NOT a progress bar. Every node is identical in size and colour,
+        the connectors are double-headed because the report is explicit that
+        neighbourhoods move in both directions, and there are no numbers, because
+        numbering five stages makes them look like a score out of five.
+
+        The one annotation is the page's argument, and it is Harwood's finding
+        rather than ours: most people assume they are already at Growth.
+      -->
+      <svg class="spectrum" viewBox="0 0 1040 300" aria-hidden="true"
+           xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5"
+                  markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,1 L9,5 L0,9 z" fill="#242525"/>
+          </marker>
+        </defs>
+
+        <!-- annotation over Growth -->
+        <text x="720" y="26" text-anchor="middle" font-size="14" font-weight="600"
+              fill="#242525">Where most people assume</text>
+        <text x="720" y="46" text-anchor="middle" font-size="14" font-weight="600"
+              fill="#242525">their neighbourhood already is</text>
+        <line x1="720" y1="58" x2="720" y2="86" stroke="#242525" stroke-width="2"
+              stroke-dasharray="4 4"/>
+
+        <!-- connectors, double-headed in both directions -->
+        <line x1="146" y1="120" x2="294" y2="120" stroke="#242525" stroke-width="2.5"
+              marker-start="url(#arw)" marker-end="url(#arw)"/>
+        <line x1="346" y1="120" x2="494" y2="120" stroke="#242525" stroke-width="2.5"
+              marker-start="url(#arw)" marker-end="url(#arw)"/>
+        <line x1="546" y1="120" x2="694" y2="120" stroke="#242525" stroke-width="2.5"
+              marker-start="url(#arw)" marker-end="url(#arw)"/>
+        <line x1="746" y1="120" x2="894" y2="120" stroke="#242525" stroke-width="2.5"
+              marker-start="url(#arw)" marker-end="url(#arw)"/>
+
+        <!-- five identical nodes: same size, same colour, no numbers -->
+        <circle cx="120" cy="120" r="20" fill="#FFB827" stroke="#242525" stroke-width="3"/>
+        <circle cx="320" cy="120" r="20" fill="#FFB827" stroke="#242525" stroke-width="3"/>
+        <circle cx="520" cy="120" r="20" fill="#FFB827" stroke="#242525" stroke-width="3"/>
+        <circle cx="720" cy="120" r="20" fill="#FFB827" stroke="#242525" stroke-width="3"/>
+        <circle cx="920" cy="120" r="20" fill="#FFB827" stroke="#242525" stroke-width="3"/>
+
+        <g font-size="17" font-weight="600" fill="#242525" text-anchor="middle">
+          <text x="120" y="180">Waiting Place</text>
+          <text x="320" y="180">Impasse</text>
+          <text x="520" y="180">Catalytic</text>
+          <text x="720" y="180">Growth</text>
+          <text x="920" y="180">Sustain &amp; Renew</text>
+        </g>
+        <g font-size="13" fill="#242525" text-anchor="middle">
+          <text x="120" y="204">Nobody can quite</text><text x="120" y="221">name the problem.</text>
+          <text x="320" y="204">The problem is named.</text><text x="320" y="221">Action has stalled.</text>
+          <text x="520" y="204">Small groups are</text><text x="520" y="221">testing what works.</text>
+          <text x="720" y="204">Progress is visible</text><text x="720" y="221">and spreading.</text>
+          <text x="920" y="204">The neighbourhood</text><text x="920" y="221">adapts and keeps going.</text>
+        </g>
+
+        <text x="520" y="270" text-anchor="middle" font-size="14" fill="#242525">
+          Neighbourhoods move in both directions, and a stage can be temporary.
+        </text>
+      </svg>
+
       <ol class="stages" role="list">
         <li><div class="name">Waiting Place</div><div class="what">Something is not working, but nobody can quite name it.</div></li>
         <li><div class="name">Impasse</div><div class="what">The problem is named and urgent, and action has stalled.</div></li>
