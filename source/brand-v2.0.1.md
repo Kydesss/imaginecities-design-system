@@ -6,7 +6,7 @@ Guidelines.pdf" (Montserrat + Azure/Viridian/Turquoise/Aqua palette) — it is s
 
 - Source: Google Slides "Imagine Cities Brand Guidelines"
   (id `1c0F9BWUlD3Jozm-dHOAv-diGGWcH5wueKYUQxyc7ISI`)
-- Version 2.0.1 | October 2024 | www.imaginecities.ca
+- Version 2.0.1 | October 2024 | www.imaginecities.com
 - About: "We are a nonprofit that provides residents with the resources to learn, plan,
   and gather resources to build a more abundant future."
 - Tagline: "Great cities are the result of fostering thriving neighbourhoods."
@@ -26,12 +26,12 @@ Guidelines.pdf" (Montserrat + Azure/Viridian/Turquoise/Aqua palette) — it is s
 v2.0.1 kept the pre-existing logo artwork unchanged. Slides 1.1 and 1.2 render the logo in
 its **legacy colours, which are not in the v2.0.1 palette**. Sampled from the asset files:
 
-| Logo colour | Nearest palette colour | Same? |
-|---|---|---|
-| `#F9AF42` | Gold `#FFB827` | no — this is the 2021 gold |
-| `#149ED3` | Deep Azure `#0656BF` | no |
-| `#13A89E` | (no equivalent) | no — legacy turquoise |
-| `#241F20` | Charcoal Black `#242525` | near, not exact |
+| Logo colour | Nearest palette colour   | Same?                      |
+| ----------- | ------------------------ | -------------------------- |
+| `#F9AF42`   | Gold `#FFB827`           | no — this is the 2021 gold |
+| `#149ED3`   | Deep Azure `#0656BF`     | no                         |
+| `#13A89E`   | (no equivalent)          | no — legacy turquoise      |
+| `#241F20`   | Charcoal Black `#242525` | near, not exact            |
 
 The wordmark is a heavy geometric sans, **not Poppins**.
 
