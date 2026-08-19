@@ -7,29 +7,54 @@
  * nothing here depends on a large-text floor.
  */
 
+.step {
+    padding-top: var(--sp-4);
+}
+
 .bar {
-  border-bottom: 1px solid var(--hairline);
-  padding: var(--sp-3) 0;
-  margin-bottom: var(--sp-5);
+    border-bottom: 1px solid var(--hairline);
+    padding: var(--sp-3) 0;
+    margin-bottom: var(--sp-5);
+}
+
+/*
+ * Logo over product name. The sub-line is aligned to the left edge of the logo art,
+ * not centred under it, because the wordmark inside the image is left aligned and
+ * centring the text would leave it visibly off-axis.
+ */
+.lockup {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--ic-color-charcoal-black);
+}
+
+.lockupSub {
+    font-size: var(--ic-typography-label-font-size);
+    font-weight: var(--ic-font-weight-bold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.2;
 }
 
 .logo {
-  height: 30px;
-  width: auto;
+    height: 75px;
+    width: auto;
 }
 
 .step:focus {
-  outline: none;
+    outline: none;
 }
 
 .muted {
-  font-size: var(--ic-typography-paragraph-small-font-size);
+    font-size: var(--ic-typography-paragraph-small-font-size);
 }
 
 .progress {
-  font-size: var(--ic-typography-paragraph-small-font-size);
-  font-weight: var(--ic-font-weight-semibold);
-  margin: 0 0 var(--sp-4);
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    font-weight: var(--ic-font-weight-semibold);
+    margin: 0 0 var(--sp-4);
 }
 
 /* ---- progress bar ----
@@ -39,411 +64,516 @@
    are pale tints. The hairline carries the shape at 3.05:1; opacity only separates
    reached from unreached. */
 .qbar {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: var(--sp-1);
-  margin: 0 0 var(--sp-3);
-  padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--sp-1);
+    margin: 0 0 var(--sp-3);
+    padding: 0;
 }
 
 .qbar li {
-  height: 8px;
-  border-radius: var(--radius-pill);
-  opacity: 0.55;
-  box-shadow: inset 0 0 0 1px var(--border-strong);
-  transition: opacity 160ms var(--ease);
+    height: 8px;
+    border-radius: var(--radius-pill);
+    opacity: 0.55;
+    box-shadow: inset 0 0 0 1px var(--border-strong);
+    transition: opacity 160ms var(--ease);
 }
 
-.seg-hope { background: var(--ic-color-tint-gold-40); }
-.seg-collaboration { background: var(--ic-color-fresh-green); }
-.seg-leadership { background: var(--ic-color-tint-deep-azure-20); }
-.seg-progress { background: var(--ic-color-tint-forest-green-40); }
-.seg-resilience { background: var(--ic-color-tint-gold-20); }
+.seg-hope {
+    background: var(--ic-color-tint-gold-40);
+}
+.seg-collaboration {
+    background: var(--ic-color-fresh-green);
+}
+.seg-leadership {
+    background: var(--ic-color-tint-deep-azure-20);
+}
+.seg-progress {
+    background: var(--ic-color-tint-forest-green-40);
+}
+.seg-resilience {
+    background: var(--ic-color-tint-gold-20);
+}
 
 .segDone,
 .segCurrent {
-  opacity: 1;
+    opacity: 1;
 }
 
 /* Position marked by a Charcoal ring, not a different colour: the colour slot is
    already carrying meaning. 14.25:1 against the page. */
 .segCurrent {
-  box-shadow: inset 0 0 0 1px var(--border-strong), 0 0 0 2px var(--ic-color-charcoal-black);
+    box-shadow:
+        inset 0 0 0 1px var(--border-strong),
+        0 0 0 2px var(--ic-color-charcoal-black);
 }
 
 /* ---- question grounds ---- */
 .qcard {
-  border-radius: var(--radius-surface);
-  padding: var(--sp-5);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-5);
 }
 
-.ground-hope .qcard { background: var(--ic-color-tint-gold-40); }
-.ground-collaboration .qcard { background: var(--ic-color-fresh-green); }
-.ground-leadership .qcard { background: var(--ic-color-tint-deep-azure-20); }
-.ground-progress .qcard { background: var(--ic-color-tint-forest-green-40); }
-.ground-resilience .qcard { background: var(--ic-color-tint-gold-20); }
+.ground-hope .qcard {
+    background: var(--ic-color-tint-gold-40);
+}
+.ground-collaboration .qcard {
+    background: var(--ic-color-fresh-green);
+}
+.ground-leadership .qcard {
+    background: var(--ic-color-tint-deep-azure-20);
+}
+.ground-progress .qcard {
+    background: var(--ic-color-tint-forest-green-40);
+}
+.ground-resilience .qcard {
+    background: var(--ic-color-tint-gold-20);
+}
 
 .fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .factorName {
-  font-size: var(--ic-typography-label-font-size);
-  font-weight: var(--ic-font-weight-bold);
-  letter-spacing: 0.06em;
-  color: var(--ic-color-charcoal-black);
-  margin: 0 0 var(--sp-2);
+    font-size: var(--ic-typography-label-font-size);
+    font-weight: var(--ic-font-weight-bold);
+    letter-spacing: 0.06em;
+    color: var(--ic-color-charcoal-black);
+    margin: var(--sp-3) 0 var(--sp-2) 0;
 }
 
 .legend {
-  font-size: var(--ic-typography-subheadline-font-size);
-  font-weight: var(--ic-font-weight-semibold);
-  line-height: 1.3;
-  margin: 0 0 var(--sp-4);
-  padding: 0;
-  max-width: 40ch;
+    font-size: var(--ic-typography-subheadline-font-size);
+    font-weight: var(--ic-font-weight-semibold);
+    line-height: 1.3;
+    margin: 0 0 var(--sp-2);
+    padding: 0;
+    max-width: 40ch;
+}
+
+/*
+ * What the factor measures, under the question. Charcoal rather than a muted grey:
+ * this sits on the tinted question ground, and Charcoal Black is the only colour the
+ * deck clears against every ground at any text size.
+ */
+.factorBlurb {
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    line-height: 1.5;
+    color: var(--ic-color-charcoal-black);
+    margin: 0 0 var(--sp-4);
+    /* max-width: 56ch; */
 }
 
 /* The icon sits in its own column so a wrapping question keeps a straight left edge.
    A span inside the legend rather than display:flex on the legend itself, since
    browsers disagree about honouring display on legend elements. */
 .qRow {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--sp-3);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
 }
 
 .qText {
-  flex: 1 1 auto;
+    flex: 1 1 auto;
 }
 
 /* ---- options ---- */
 .options {
-  display: grid;
-  gap: var(--sp-3);
-  margin: 0 0 var(--sp-4);
+    display: grid;
+    gap: var(--sp-3);
+    margin: 0 0 var(--sp-4);
 }
 
 .option {
-  position: relative;
+    position: relative;
 }
 
 .option input {
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  accent-color: var(--ic-color-charcoal-black);
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    accent-color: var(--ic-color-charcoal-black);
 }
 
 /* The right padding reserves a lane for the check mark, which is positioned at
    right:16px. Without it the longest options run underneath the glyph. */
 .option label {
-  display: block;
-  padding: var(--sp-3) 48px var(--sp-3) 52px;
-  border: 2px solid var(--ic-color-charcoal-black);
-  border-radius: var(--radius-surface);
-  background: var(--ic-color-serene-white);
-  cursor: pointer;
-  min-height: 44px;
-  transition: background-color 120ms var(--ease);
+    display: block;
+    padding: var(--sp-3) 48px var(--sp-3) 52px;
+    border: 2px solid var(--ic-color-charcoal-black);
+    border-radius: var(--radius-surface);
+    background: var(--ic-color-serene-white);
+    cursor: pointer;
+    min-height: 44px;
+    transition: background-color 120ms var(--ease);
 }
 
 /* Solid Charcoal, not a light grey: a Serene White card on the Fresh Green ground is
    1.07:1 card-against-ground, and WCAG 1.4.11 wants 3:1 for a component boundary.
    Charcoal holds 7.33:1 to 13.34:1 across all five grounds. */
 .option input:focus-visible + label {
-  outline: 3px solid var(--ic-color-charcoal-black);
-  outline-offset: 2px;
+    outline: 3px solid var(--ic-color-charcoal-black);
+    outline-offset: 2px;
 }
 
 /* Selection is shown by fill AND a check mark, never by colour alone. */
 .option input:checked + label {
-  background: var(--ic-color-gold);
+    background: var(--ic-color-gold);
 }
 
 .option input:checked + label .tick {
-  opacity: 1;
+    opacity: 1;
 }
 
 .tick {
-  position: absolute;
-  right: var(--sp-3);
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0;
-  font-weight: var(--ic-font-weight-bold);
+    position: absolute;
+    right: var(--sp-3);
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    font-weight: var(--ic-font-weight-bold);
 }
 
 .optionShort {
-  display: block;
-  font-weight: var(--ic-font-weight-semibold);
-  margin-bottom: 2px;
+    display: block;
+    font-weight: var(--ic-font-weight-semibold);
+    margin-bottom: 2px;
 }
 
 .optionLong {
-  display: block;
-  font-size: var(--ic-typography-paragraph-small-font-size);
+    display: block;
+    font-size: var(--ic-typography-paragraph-small-font-size);
 }
 
 /* ---- buttons ---- */
 .actions {
-  display: flex;
-  gap: var(--sp-3);
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: var(--sp-4);
+    display: flex;
+    gap: var(--sp-3);
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: var(--sp-4);
 }
 
 .btn {
-  font-family: inherit;
-  font-size: var(--ic-typography-button-text-font-size);
-  font-weight: var(--ic-typography-button-text-font-weight);
-  line-height: var(--ic-typography-button-text-line-height);
-  border-radius: var(--radius-pill);
-  padding: 0.75em 1.5em;
-  border: none;
-  cursor: pointer;
-  min-height: 44px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5em;
-  transition: background-color 140ms var(--ease), color 140ms var(--ease);
+    font-family: inherit;
+    font-size: var(--ic-typography-button-text-font-size);
+    font-weight: var(--ic-typography-button-text-font-weight);
+    line-height: var(--ic-typography-button-text-line-height);
+    border-radius: var(--radius-pill);
+    padding: 0.75em 1.5em;
+    border: none;
+    cursor: pointer;
+    min-height: 44px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    transition:
+        background-color 140ms var(--ease),
+        color 140ms var(--ease);
 }
 
 .btnPrimary {
-  background: var(--ic-color-action);
-  color: var(--ic-color-charcoal-black);
+    background: var(--ic-color-action);
+    color: var(--ic-color-charcoal-black);
 }
 
 .btnPrimary:hover {
-  background: var(--ic-color-charcoal-black);
-  color: var(--ic-color-gold);
+    background: var(--ic-color-charcoal-black);
+    color: var(--ic-color-gold);
 }
 
+/*
+ * The border is the only thing that makes a quiet button read as a button, which puts
+ * it under WCAG 1.4.11 at 3:1. It used to use --border-quiet, Charcoal at 30%, which
+ * measures 1.85:1 on Serene White. --border-strong is Charcoal at 50%, 3.06:1.
+ */
 .btnQuiet {
-  background: transparent;
-  color: var(--ic-color-charcoal-black);
-  border: 2px solid var(--border-quiet);
+    background: transparent;
+    color: var(--ic-color-charcoal-black);
+    border: 2px solid var(--border-strong);
 }
 
 .btnQuiet:hover {
-  border-color: var(--ic-color-charcoal-black);
+    border-color: var(--ic-color-charcoal-black);
 }
 
 /* ---- fields ---- */
 .field {
-  margin: 0 0 var(--sp-4);
-  max-width: 420px;
+    margin: 0 0 var(--sp-4);
+    max-width: 420px;
 }
 
 .field label {
-  display: block;
-  font-weight: var(--ic-font-weight-semibold);
-  margin-bottom: var(--sp-2);
+    display: block;
+    font-weight: var(--ic-font-weight-semibold);
+    margin-bottom: var(--sp-2);
 }
 
 .hint {
-  font-size: var(--ic-typography-paragraph-small-font-size);
-  margin: 0 0 var(--sp-2);
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    margin: 0 0 var(--sp-2);
 }
 
-/* Charcoal at 50% is 3.05:1, which form control borders need under WCAG 1.4.11. */
-.field input[type='text'],
-.field input[type='email'] {
-  width: 100%;
-  font-family: inherit;
-  font-size: var(--ic-typography-paragraph-1-font-size);
-  padding: 0.7em 0.8em;
-  border: 2px solid var(--border-strong);
-  border-radius: 8px;
-  background: transparent;
-  color: var(--ic-color-text);
-  min-height: 44px;
+/*
+ * Serene White fill, not transparent. Transparent let the input take the colour of
+ * whatever it sat on, so the email field picked up the Gold tint of the gate panel and
+ * stopped reading as a field at all.
+ *
+ * Solid Charcoal border, not Charcoal at 50%. WCAG 1.4.11 wants the boundary at 3:1
+ * against what it sits against, and these fields sit on tinted panels: the 50% border
+ * measures 3.06:1 against its own white fill but only 2.76:1 against the Gold 20% gate
+ * and 2.22:1 against the Deep Azure 20% panel. Solid Charcoal clears every ground, and
+ * matches the border already used on the option cards.
+ */
+.field input[type="text"],
+.field input[type="email"] {
+    width: 100%;
+    font-family: inherit;
+    font-size: var(--ic-typography-paragraph-1-font-size);
+    padding: 0.7em 0.8em;
+    border: 2px solid var(--ic-color-charcoal-black);
+    border-radius: 8px;
+    background: var(--ic-color-serene-white);
+    color: var(--ic-color-text);
+    min-height: 44px;
 }
 
-.field input[aria-invalid='true'] {
-  border-color: var(--ic-color-bold-red);
+.field input[aria-invalid="true"] {
+    border-color: var(--ic-color-bold-red);
 }
 
 .consent {
-  display: flex;
-  gap: var(--sp-2);
-  align-items: flex-start;
-  max-width: 52ch;
-  margin: 0 0 var(--sp-4);
+    display: flex;
+    gap: var(--sp-2);
+    align-items: flex-start;
+    max-width: 52ch;
+    margin: 0 0 var(--sp-4);
 }
 
 .consent input {
-  margin-top: 3px;
-  width: 20px;
-  height: 20px;
-  accent-color: var(--ic-color-charcoal-black);
+    margin-top: 3px;
+    width: 20px;
+    height: 20px;
+    accent-color: var(--ic-color-charcoal-black);
 }
 
 .consent label {
-  font-size: var(--ic-typography-paragraph-small-font-size);
+    font-size: var(--ic-typography-paragraph-small-font-size);
 }
 
 /* Bold Red marks the error; the sentence stays Charcoal, since red text on near-white
    is 5.0:1 and the brand restricts it. */
 .error {
-  margin: 0 0 var(--sp-3);
-  font-size: var(--ic-typography-paragraph-small-font-size);
-  font-weight: var(--ic-font-weight-semibold);
+    margin: 0 0 var(--sp-3);
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    font-weight: var(--ic-font-weight-semibold);
 }
 
 .error::before {
-  content: '! ';
-  color: var(--ic-color-bold-red);
-  font-weight: var(--ic-font-weight-bold);
+    content: "! ";
+    color: var(--ic-color-bold-red);
+    font-weight: var(--ic-font-weight-bold);
 }
 
 /* ---- result ---- */
 .resultBand {
-  border-radius: var(--radius-surface);
-  padding: var(--sp-5);
-  margin: 0 0 var(--sp-5);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-5);
+    margin: 0 0 var(--sp-5);
 }
 
 /* Grounds by what the reader needs on arriving, deliberately non-monotonic so no hue
    reads as a score. Growth is deeper than Catalytic rather than brighter. */
-.ground-waiting-place { background: var(--ic-color-tint-deep-azure-20); }
-.ground-impasse { background: var(--ic-color-tint-gold-40); }
-.ground-catalytic { background: var(--ic-color-fresh-green); }
-.ground-growth { background: var(--ic-color-tint-forest-green-60); }
-.ground-sustain-renew { background: var(--ic-color-tint-deep-azure-40); }
+.ground-waiting-place {
+    background: var(--ic-color-tint-deep-azure-20);
+}
+.ground-impasse {
+    background: var(--ic-color-tint-gold-40);
+}
+.ground-catalytic {
+    background: var(--ic-color-fresh-green);
+}
+.ground-growth {
+    background: var(--ic-color-tint-forest-green-60);
+}
+.ground-sustain-renew {
+    background: var(--ic-color-tint-deep-azure-40);
+}
 
 /* 1.5, not 1.2: the heading carries an inline chip whose padded box needs room inside
    each line box. At 1.2 the chip overlapped the line above by 5.4px. */
 .resultHeading {
-  line-height: 1.5;
-  margin-bottom: var(--sp-3);
+    line-height: 1.5;
+    margin-bottom: var(--sp-3);
 }
 
 .stageChip {
-  display: inline-block;
-  background: var(--ic-color-gold);
-  color: var(--ic-color-charcoal-black); /* 8.88:1, safe at any size */
-  font-weight: var(--ic-font-weight-bold);
-  border-radius: var(--radius-pill);
-  padding: 0.12em 0.5em;
-  line-height: 1.15;
-  white-space: nowrap;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+    display: inline-block;
+    background: var(--ic-color-gold);
+    color: var(--ic-color-charcoal-black); /* 8.88:1, safe at any size */
+    font-weight: var(--ic-font-weight-bold);
+    border-radius: var(--radius-pill);
+    padding: 0.12em 0.5em;
+    line-height: 1.15;
+    white-space: nowrap;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
 }
 
 .reflection {
-  background: var(--ic-color-fresh-green);
-  border-radius: var(--radius-surface);
-  padding: var(--sp-4);
-  margin: 0 0 var(--sp-5);
-  font-weight: var(--ic-font-weight-semibold);
-  max-width: none;
+    background: var(--ic-color-fresh-green);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-4);
+    margin: 0 0 var(--sp-5);
+    font-weight: var(--ic-font-weight-semibold);
+    max-width: none;
+}
+
+/*
+ * The purpose-of-collection panel on the context step. Deep Azure 20% rather than the
+ * Gold used by the email gate: this one is explaining, not asking for anything, and
+ * reusing the gate's colour would imply the same kind of exchange.
+ */
+.whyWeAsk {
+    background: var(--ic-color-tint-deep-azure-20);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-4);
+    margin: 0 0 var(--sp-5);
+    max-width: 60ch;
+}
+
+.whyWeAsk h2 {
+    font-size: var(--ic-typography-paragraph-1-font-size);
+    font-weight: var(--ic-font-weight-semibold);
+    margin: 0 0 var(--sp-3);
+}
+
+.whyWeAsk dl {
+    margin: 0 0 var(--sp-3);
+}
+
+.whyWeAsk dt {
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    font-weight: var(--ic-font-weight-semibold);
+    margin: 0 0 var(--sp-1);
+}
+
+.whyWeAsk dd {
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    line-height: 1.5;
+    margin: 0 0 var(--sp-3);
+}
+
+.whyWeAsk dd:last-of-type {
+    margin-bottom: 0;
+}
+
+.whyWeAsk p {
+    margin: 0;
 }
 
 .gate {
-  background: var(--ic-color-tint-gold-20);
-  border-radius: var(--radius-surface);
-  padding: var(--sp-5);
-  margin: 0 0 var(--sp-5);
+    background: var(--ic-color-tint-gold-20);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-5);
+    margin: 0 0 var(--sp-5);
 }
 
 .gate h2 {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 /* The unlocked guidance inverts: Serene White on Charcoal is 14.25:1, so unlike every
    tint it carries small copy as happily as headings, and Charcoal is the only ground
    that cannot clash with the result band above, which changes colour with the stage. */
 .guidance {
-  background: var(--ic-color-charcoal-black);
-  color: var(--ic-color-serene-white);
-  border-radius: var(--radius-surface);
-  padding: var(--sp-5);
-  margin: 0 0 var(--sp-5);
+    background: var(--ic-color-charcoal-black);
+    color: var(--ic-color-serene-white);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-5);
+    margin: 0 0 var(--sp-5);
 }
 
 .guidance h2 {
-  margin-top: 0;
-  color: var(--ic-color-serene-white);
+    margin-top: 0;
+    color: var(--ic-color-serene-white);
 }
 
 .guidance h2:focus {
-  outline: none;
+    outline: none;
 }
 
 .guidance h2:focus-visible {
-  outline: 3px solid var(--ic-color-gold);
-  outline-offset: 3px;
+    outline: 3px solid var(--ic-color-gold);
+    outline-offset: 3px;
 }
 
 .guidance .icon {
-  color: var(--ic-color-serene-white);
+    color: var(--ic-color-serene-white);
 }
 
 .nextSteps {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .nextSteps li {
-  padding: var(--sp-3) 0;
-  border-top: 1px solid var(--border-on-dark);
+    padding: var(--sp-3) 0;
+    border-top: 1px solid var(--border-on-dark);
 }
 
 .nextSteps li:last-child {
-  border-bottom: 1px solid var(--border-on-dark);
+    border-bottom: 1px solid var(--border-on-dark);
 }
 
 .nextSteps strong {
-  display: block;
+    display: block;
 }
 
 /* Feedback is set apart by treatment rather than another colour: every hue on this
    page is carrying meaning, and the stage band beside it changes per result. */
 .feedback {
-  border: 2px solid var(--ic-color-charcoal-black);
-  border-radius: var(--radius-surface);
-  padding: var(--sp-5);
-  margin: var(--sp-6) 0 var(--sp-5);
+    border: 2px solid var(--ic-color-charcoal-black);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-5);
+    margin: var(--sp-6) 0 var(--sp-5);
 }
 
 .feedback h2 {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .scale {
-  display: flex;
-  gap: var(--sp-2);
-  flex-wrap: wrap;
-  margin: 0 0 var(--sp-4);
+    display: flex;
+    gap: var(--sp-2);
+    flex-wrap: wrap;
+    margin: 0 0 var(--sp-4);
 }
 
 .chosen {
-  background: var(--ic-color-gold);
-  border-color: var(--ic-color-charcoal-black);
-  font-weight: var(--ic-font-weight-semibold);
+    background: var(--ic-color-gold);
+    border-color: var(--ic-color-charcoal-black);
+    font-weight: var(--ic-font-weight-semibold);
 }
 
-.scale .btn[aria-disabled='true'] {
-  cursor: default;
+.scale .btn[aria-disabled="true"] {
+    cursor: default;
 }
 
-.scale .btn[aria-disabled='true']:not(.chosen) {
-  border-color: var(--border-faint);
+.scale .btn[aria-disabled="true"]:not(.chosen) {
+    border-color: var(--border-faint);
 }
 
 @media (max-width: 640px) {
-  .legend {
-    font-size: 18px;
-  }
+    .legend {
+        font-size: 18px;
+    }
 }
