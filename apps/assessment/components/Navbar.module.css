@@ -1,0 +1,72 @@
+.siteHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-top: var(--sp-4);
+    padding-bottom: var(--sp-4);
+    border-bottom: 1px solid var(--hairline);
+}
+
+.bar {
+    border-bottom: 1px solid var(--hairline);
+    padding: var(--sp-3) 0;
+    margin-bottom: var(--sp-5);
+}
+
+.lockup {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--ic-color-charcoal-black);
+}
+
+.lockupSub {
+    font-size: var(--ic-typography-label-font-size);
+    font-weight: var(--ic-font-weight-bold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.logo {
+    height: 75px;
+    width: auto;
+}
+
+.nav {
+    display: flex;
+    gap: var(--sp-4);
+    flex-wrap: wrap;
+}
+
+.nav a {
+    color: var(--ic-color-text);
+    text-decoration: none;
+    font-size: var(--ic-typography-tag-font-size);
+    font-weight: var(--ic-font-weight-medium);
+    padding: var(--sp-1) 0;
+    /* Charcoal, never Gold: Gold on Serene White is 1.60:1 and cannot carry a focus
+     indicator, which needs 3:1 under WCAG 1.4.11. */
+    border-bottom: 3px solid transparent;
+}
+
+.nav a:hover,
+.nav a:focus-visible {
+    border-bottom-color: var(--ic-color-charcoal-black);
+}
+
+.step:focus {
+    outline: none;
+}
+
+.muted {
+    font-size: var(--ic-typography-paragraph-small-font-size);
+}
+
+.progress {
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    font-weight: var(--ic-font-weight-semibold);
+    margin: 0 0 var(--sp-4);
+}

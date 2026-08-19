@@ -1,319 +1,325 @@
 /* Intro page. Brand values come from tokens.css; anything not in there is a proposal
    defined in globals.css and marked as such. */
 
-.siteHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-4);
-  padding-top: var(--sp-4);
-  padding-bottom: var(--sp-4);
-  border-bottom: 1px solid var(--hairline);
-}
-
-.logo {
-  height: 40px;
-  width: auto;
-}
-
-.nav {
-  display: flex;
-  gap: var(--sp-4);
-  flex-wrap: wrap;
-}
-
-.nav a {
-  color: var(--ic-color-text);
-  text-decoration: none;
-  font-size: var(--ic-typography-tag-font-size);
-  font-weight: var(--ic-font-weight-medium);
-  padding: var(--sp-1) 0;
-  /* Charcoal, never Gold: Gold on Serene White is 1.60:1 and cannot carry a focus
-     indicator, which needs 3:1 under WCAG 1.4.11. */
-  border-bottom: 3px solid transparent;
-}
-
-.nav a:hover,
-.nav a:focus-visible {
-  border-bottom-color: var(--ic-color-charcoal-black);
-}
+/* The header rules that were here (.siteHeader, .logo, .lockup, .lockupSub, .nav)
+   moved to Navbar.module.css when the header became a shared component, including the
+   note about why the nav focus indicator is Charcoal and never Gold. This page renders
+   <Navbar /> and none of them, so keeping copies here would only let the two drift. */
 
 /* ---------------- hero ---------------- */
 .hero {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: var(--sp-6);
-  align-items: center;
-  padding: var(--sp-7) 0 var(--sp-6);
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--sp-6);
+    align-items: center;
+    padding: var(--sp-5) 0 var(--sp-6);
 }
 
 .h1 {
-  font-size: var(--ic-typography-title-display-font-size);
-  font-weight: var(--ic-font-weight-bold);
-  line-height: var(--ic-typography-title-page-line-height);
-  letter-spacing: var(--ic-typography-title-page-letter-spacing);
-  margin: 0 0 var(--sp-4);
-  max-width: 20ch;
+    font-size: var(--ic-typography-title-display-font-size);
+    font-weight: var(--ic-font-weight-bold);
+    line-height: var(--ic-typography-title-page-line-height);
+    letter-spacing: var(--ic-typography-title-page-letter-spacing);
+    margin: 0 0 var(--sp-4);
+    max-width: 20ch;
+}
+
+.goldWord {
+    color: var(--ic-color-gold);
+    text-decoration: underline;
+    text-decoration-color: var(--ic-color-gold);
+    -webkit-text-stroke: 2px var(--ic-color-charcoal-black);
+    text-shadow: 4px 3px var(--ic-color-charcoal-black);
 }
 
 .lede {
-  font-size: var(--ic-typography-subheadline-font-size);
-  line-height: var(--ic-typography-paragraph-1-line-height);
-  margin: 0 0 var(--sp-5);
-  max-width: 52ch;
+    font-size: var(--ic-typography-subheadline-font-size);
+    line-height: var(--ic-typography-paragraph-1-line-height);
+    margin: 0 0 var(--sp-5);
+    max-width: 52ch;
 }
 
 .heroFigure {
-  position: relative;
-  isolation: isolate;
-  margin: 0;
-}
-
-.photoSlot {
-  min-height: 340px;
-  border: 2px dashed var(--ic-color-charcoal-black);
-  border-radius: var(--radius-surface);
-  background: var(--ic-color-tint-gold-20);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--sp-5);
-  gap: var(--sp-2);
-}
-
-.photoSlot p {
-  margin: 0;
-  font-size: var(--ic-typography-paragraph-small-font-size);
-  max-width: 34ch;
+    position: relative;
+    isolation: isolate;
+    margin: 0;
 }
 
 /* A flat Gold panel behind the figure. Solid colour, no gradient, no blur. */
-.heroFigure::before {
-  content: '';
-  position: absolute;
-  inset: auto -14px -14px 28px;
-  height: 72%;
-  background: var(--ic-color-gold);
-  border-radius: var(--radius-surface);
-  z-index: -1;
+/* .heroFigure::before {
+    content: "";
+    position: absolute;
+    inset: auto -14px -14px 28px;
+    height: 72%;
+    background: var(--ic-color-gold);
+    border-radius: var(--radius-surface);
+    z-index: -1;
+} */
+
+.heroImage {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-surface);
+    box-shadow: 14px 14px var(--ic-color-gold);
+}
+
+/*
+ * Temporary banner over the placeholder hero image. Deliberately conspicuous: it is
+ * there so an AI-generated photo cannot reach launch unnoticed. Delete this rule and
+ * the figcaption together once a real photograph is in.
+ *
+ * Serene White panel behind the text, because the caption sits over an arbitrary
+ * photograph and Charcoal directly on an unknown image has no guaranteed contrast.
+ */
+.heroCaption {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--sp-2) var(--sp-3);
+    background: var(--ic-color-serene-white);
+    color: var(--ic-color-charcoal-black);
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    font-weight: var(--ic-font-weight-semibold);
+    border-radius: var(--radius-surface) var(--radius-surface) 0 0;
 }
 
 /* ---------------- call to action ---------------- */
 .cta {
-  display: inline-flex;
-  align-items: center;
-  font-family: inherit;
-  font-size: var(--ic-typography-button-text-font-size);
-  font-weight: var(--ic-typography-button-text-font-weight);
-  line-height: var(--ic-typography-button-text-line-height);
-  color: var(--ic-color-charcoal-black); /* 8.88:1 on Gold, safe at any size */
-  background: var(--ic-color-action);
-  border: none;
-  border-radius: var(--radius-pill);
-  padding: 1em 1.6em;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 140ms var(--ease), color 140ms var(--ease);
+    display: inline-flex;
+    align-items: center;
+    font-family: inherit;
+    font-size: var(--ic-typography-button-text-font-size);
+    font-weight: var(--ic-typography-button-text-font-weight);
+    line-height: var(--ic-typography-button-text-line-height);
+    color: var(
+        --ic-color-charcoal-black
+    ); /* 8.88:1 on Gold, safe at any size */
+    background: var(--ic-color-action);
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 1em 1.6em;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color 140ms var(--ease),
+        color 140ms var(--ease);
 }
 
 .cta:hover {
-  background: var(--ic-color-charcoal-black);
-  color: var(--ic-color-gold);
+    background: var(--ic-color-charcoal-black);
+    color: var(--ic-color-gold);
 }
 
 /* On the Azure block the standard inversion would put a Charcoal button on Deep Azure
    at 2.26:1, dissolving the button's shape. Serene White holds 6.30:1. */
 .ctaOnAzure:hover {
-  background: var(--ic-color-serene-white);
-  color: var(--ic-color-charcoal-black);
+    background: var(--ic-color-serene-white);
+    color: var(--ic-color-charcoal-black);
 }
 
 .ctaOnAzure:focus-visible {
-  outline-color: var(--ic-color-serene-white);
+    outline-color: var(--ic-color-serene-white);
 }
 
 .meta {
-  margin: var(--sp-3) 0 0;
-  font-size: var(--ic-typography-paragraph-small-font-size);
+    margin: var(--sp-3) 0 0;
+    font-size: var(--ic-typography-paragraph-small-font-size);
 }
 
 /* ---------------- partners ---------------- */
 .partners {
-  border-top: 1px solid var(--hairline);
-  border-bottom: 1px solid var(--hairline);
-  padding: var(--sp-4) 0;
-  display: flex;
-  align-items: center;
-  gap: var(--sp-5);
-  flex-wrap: wrap;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    padding: var(--sp-4) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-5);
+    flex-wrap: wrap;
 }
 
 .partners p {
-  margin: 0;
-  font-size: var(--ic-typography-paragraph-small-font-size);
-  font-weight: var(--ic-font-weight-semibold);
+    margin: 0;
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    font-weight: var(--ic-font-weight-semibold);
 }
 
 .partners ul {
-  list-style: none;
-  display: flex;
-  gap: var(--sp-5);
-  margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
-  align-items: center;
+    list-style: none;
+    display: flex;
+    gap: var(--sp-5);
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+    align-items: center;
 }
 
 .partnerLogo {
-  height: 40px;
-  width: auto;
+    height: 40px;
+    width: auto;
 }
 
 /* ---------------- why it matters ---------------- */
 .why {
-  background: var(--ic-color-fresh-green); /* Charcoal on Fresh Green, 13.34:1 */
-  border-radius: var(--radius-surface);
-  padding: var(--sp-6) var(--sp-5);
-  margin: var(--sp-7) 0;
+    background: var(
+        --ic-color-fresh-green
+    ); /* Charcoal on Fresh Green, 13.34:1 */
+    border-radius: var(--radius-surface);
+    padding: var(--sp-6) var(--sp-5);
+    margin: var(--sp-7) 0;
+    box-shadow: 8px 8px var(--ic-color-tint-forest-green-40);
+}
+
+.why h2 {
+    color: var(--ic-color-forest-green);
 }
 
 .claim {
-  margin: 0 0 var(--sp-4);
-  max-width: 40ch;
-  font-size: var(--size-quote);
-  font-weight: var(--ic-font-weight-semibold);
-  line-height: 1.25;
+    margin: 0 0 var(--sp-4);
+    max-width: 40ch;
+    font-size: var(--size-quote);
+    font-weight: var(--ic-font-weight-semibold);
+    line-height: 1.25;
 }
 
 .source {
-  font-size: var(--ic-typography-paragraph-small-font-size);
-  max-width: 60ch;
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    max-width: 60ch;
 }
 
 .after {
-  margin: var(--sp-5) 0 0;
-  max-width: 62ch;
+    margin: var(--sp-5) 0 0;
+    max-width: 62ch;
 }
 
 /* ---------------- what you get ---------------- */
 .section {
-  padding: var(--sp-6) 0;
+    padding: var(--sp-6) 0;
 }
 
 .steps {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .steps li {
-  display: grid;
-  grid-template-columns: 3.5rem 1fr;
-  gap: var(--sp-4);
-  padding: var(--sp-4) 0;
-  border-top: 1px solid var(--hairline);
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: var(--sp-4);
+    padding: var(--sp-4) 0;
+    border-top: 1px solid var(--hairline);
 }
 
 .steps li:last-child {
-  border-bottom: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
 }
 
 .stepNumber {
-  font-size: var(--ic-typography-subheadline-font-size);
-  font-weight: var(--ic-font-weight-bold);
-  line-height: 1;
-  color: var(--ic-color-charcoal-black); /* never a light tint: that was 1.07:1 */
+    font-size: var(--ic-typography-subheadline-font-size);
+    font-weight: var(--ic-font-weight-bold);
+    line-height: 1;
+    color: var(
+        --ic-color-charcoal-black
+    ); /* never a light tint: that was 1.07:1 */
 }
 
 .steps h3 {
-  font-size: var(--ic-typography-paragraph-1-font-size);
-  font-weight: var(--ic-font-weight-semibold);
-  margin: 0 0 var(--sp-1);
+    font-size: var(--ic-typography-paragraph-1-font-size);
+    font-weight: var(--ic-font-weight-semibold);
+    margin: 0 0 var(--sp-1);
 }
 
 .steps p {
-  margin: 0;
-  max-width: 62ch;
+    margin: 0;
+    max-width: 62ch;
 }
 
 /* ---------------- the five stages ---------------- */
 .stagesBand {
-  background: var(--ic-color-tint-gold-20);
-  border-radius: var(--radius-surface);
-  padding: var(--sp-5);
-  margin: var(--sp-6) 0;
+    background: var(--ic-color-tint-gold-20);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-5);
+    margin: var(--sp-6) 0;
+    box-shadow: 8px 8px var(--ic-color-tint-gold-40);
 }
 
 .framing {
-  margin: 0 0 var(--sp-5);
-  max-width: 68ch;
+    margin: 0 0 var(--sp-5);
+    max-width: 68ch;
 }
 
 .note {
-  margin: var(--sp-5) 0 0;
-  font-size: var(--ic-typography-paragraph-small-font-size);
-  max-width: 68ch;
+    margin: var(--sp-5) 0 0;
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    max-width: 68ch;
 }
 
 /* ---------------- closing ---------------- */
 .closing {
-  background: var(--ic-color-deep-azure);
-  color: var(--ic-color-serene-white);
-  border-radius: var(--radius-surface);
-  padding: var(--sp-6) var(--sp-5);
-  margin: var(--sp-6) 0 0;
+    background: var(--ic-color-deep-azure);
+    color: var(--ic-color-serene-white);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-6) var(--sp-5);
+    margin: var(--sp-6) 0 0;
+    box-shadow: 8px 8px var(--ic-color-tint-deep-azure-40);
 }
 
 .closing h2 {
-  font-size: var(--size-closing);
-  font-weight: var(--ic-font-weight-semibold);
-  margin: 0 0 var(--sp-4);
-  max-width: 20ch;
+    font-size: var(--size-closing);
+    font-weight: var(--ic-font-weight-semibold);
+    margin: 0 0 var(--sp-4);
+    max-width: 20ch;
 }
 
 .closingLede {
-  font-size: var(--size-azure-body);
-  margin: 0 0 var(--sp-5);
-  max-width: 42ch;
+    font-size: var(--size-azure-body);
+    margin: 0 0 var(--sp-5);
+    max-width: 42ch;
 }
 
 .footerText {
-  font-size: var(--ic-typography-paragraph-small-font-size);
-  max-width: 70ch;
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    max-width: 70ch;
 }
 
 @media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
-    gap: var(--sp-5);
-    padding: var(--sp-6) 0 var(--sp-5);
-  }
+    .hero {
+        grid-template-columns: 1fr;
+        gap: var(--sp-5);
+        padding: var(--sp-6) 0 var(--sp-5);
+    }
 
-  .heroFigure::before {
-    display: none;
-  }
+    .heroFigure::before {
+        display: none;
+    }
 
-  .h1 {
-    font-size: var(--size-closing);
-    max-width: 22ch;
-  }
+    .h1 {
+        font-size: var(--size-closing);
+        max-width: 22ch;
+    }
 
-  .lede {
-    font-size: 18px;
-  }
+    .lede {
+        font-size: 18px;
+    }
 
-  .claim {
-    font-size: 22px;
-  }
+    .claim {
+        font-size: 22px;
+    }
 
-  .closing h2 {
-    font-size: 26px;
-  }
+    .closing h2 {
+        font-size: 26px;
+    }
 }
 
 @media (max-width: 460px) {
-  .steps li {
-    grid-template-columns: 2.5rem 1fr;
-    gap: var(--sp-3);
-  }
+    .steps li {
+        grid-template-columns: 2.5rem 1fr;
+        gap: var(--sp-3);
+    }
 }

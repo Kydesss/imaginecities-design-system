@@ -1,0 +1,72 @@
+/*
+ * Distinct from the guidance above it without competing with it. The guidance is the
+ * product; this is the exit. So a tinted ground rather than the guidance's dark
+ * surface, and no border, which is reserved for the feedback section.
+ *
+ * Forest Green 20% is mixed against Serene White, not pure white, like every tint in
+ * the system. Charcoal on it is the pairing the deck clears at any text size.
+ */
+.resources {
+  background: var(--ic-color-tint-forest-green-20);
+  border-radius: var(--radius-surface);
+  padding: var(--sp-5);
+  margin: var(--sp-5) 0;
+}
+
+.resources h2 {
+  margin-top: 0;
+}
+
+.subhead {
+  font-size: var(--ic-typography-paragraph-1-font-size);
+  font-weight: var(--ic-font-weight-semibold);
+  margin: var(--sp-4) 0 var(--sp-2);
+}
+
+.subhead:first-of-type {
+  margin-top: 0;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.list li {
+  display: grid;
+  gap: 2px;
+  max-width: 68ch;
+}
+
+.list a {
+  font-weight: var(--ic-font-weight-semibold);
+}
+
+.list span {
+  font-size: var(--ic-typography-paragraph-small-font-size);
+  line-height: 1.5;
+}
+
+/*
+ * The unfilled slot. Dashed, so nobody mistakes it for a finished panel, and it says
+ * plainly what is missing rather than showing a fake link.
+ */
+.slot {
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-surface);
+  padding: var(--sp-4);
+  max-width: 68ch;
+}
+
+.slot p {
+  font-size: var(--ic-typography-paragraph-small-font-size);
+  line-height: 1.5;
+  margin: 0 0 var(--sp-2);
+}
+
+.slot p:last-child {
+  margin-bottom: 0;
+}
