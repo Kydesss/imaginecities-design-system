@@ -247,17 +247,58 @@ export function AssessmentFlow() {
                 collection, in terms a person can actually understand. One vague line
                 about "improving our tools" does not do that. This is the client's own
                 "WHY WE ASK" copy from the user testing notes.
+
+                COLLAPSED BY DEFAULT, AND THAT IS DELIBERATE RATHER THAN A SHORTCUT.
+                Hiding a collection notice behind a click would normally be the wrong
+                move, so the shape here is a layered notice, which is what the Office
+                of the Privacy Commissioner's meaningful consent guidance actually
+                asks for: the substance up front, the detail one predictable click
+                away. Three things stay visible no matter what:
+
+                  - "This helps us understand the local context behind your
+                    assessment. This is optional." above the fields, which is the
+                    purpose in brief
+                  - both fields labelled "(optional)", with a Skip button
+                  - the line about answers, not location, shaping the result
+
+                What collapses is the elaboration, not the disclosure. If that top
+                line is ever cut, this has to go back to being open by default.
+
+                <details> rather than a button and state: it is keyboard operable,
+                announces its own expanded state, and still opens with JavaScript off.
               */}
-                            <div className={styles.whyWeAsk}>
-                                <h2>
-                                    <span
-                                        className="icon iconHeading"
-                                        aria-hidden="true"
-                                    >
-                                        help
-                                    </span>
-                                    Why we ask
-                                </h2>
+                            <details className={styles.whyWeAsk}>
+                                {/*
+                    The flex layout goes on the h2, not on the <summary>. Giving
+                    <summary> a display other than list-item costs it its implicit
+                    button role: it drops to a plain generic in the accessibility
+                    tree, so the control stops announcing itself as a disclosure and
+                    stops reporting expanded or collapsed. Verified by reading the
+                    tree, which is the only way this shows up.
+
+                    A heading is also the one non-phrasing thing <summary> is allowed
+                    to contain, so wrapping the row in a div to get the same layout
+                    would trade one problem for invalid markup.
+                */}
+                                <summary className={styles.whyWeAskSummary}>
+                                    <h2 className={styles.whyWeAskRow}>
+                                        <span
+                                            className="icon iconHeading"
+                                            aria-hidden="true"
+                                        >
+                                            help
+                                        </span>
+                                        <span className={styles.whyWeAskLabel}>
+                                            Why we ask
+                                        </span>
+                                        <span
+                                            className={`icon ${styles.whyWeAskChevron}`}
+                                            aria-hidden="true"
+                                        >
+                                            expand_more
+                                        </span>
+                                    </h2>
+                                </summary>
                                 <dl>
                                     <dt>
                                         Understand where our products are being
@@ -284,13 +325,21 @@ export function AssessmentFlow() {
                                         Location is the first step toward that.
                                     </dd>
                                 </dl>
-                                <p className={styles.muted}>
-                                    Your answers to the assessment questions are
-                                    what shape your result, not your location.
-                                    This step is about context, not the
-                                    assessment.
-                                </p>
-                            </div>
+                            </details>
+
+                            {/*
+                Outside the <details> on purpose. This is the reassurance that the
+                fields above cannot affect the result, which is the thing someone
+                deciding whether to skip needs, so it must not depend on opening a
+                disclosure to read it.
+              */}
+                            <p
+                                className={`${styles.muted} ${styles.contextNote}`}
+                            >
+                                Your answers to the assessment questions are what
+                                shape your result, not your location. This step is
+                                about context, not the assessment.
+                            </p>
 
                             <div className={styles.actions}>
                                 <button
@@ -332,19 +381,27 @@ export function AssessmentFlow() {
                             >
                                 <h1
                                     id="step-heading"
-                                    className={styles.resultHeading}
+                                    className={`${styles.resultHeading} headingLead`}
                                 >
                                     <span
-                                        className="icon iconHeading"
+                                        className="icon iconLead"
                                         aria-hidden="true"
                                     >
                                         location_city
                                     </span>
-                                    Your neighbourhood is in the{" "}
-                                    <span className={styles.stageChip}>
-                                        {stage.name}
-                                    </span>{" "}
-                                    stage
+                                    {/*
+                            The sentence is wrapped so the flex row sees one item.
+                            Left bare, "Your neighbourhood is in the", the stage chip
+                            and "stage" would each become a separate flex item and the
+                            sentence would break apart instead of wrapping.
+                        */}
+                                    <span>
+                                        Your neighbourhood is in the{" "}
+                                        <span className={styles.stageChip}>
+                                            {stage.name}
+                                        </span>{" "}
+                                        stage
+                                    </span>
                                 </h1>
                                 <p>{stage.summary}</p>
                             </div>
@@ -363,9 +420,9 @@ export function AssessmentFlow() {
 
                             {!unlocked ? (
                                 <div className={styles.gate}>
-                                    <h2>
+                                    <h2 className="headingLead">
                                         <span
-                                            className="icon iconHeading"
+                                            className="icon iconLead"
                                             aria-hidden="true"
                                         >
                                             lock
@@ -458,17 +515,40 @@ export function AssessmentFlow() {
                                 </div>
                             ) : (
                                 <div className={styles.guidance}>
-                                    <h2 ref={guidanceRef} tabIndex={-1}>
+                                    {/*
+                        Icons sit to the left of their headings via the shared
+                        .headingLead / .iconLead pair in globals.css, which every
+                        section heading on the result page uses so they match.
+
+                        lock_open is gone. It described the gate that had just been
+                        passed, not what the section contains, and once the guidance
+                        is open the lock is the least interesting thing about it.
+                        insights for the explanation, signpost for the direction:
+                        both verified against Google's Material Symbols metadata.
+                    */}
+                                    <h2
+                                        ref={guidanceRef}
+                                        tabIndex={-1}
+                                        className={`${styles.guidanceHeading} headingLead`}
+                                    >
                                         <span
-                                            className="icon iconHeading"
+                                            className="icon iconLead"
                                             aria-hidden="true"
                                         >
-                                            lock_open
+                                            insights
                                         </span>
                                         Why you are in this stage
                                     </h2>
                                     <p>{stage.why}</p>
-                                    <h2>What to focus on next</h2>
+                                    <h2 className={`${styles.guidanceHeading} headingLead`}>
+                                        <span
+                                            className="icon iconLead"
+                                            aria-hidden="true"
+                                        >
+                                            signpost
+                                        </span>
+                                        What to focus on next
+                                    </h2>
                                     <p>{stage.focus}</p>
                                     <ul
                                         className={`${styles.nextSteps} stagger`}
@@ -498,9 +578,9 @@ export function AssessmentFlow() {
                                 className={styles.feedback}
                                 aria-labelledby="feedback-heading"
                             >
-                                <h2 id="feedback-heading">
+                                <h2 id="feedback-heading" className="headingLead">
                                     <span
-                                        className="icon iconHeading"
+                                        className="icon iconLead"
                                         aria-hidden="true"
                                     >
                                         rate_review

@@ -16,8 +16,8 @@ export function Resources({ stage }: { stage: StageKey }) {
 
   return (
     <section className={styles.resources} aria-labelledby="resources-heading">
-      <h2 id="resources-heading">
-        <span className="icon iconHeading" aria-hidden="true">
+      <h2 id="resources-heading" className="headingLead">
+        <span className="icon iconLead" aria-hidden="true">
           menu_book
         </span>
         Where to go from here

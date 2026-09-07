@@ -176,6 +176,33 @@ p {
     top: -0.04em;
 }
 
+/*
+ * Section-opening heading: a fixed-size icon to the left of the heading text.
+ *
+ * Global rather than per-module because the result page assembles its sections from
+ * three different CSS modules, and three copies of this would drift. .iconHeading
+ * above stays the inline treatment for icons that sit inside a line of text.
+ *
+ * The heading becomes a flex row, so any heading whose text is mixed inline content
+ * has to wrap that content in a single element or each run becomes its own flex item
+ * and the sentence comes apart.
+ */
+.headingLead {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+}
+
+/*
+ * flex-shrink 0: the glyph is a fixed size, so a long heading on a narrow screen
+ * should wrap its text rather than squash the icon.
+ */
+.iconLead {
+    flex: 0 0 auto;
+    font-size: 32px;
+    line-height: 1;
+}
+
 .srOnly {
     position: absolute;
     width: 1px;
