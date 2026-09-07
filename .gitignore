@@ -3,3 +3,10 @@ node_modules/
 Thumbs.db
 *.log
 .claude/worktrees/
+
+# Vercel CLI: project link and the OIDC token it downloads
+.vercel
+.env*.local
+
+.vercel
+.env*
