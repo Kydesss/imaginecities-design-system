@@ -386,7 +386,7 @@
 .resultBand {
     border-radius: var(--radius-surface);
     padding: var(--sp-5);
-    margin: 0 0 var(--sp-5);
+    margin: 0 0 var(--sp-6);
 }
 
 /* Grounds by what the reader needs on arriving, deliberately non-monotonic so no hue
@@ -431,7 +431,7 @@
     background: var(--ic-color-fresh-green);
     border-radius: var(--radius-surface);
     padding: var(--sp-4);
-    margin: 0 0 var(--sp-5);
+    margin: 0 0 var(--sp-6);
     font-weight: var(--ic-font-weight-semibold);
     max-width: none;
 }
@@ -441,22 +441,82 @@
  * Gold used by the email gate: this one is explaining, not asking for anything, and
  * reusing the gate's colour would imply the same kind of exchange.
  */
+/*
+ * Collapsed by default. See the comment on the <details> in AssessmentFlow for why
+ * that is acceptable for a collection notice: it is a layered notice, and the purpose
+ * in brief stays visible above the fields whether or not this is opened.
+ *
+ * No padding on the element itself. The summary is the click target and carries its
+ * own padding so the whole row is clickable, and the body below repeats it.
+ */
 .whyWeAsk {
     background: var(--ic-color-tint-deep-azure-20);
     border-radius: var(--radius-surface);
-    padding: var(--sp-4);
-    margin: 0 0 var(--sp-5);
+    margin: 0 0 var(--sp-3);
     max-width: 60ch;
+}
+
+/*
+ * The disclosure row. The heading stays an h2 inside the summary so the document
+ * outline is unchanged; <summary> supplies the button semantics and the expanded
+ * state, so neither needs to be hand-rolled with ARIA.
+ */
+/*
+ * No display declaration here on purpose. <summary> keeps its default list-item
+ * display, because changing it strips the implicit button role and the element stops
+ * announcing itself as a disclosure. The flex row lives on .whyWeAskRow inside.
+ */
+.whyWeAskSummary {
+    cursor: pointer;
+    /* The whole row is the hit target, so it needs the panel's own padding back:
+       the padding moves off .whyWeAsk and onto the summary and the body below. */
+    padding: var(--sp-4);
+    margin: 0;
+    border-radius: var(--radius-surface);
+    /* Removing the default triangle takes two rules; WebKit still needs its own. */
+    list-style: none;
+    min-height: 44px;
+}
+
+.whyWeAskRow {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+}
+
+.whyWeAskLabel {
+    flex: 1 1 auto;
+}
+
+.whyWeAskSummary::-webkit-details-marker {
+    display: none;
+}
+
+.whyWeAskSummary:focus-visible {
+    /* Charcoal, never Gold: Gold on this tint cannot reach the 3:1 that WCAG 1.4.11
+       wants from a focus indicator. */
+    outline: 3px solid var(--ic-color-charcoal-black);
+    outline-offset: -3px;
 }
 
 .whyWeAsk h2 {
     font-size: var(--ic-typography-paragraph-1-font-size);
     font-weight: var(--ic-font-weight-semibold);
-    margin: 0 0 var(--sp-3);
+    margin: 0;
+}
+
+.whyWeAskChevron {
+    flex: 0 0 auto;
+    transition: transform 160ms var(--ease);
+}
+
+.whyWeAsk[open] .whyWeAskChevron {
+    transform: rotate(180deg);
 }
 
 .whyWeAsk dl {
-    margin: 0 0 var(--sp-3);
+    margin: 0;
+    padding: 0 var(--sp-4) var(--sp-4);
 }
 
 .whyWeAsk dt {
@@ -475,8 +535,10 @@
     margin-bottom: 0;
 }
 
-.whyWeAsk p {
-    margin: 0;
+/* The always-visible reassurance that sits below the disclosure, not inside it. */
+.contextNote {
+    max-width: 60ch;
+    margin: 0 0 var(--sp-5);
 }
 
 .gate {
@@ -497,13 +559,33 @@
     background: var(--ic-color-charcoal-black);
     color: var(--ic-color-serene-white);
     border-radius: var(--radius-surface);
-    padding: var(--sp-5);
-    margin: 0 0 var(--sp-5);
+    padding: var(--sp-6) var(--sp-5);
+    margin: 0 0 var(--sp-6);
 }
 
 .guidance h2 {
-    margin-top: 0;
     color: var(--ic-color-serene-white);
+}
+
+/*
+ * Two sections share this panel, so the second heading needs room above it or the
+ * guidance reads as one undifferentiated block of text. The first-of-type reset keeps
+ * that space off the top, where the panel padding already provides it.
+ *
+ * Scoped under .guidance deliberately: a bare .guidanceHeading is one class, which
+ * loses to the .guidance h2 rule above it and silently drops the top margin.
+ */
+.guidance .guidanceHeading {
+    margin: var(--sp-6) 0 var(--sp-3);
+}
+
+.guidance .guidanceHeading:first-of-type {
+    margin-top: 0;
+}
+
+.guidance p {
+    margin: 0 0 var(--sp-4);
+    max-width: 68ch;
 }
 
 .guidance h2:focus {
@@ -525,9 +607,16 @@
     padding: 0;
 }
 
+/* Each step is a separate instruction, so it gets room to be read as one rather than
+   as a row in a table. */
 .nextSteps li {
-    padding: var(--sp-3) 0;
+    padding: var(--sp-4) 0;
     border-top: 1px solid var(--border-on-dark);
+}
+
+.nextSteps li span {
+    max-width: 68ch;
+    display: block;
 }
 
 .nextSteps li:last-child {
@@ -544,7 +633,7 @@
     border: 2px solid var(--ic-color-charcoal-black);
     border-radius: var(--radius-surface);
     padding: var(--sp-5);
-    margin: var(--sp-6) 0 var(--sp-5);
+    margin: var(--sp-6) 0 var(--sp-6);
 }
 
 .feedback h2 {

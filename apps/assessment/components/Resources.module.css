@@ -10,7 +10,9 @@
   background: var(--ic-color-tint-forest-green-20);
   border-radius: var(--radius-surface);
   padding: var(--sp-5);
-  margin: var(--sp-5) 0;
+  /* sp-6, matching the gaps between the other result sections, so the report reads as
+     separated blocks rather than a stack. */
+  margin: var(--sp-6) 0;
 }
 
 .resources h2 {

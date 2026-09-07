@@ -29,7 +29,7 @@
     text-decoration: underline;
     text-decoration-color: var(--ic-color-gold);
     -webkit-text-stroke: 2px var(--ic-color-charcoal-black);
-    text-shadow: 4px 3px var(--ic-color-charcoal-black);
+    text-shadow: 3px 2px var(--ic-color-charcoal-black);
 }
 
 .lede {
