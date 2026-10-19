@@ -10,12 +10,13 @@
  * marked [reconstructed] because they could not be recovered from the published build;
  * the PRD supplies all three, so no option text here is invented any more.
  *
- * `blurb` answers "what is this factor actually asking about", shown under the factor
- * name. Leadership and Progress are the client's own wording from the user testing
- * notes, with "it's" expanded. The other three had no supplied text and are written to
- * the same "X looks at whether..." shape from the PRD's factor definitions; they are
- * the only invented copy in this file and are the first thing to replace if the client
- * writes their own.
+ * `blurb` answers "what is this factor actually asking about", shown in a card above
+ * the question. Hope, Leadership and Progress are the client's own wording (Hope from
+ * page feedback, the other two from the user testing notes, with "it's" expanded).
+ * Collaboration and Resilience had no supplied text and are written to the same
+ * "X looks at whether..." shape from the PRD's factor definitions; they are the only
+ * invented copy in this file and are the first thing to replace if the client writes
+ * their own.
  */
 
 export const FACTOR_ORDER = ['hope', 'collaboration', 'leadership', 'progress', 'resilience'] as const;
@@ -23,14 +24,14 @@ export const FACTOR_ORDER = ['hope', 'collaboration', 'leadership', 'progress', 
 export type FactorKey = (typeof FACTOR_ORDER)[number];
 
 export interface Factor {
-  /** short label above the question */
+  /** label in the question stepper */
   name: string;
-  /** one line under the factor name, explaining what it measures */
+  /** one line in the card above the question, explaining what it measures */
   blurb: string;
   /** Material Symbols name, outlined. Verified against Google's icon metadata. */
   icon: string;
   question: string;
-  /** answers run weakest to strongest; index + 1 is the stored value */
+  /** answers run weakest to strongest; index + 1 is the stored value. Shown reversed. */
   options: { short: string; long: string }[];
 }
 
@@ -38,9 +39,10 @@ export const FACTORS: Record<FactorKey, Factor> = {
   hope: {
     name: 'Hope and optimism',
     blurb:
-      'Hope and optimism looks at whether residents believe local problems can be solved by the people who live there, rather than by someone from outside.',
+      'Hope & Optimism looks at whether residents believe change is possible and feel they can contribute to local improvement.',
     icon: 'psychology',
-    question: 'How do most people in your neighbourhood feel about solving local problems?',
+    question:
+      'Regarding solving neighbourhood problems, how optimistic are residents in their ability to create positive change?',
     options: [
       { short: 'Low collective confidence', long: 'Most people feel powerless and believe that local problems cannot be solved by residents.' },
       { short: 'Frustrated but not moving yet', long: 'Most people recognize the problems exist, but collective action feels stalled.' },
