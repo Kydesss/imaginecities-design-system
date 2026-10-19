@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import {
+    useCallback,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
     FACTORS,
@@ -12,10 +19,16 @@ import { STAGES, type StageKey, isStageKey } from "@/lib/stages";
 import { scoreToStage } from "@/lib/scoring";
 import { Spectrum, StageList } from "./Spectrum";
 import { Resources } from "./Resources";
+import { ShareAssessment, TrackJourney } from "./ResultActions";
 import styles from "./AssessmentFlow.module.css";
 
-type Step = "start" | "context" | FactorKey | "result";
-const STEPS: Step[] = ["start", "context", ...FACTOR_ORDER, "result"];
+/*
+ * No separate start screen: the intro page's "Start the assessment" link is the start,
+ * so /assessment opens on the context step. A second screen repeating "five questions,
+ * about five minutes" and another Start button only added a click.
+ */
+type Step = "context" | FactorKey | "result";
+const STEPS: Step[] = ["context", ...FACTOR_ORDER, "result"];
 
 const FEEDBACK = [
     "Not accurate",
@@ -34,7 +47,7 @@ export function AssessmentFlow() {
      * the route opts into client rendering for this subtree, so server and client agree.
      * It requires a Suspense boundary, which app/assessment/page.tsx provides.
      *
-     * ?stage=impasse jumps to a result with the gate already open, for reviewing copy.
+     * ?stage=impasse jumps straight to that result, for reviewing copy.
      */
     const params = useSearchParams();
     const preview = useMemo(() => {
@@ -43,7 +56,7 @@ export function AssessmentFlow() {
     }, [params]);
     const debug = params.get("debug") === "1";
 
-    const [step, setStep] = useState<Step>(preview ? "result" : "start");
+    const [step, setStep] = useState<Step>(preview ? "result" : "context");
     const [answers, setAnswers] = useState<Answers>({
         hope: undefined,
         collaboration: undefined,
@@ -53,15 +66,13 @@ export function AssessmentFlow() {
     });
     const [postal, setPostal] = useState("");
     const [hood, setHood] = useState("");
+    const [hasOrg, setHasOrg] = useState(false);
+    const [org, setOrg] = useState("");
     const [errorFor, setErrorFor] = useState<FactorKey | null>(null);
-    const [unlocked, setUnlocked] = useState(Boolean(preview));
-    const [email, setEmail] = useState("");
-    const [emailError, setEmailError] = useState(false);
     const [feedback, setFeedback] = useState<Feedback | null>(null);
     const [announcement, setAnnouncement] = useState("");
 
     const stepRef = useRef<HTMLElement>(null);
-    const guidanceRef = useRef<HTMLHeadingElement>(null);
 
     const result = useMemo(() => scoreToStage(answers), [answers]);
     const stageKey: StageKey = preview ?? result.stage;
@@ -100,23 +111,11 @@ export function AssessmentFlow() {
         go(STEPS[STEPS.indexOf(factor) + 1]);
     };
 
-    const submitEmail = (event: React.FormEvent) => {
-        event.preventDefault();
-        const value = email.trim();
-        const looksLikeEmail =
-            value.indexOf("@") > 0 &&
-            value.lastIndexOf(".") > value.indexOf("@");
-        if (!looksLikeEmail) {
-            setEmailError(true);
-            setAnnouncement(
-                "Enter an email address so we can send your result.",
-            );
-            return;
-        }
-        setEmailError(false);
-        setUnlocked(true);
-        setAnnouncement("Your full result is now shown below.");
-        window.requestAnimationFrame(() => guidanceRef.current?.focus());
+    const clearContext = () => {
+        setPostal("");
+        setHood("");
+        setHasOrg(false);
+        setOrg("");
     };
 
     const restart = () => {
@@ -127,13 +126,9 @@ export function AssessmentFlow() {
             progress: undefined,
             resilience: undefined,
         });
-        setUnlocked(false);
-        setEmail("");
-        setEmailError(false);
         setFeedback(null);
-        setPostal("");
-        setHood("");
-        go("start");
+        clearContext();
+        go("context");
     };
 
     const factorIndex = FACTOR_ORDER.indexOf(step as FactorKey);
@@ -161,30 +156,8 @@ export function AssessmentFlow() {
                     className={`${styles.step} riseIn`}
                     aria-labelledby="step-heading"
                 >
-                    {step === "start" && (
-                        <>
-                            <h1 id="step-heading">
-                                Neighbourhood Adaptability Assessment
-                            </h1>
-                            <p>Five questions, about five minutes.</p>
-                            <p className={styles.muted}>
-                                There are no right answers, and nothing here is
-                                a score. Answer from what you see around you.
-                            </p>
-                            <div className={styles.actions}>
-                                <button
-                                    className={`${styles.btn} ${styles.btnPrimary}`}
-                                    onClick={() => go("context")}
-                                >
-                                    Start the assessment
-                                </button>
-                            </div>
-                        </>
-                    )}
-
                     {step === "context" && (
                         <>
-                            <p className={styles.progress}>Before we start</p>
                             <h1 id="step-heading">
                                 <span
                                     className="icon iconHeading"
@@ -196,12 +169,11 @@ export function AssessmentFlow() {
                             </h1>
                             <p>
                                 This helps us understand the local context
-                                behind your assessment. This is optional.
+                                behind your responses. This section is optional,
+                                so you can skip it.
                             </p>
                             <div className={styles.field}>
-                                <label htmlFor="postal">
-                                    Postal code (optional)
-                                </label>
+                                <label htmlFor="postal">Postal code</label>
                                 {/*
                   One field for both formats, and no branching on the city name. The PRD
                   asks whether entering a city could decide which format to ask for; it
@@ -214,8 +186,8 @@ export function AssessmentFlow() {
                   so the old limit silently truncated American input.
                 */}
                                 <p className={styles.hint} id="postal-hint">
-                                    Canadian postal code or US ZIP, whichever
-                                    applies. Either format works.
+                                    Postal code, postcode or ZIP code, whichever
+                                    applies to you.
                                 </p>
                                 <input
                                     id="postal"
@@ -229,9 +201,7 @@ export function AssessmentFlow() {
                                 />
                             </div>
                             <div className={styles.field}>
-                                <label htmlFor="hood">
-                                    Neighbourhood name (optional)
-                                </label>
+                                <label htmlFor="hood">Neighbourhood name</label>
                                 <input
                                     id="hood"
                                     name="hood"
@@ -241,6 +211,48 @@ export function AssessmentFlow() {
                                     onChange={(e) => setHood(e.target.value)}
                                 />
                             </div>
+
+                            {/*
+                A fieldset so the question is announced with the checkbox: on its own
+                the checkbox would only be read as "Yes". The name field appears after
+                the checkbox in the tab order, so focus is left where it is.
+              */}
+                            <fieldset className={styles.orgFieldset}>
+                                <legend>
+                                    Do you have a local organization tasked with
+                                    meeting the local needs of your
+                                    neighbourhood?
+                                </legend>
+                                <div className={styles.consent}>
+                                    <input
+                                        id="has-org"
+                                        name="has-org"
+                                        type="checkbox"
+                                        checked={hasOrg}
+                                        onChange={(e) =>
+                                            setHasOrg(e.target.checked)
+                                        }
+                                    />
+                                    <label htmlFor="has-org">Yes</label>
+                                </div>
+                                {hasOrg && (
+                                    <div className={styles.field}>
+                                        <label htmlFor="org">
+                                            Name of the organization
+                                        </label>
+                                        <input
+                                            id="org"
+                                            name="org"
+                                            type="text"
+                                            autoComplete="organization"
+                                            value={org}
+                                            onChange={(e) =>
+                                                setOrg(e.target.value)
+                                            }
+                                        />
+                                    </div>
+                                )}
+                            </fieldset>
 
                             {/*
                 PIPEDA principle 3: the purpose has to be identified at or before
@@ -253,12 +265,14 @@ export function AssessmentFlow() {
                 move, so the shape here is a layered notice, which is what the Office
                 of the Privacy Commissioner's meaningful consent guidance actually
                 asks for: the substance up front, the detail one predictable click
-                away. Three things stay visible no matter what:
+                away. Two things stay visible no matter what:
 
                   - "This helps us understand the local context behind your
-                    assessment. This is optional." above the fields, which is the
-                    purpose in brief
-                  - both fields labelled "(optional)", with a Skip button
+                    responses. This section is optional, so you can skip it."
+                    above the fields, which is the purpose in brief and the only
+                    place optionality is stated: the labels no longer say
+                    "(optional)" and there is no Skip button, so Continue with
+                    the fields empty is how a person skips
                   - the line about answers, not location, shaping the result
 
                 What collapses is the elaboration, not the disclosure. If that top
@@ -300,29 +314,20 @@ export function AssessmentFlow() {
                                     </h2>
                                 </summary>
                                 <dl>
-                                    <dt>
-                                        Understand where our products are being
-                                        used
-                                    </dt>
+                                    <dt>Support local capacity building</dt>
                                     <dd>
-                                        Aggregated location data helps us
-                                        understand where our products are being
-                                        used so we can target our efforts to
-                                        those neighbourhoods.
+                                        While we keep your identity and
+                                        responses anonymous, we provide
+                                        aggregated data to local organizations
+                                        to help build local capacity to help
+                                        residents thrive.
                                     </dd>
-                                    <dt>Improve our products</dt>
+                                    <dt>Knowing where to focus our effort</dt>
                                     <dd>
-                                        By focusing our effort in specific
-                                        areas, we are able to make updates to
-                                        our products to make it easier for our
-                                        users to create neighbourhoods where
-                                        they can thrive.
-                                    </dd>
-                                    <dt>Support future resources</dt>
-                                    <dd>
-                                        Over time, we aim to connect people in
-                                        similar neighbourhoods and stages.
-                                        Location is the first step toward that.
+                                        We have limited resources. Knowing the
+                                        neighbourhood you reside in helps us
+                                        focus our resources in the areas that
+                                        want our support the most.
                                     </dd>
                                 </dl>
                             </details>
@@ -342,21 +347,18 @@ export function AssessmentFlow() {
                             </p>
 
                             <div className={styles.actions}>
+                                {/* A link, not a button: it leaves the flow for the intro page. */}
+                                <Link
+                                    className={`${styles.btn} ${styles.btnQuiet}`}
+                                    href="/"
+                                >
+                                    Back
+                                </Link>
                                 <button
                                     className={`${styles.btn} ${styles.btnPrimary}`}
                                     onClick={() => go("hope")}
                                 >
                                     Continue
-                                </button>
-                                <button
-                                    className={`${styles.btn} ${styles.btnQuiet}`}
-                                    onClick={() => {
-                                        setPostal("");
-                                        setHood("");
-                                        go("hope");
-                                    }}
-                                >
-                                    Skip
                                 </button>
                             </div>
                         </>
@@ -366,9 +368,13 @@ export function AssessmentFlow() {
                         <QuestionStep
                             factor={step as FactorKey}
                             index={factorIndex}
-                            selected={answers[step as FactorKey]}
+                            answers={answers}
                             showError={errorFor === step}
                             onSelect={(i) => answer(step as FactorKey, i)}
+                            onJump={(factor) => {
+                                setErrorFor(null);
+                                go(factor);
+                            }}
                             onBack={() => go(STEPS[STEPS.indexOf(step) - 1])}
                             onNext={() => tryAdvance(step as FactorKey)}
                         />
@@ -418,161 +424,58 @@ export function AssessmentFlow() {
                                 {stage.reflection}
                             </p>
 
-                            {!unlocked ? (
-                                <div className={styles.gate}>
-                                    <h2 className="headingLead">
-                                        <span
-                                            className="icon iconLead"
-                                            aria-hidden="true"
-                                        >
-                                            lock
-                                        </span>
-                                        Get the rest of your result
-                                    </h2>
-                                    <p>
-                                        Your stage is above. Enter your email
-                                        and we will unlock why your
-                                        neighbourhood is there and what to focus
-                                        on next, and send you a copy to keep.
-                                    </p>
-                                    <form onSubmit={submitEmail} noValidate>
-                                        <div className={styles.field}>
-                                            <label htmlFor="email">
-                                                <span
-                                                    className="icon iconHeading"
-                                                    aria-hidden="true"
-                                                >
-                                                    mail
-                                                </span>
-                                                Email address
-                                            </label>
-                                            <p
-                                                className={styles.hint}
-                                                id="email-hint"
-                                            >
-                                                We send your result and next
-                                                steps to this address.
-                                            </p>
-                                            {emailError && (
-                                                <p
-                                                    className={styles.error}
-                                                    id="email-error"
-                                                >
-                                                    Enter an email address so we
-                                                    can send your result.
-                                                </p>
-                                            )}
-                                            <input
-                                                id="email"
-                                                name="email"
-                                                type="email"
-                                                autoComplete="email"
-                                                inputMode="email"
-                                                required
-                                                aria-describedby={
-                                                    emailError
-                                                        ? "email-hint email-error"
-                                                        : "email-hint"
-                                                }
-                                                aria-invalid={
-                                                    emailError || undefined
-                                                }
-                                                value={email}
-                                                onChange={(e) =>
-                                                    setEmail(e.target.value)
-                                                }
-                                            />
-                                        </div>
-                                        {/* Unbundled and unticked. Nothing on this page depends on it. */}
-                                        <div className={styles.consent}>
-                                            <input
-                                                id="optin"
-                                                name="optin"
-                                                type="checkbox"
-                                            />
-                                            <label htmlFor="optin">
-                                                Also send me related resources
-                                                from Imagine Cities. You can
-                                                unsubscribe at any time. Leaving
-                                                this unticked changes nothing
-                                                about what you receive here.
-                                            </label>
-                                        </div>
-                                        <div className={styles.actions}>
-                                            <button
-                                                type="submit"
-                                                className={`${styles.btn} ${styles.btnPrimary}`}
-                                            >
-                                                Show the rest
-                                            </button>
-                                        </div>
-                                    </form>
-                                    <p className={styles.muted}>
-                                        This is a prototype. Nothing you enter
-                                        is stored or sent. Remove this paragraph
-                                        later*.
-                                    </p>
-                                </div>
-                            ) : (
-                                <div className={styles.guidance}>
-                                    {/*
-                        Icons sit to the left of their headings via the shared
-                        .headingLead / .iconLead pair in globals.css, which every
-                        section heading on the result page uses so they match.
-
-                        lock_open is gone. It described the gate that had just been
-                        passed, not what the section contains, and once the guidance
-                        is open the lock is the least interesting thing about it.
-                        insights for the explanation, signpost for the direction:
-                        both verified against Google's Material Symbols metadata.
-                    */}
-                                    <h2
-                                        ref={guidanceRef}
-                                        tabIndex={-1}
-                                        className={`${styles.guidanceHeading} headingLead`}
-                                    >
-                                        <span
-                                            className="icon iconLead"
-                                            aria-hidden="true"
-                                        >
-                                            insights
-                                        </span>
-                                        Why you are in this stage
-                                    </h2>
-                                    <p>{stage.why}</p>
-                                    <h2 className={`${styles.guidanceHeading} headingLead`}>
-                                        <span
-                                            className="icon iconLead"
-                                            aria-hidden="true"
-                                        >
-                                            signpost
-                                        </span>
-                                        What to focus on next
-                                    </h2>
-                                    <p>{stage.focus}</p>
-                                    <ul
-                                        className={`${styles.nextSteps} stagger`}
-                                    >
-                                        {stage.steps.map((s) => (
-                                            <li key={s.title}>
-                                                <strong>{s.title}</strong>
-                                                <span>{s.detail}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-
                             {/*
-                PRD screen 6. After the guidance, because it is what the guidance
-                points at. fadeIn rather than riseIn: it appears at the same moment the
-                guidance does, and two blocks sliding up together reads as a jolt.
+                The guidance is open to everyone. It used to sit behind an email gate;
+                the email is now an optional extra below, offered as a copy of the
+                responses rather than as the price of the result.
+
+                Icons sit to the left of their headings via the shared .headingLead /
+                .iconLead pair in globals.css, which every section heading on the
+                result page uses so they match. insights for the explanation, signpost
+                for the direction: both verified against Google's Material Symbols
+                metadata.
               */}
-                            {unlocked && (
-                                <div className="fadeIn">
-                                    <Resources stage={stageKey} />
-                                </div>
-                            )}
+                            <div className={styles.guidance}>
+                                <h2
+                                    className={`${styles.guidanceHeading} headingLead`}
+                                >
+                                    <span
+                                        className="icon iconLead"
+                                        aria-hidden="true"
+                                    >
+                                        insights
+                                    </span>
+                                    Why you are in this stage
+                                </h2>
+                                <p>{stage.why}</p>
+                                <h2
+                                    className={`${styles.guidanceHeading} headingLead`}
+                                >
+                                    <span
+                                        className="icon iconLead"
+                                        aria-hidden="true"
+                                    >
+                                        signpost
+                                    </span>
+                                    What to focus on next
+                                </h2>
+                                <p>{stage.focus}</p>
+                                <ul className={`${styles.nextSteps} stagger`}>
+                                    {stage.steps.map((s) => (
+                                        <li key={s.title}>
+                                            <strong>{s.title}</strong>
+                                            <span>{s.detail}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* PRD screen 6. After the guidance, because it is what the guidance points at. */}
+                            <Resources stage={stageKey} />
+
+                            <TrackJourney announce={setAnnouncement} />
+
+                            <ShareAssessment announce={setAnnouncement} />
 
                             <section
                                 className={styles.feedback}
@@ -631,10 +534,10 @@ export function AssessmentFlow() {
                             </section>
 
                             {/*
-                Quiet, not primary. Once the guidance is open this is the only button
-                left on the page, and a gold pill would make starting again look like
-                the recommended next move when it is the opposite: it discards the
-                result the person just earned.
+                Finish is the gold pill and Start over stays quiet: finishing is the
+                expected next move, and starting again discards the result the person
+                just earned, so it should never look like the recommended one. Finish
+                is a link because it leaves the flow for the intro page.
               */}
                             <div className={styles.actions}>
                                 <button
@@ -646,6 +549,12 @@ export function AssessmentFlow() {
                                     </span>
                                     Start over
                                 </button>
+                                <Link
+                                    className={`${styles.btn} ${styles.btnPrimary}`}
+                                    href="/"
+                                >
+                                    Finish
+                                </Link>
                             </div>
 
                             {debug && (
@@ -661,8 +570,8 @@ export function AssessmentFlow() {
                                         ? ", with this prototype’s factor floors applied"
                                         : ""}
                                     .
-                                    {postal || hood
-                                        ? ` Context given: ${[postal, hood].filter(Boolean).join(", ")}.`
+                                    {postal || hood || org
+                                        ? ` Context given: ${[postal, hood, org].filter(Boolean).join(", ")}.`
                                         : ""}
                                 </p>
                             )}
@@ -670,21 +579,6 @@ export function AssessmentFlow() {
                     )}
                 </section>
             </main>
-
-            <footer className="wrap">
-                <p className={styles.muted}>
-                    The five stages come from the Harwood Institute&rsquo;s
-                    Stages of Community Life, part of their{" "}
-                    <a
-                        href="https://theharwoodinstitute.org/report-catalog/community-rhythms-the-five-stages-of-community-life"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        Community Rhythms
-                    </a>{" "}
-                    research. The five factors are Imagine Cities&rsquo; own.
-                </p>
-            </footer>
         </>
     );
 }
@@ -692,65 +586,160 @@ export function AssessmentFlow() {
 function QuestionStep({
     factor,
     index,
-    selected,
+    answers,
     showError,
     onSelect,
+    onJump,
     onBack,
     onNext,
 }: {
     factor: FactorKey;
     index: number;
-    selected: 1 | 2 | 3 | undefined;
+    answers: Answers;
     showError: boolean;
     onSelect: (optionIndex: number) => void;
+    onJump: (factor: FactorKey) => void;
     onBack: () => void;
     onNext: () => void;
 }) {
     const data = FACTORS[factor];
+    const selected = answers[factor];
     const errorId = `error-${factor}`;
+
+    /*
+     * A question can be jumped to if it has been answered, or if it is the first one
+     * that has not. Anything past that stays locked, so the stepper cannot be used to
+     * skip a question: Next is the only way forward over an unanswered one.
+     */
+    const firstOpen = FACTOR_ORDER.findIndex((key) => !answers[key]);
+    const reachableUpTo = firstOpen === -1 ? FACTOR_ORDER.length - 1 : firstOpen;
+
+    /*
+     * The icon is sized to the question's rendered height, which changes with the
+     * number of lines it wraps to, so CSS alone cannot get it. Written straight to the
+     * element's style: it is layout, not state, and a re-render per resize buys nothing.
+     *
+     * It goes in as a custom property, not font-size, so the stylesheet can cap it and
+     * ignore it on narrow screens. Uncapped side by side, it feeds back on itself: a
+     * bigger icon narrows the question, which wraps taller, which grows the icon.
+     */
+    const iconRef = useRef<HTMLSpanElement>(null);
+    const questionRef = useRef<HTMLSpanElement>(null);
+    // A layout effect so the first size lands before paint, not one frame after it.
+    useLayoutEffect(() => {
+        const icon = iconRef.current;
+        const question = questionRef.current;
+        if (!icon || !question) return;
+        const size = (height: number) =>
+            icon.style.setProperty("--q-height", `${height}px`);
+        size(question.getBoundingClientRect().height);
+        const observer = new ResizeObserver(([entry]) =>
+            size(entry.contentRect.height),
+        );
+        observer.observe(question);
+        return () => observer.disconnect();
+    }, []);
+
+    /*
+     * Options are stored weakest to strongest (the stored value is index + 1) and shown
+     * strongest first. Reversing here keeps the scoring untouched.
+     */
+    const displayedOptions = data.options
+        .map((option, i) => ({ option, i }))
+        .reverse();
 
     return (
         <div className={`${styles.qstep} ${styles[`ground-${factor}`]}`}>
-            {/* Colours match the question grounds exactly; see docs/colour-emotion-map.md. */}
-            <ol className={styles.qbar} aria-hidden="true">
-                {FACTOR_ORDER.map((key, i) => (
-                    <li
-                        key={key}
-                        className={`${styles[`seg-${key}`]} ${i < index ? styles.segDone : ""} ${i === index ? styles.segCurrent : ""}`}
-                    />
-                ))}
-            </ol>
+            {/*
+              Segment colours match the question grounds exactly; see
+              docs/colour-emotion-map.md. Completion is carried by the badge (a tick on
+              Charcoal) and position by the ring and aria-current, never by colour alone.
+            */}
+            <nav aria-label="Assessment questions">
+                <ol className={styles.qsteps}>
+                    {FACTOR_ORDER.map((key, i) => {
+                        const isCurrent = i === index;
+                        const isDone = Boolean(answers[key]) && !isCurrent;
+                        const isLocked = i > reachableUpTo;
+                        return (
+                            <li
+                                key={key}
+                                className={`${styles.qstepItem} ${isDone ? styles.qstepDone : ""} ${isCurrent ? styles.qstepCurrent : ""}`}
+                            >
+                                <button
+                                    type="button"
+                                    className={styles.qstepButton}
+                                    aria-current={isCurrent ? "step" : undefined}
+                                    disabled={isLocked}
+                                    onClick={() => {
+                                        if (!isCurrent) onJump(key);
+                                    }}
+                                >
+                                    <span
+                                        className={`${styles.qstepSeg} ${styles[`seg-${key}`]}`}
+                                        aria-hidden="true"
+                                    />
+                                    <span className={styles.qstepRow}>
+                                        <span
+                                            className={styles.qstepBadge}
+                                            aria-hidden="true"
+                                        >
+                                            {isDone ? (
+                                                <span className="icon">check</span>
+                                            ) : (
+                                                i + 1
+                                            )}
+                                        </span>
+                                        <span className={styles.qstepName}>
+                                            <span className="srOnly">
+                                                Question {i + 1}:{" "}
+                                            </span>
+                                            {FACTORS[key].name}
+                                            {isDone && (
+                                                <span className="srOnly">
+                                                    , answered
+                                                </span>
+                                            )}
+                                        </span>
+                                    </span>
+                                </button>
+                            </li>
+                        );
+                    })}
+                </ol>
+            </nav>
             <p className={styles.progress}>Question {index + 1} of 5</p>
+
+            {/*
+              Outside the fieldset on purpose. A legend is announced whole when the
+              fieldset gets focus, so folding the definition into it would make screen
+              reader users hear it before every question. Ahead of the question in
+              reading order, it is there for anyone who wants it and skippable for
+              anyone who does not.
+            */}
+            <div className={styles.factorCard}>
+                <span className="icon" aria-hidden="true">
+                    info
+                </span>
+                <p>{data.blurb}</p>
+            </div>
 
             <div className={styles.qcard}>
                 <fieldset className={styles.fieldset}>
-                    <p className={styles.factorName}>{data.name}</p>
                     <legend id="step-heading" className={styles.legend}>
                         <span className={styles.qRow}>
                             <span
-                                className="icon"
+                                ref={iconRef}
+                                className={`icon ${styles.qIcon}`}
                                 aria-hidden="true"
-                                style={{
-                                    fontSize: "1.6em",
-                                    lineHeight: 1,
-                                    marginTop: "0.1em",
-                                }}
                             >
                                 {data.icon}
                             </span>
-                            <span className={styles.qText}>
+                            <span ref={questionRef} className={styles.qText}>
                                 {data.question}
                             </span>
                         </span>
                     </legend>
-
-                    {/*
-            Outside the legend on purpose. A legend is announced whole when the
-            fieldset gets focus, so folding the blurb into it would make screen reader
-            users hear the definition before every question. As a sibling it stays
-            available to anyone who wants it and skippable for anyone who does not.
-          */}
-                    <p className={styles.factorBlurb}>{data.blurb}</p>
 
                     {showError && (
                         <p className={styles.error} id={errorId}>
@@ -759,7 +748,7 @@ function QuestionStep({
                     )}
 
                     <div className={`${styles.options} stagger`}>
-                        {data.options.map((option, i) => (
+                        {displayedOptions.map(({ option, i }) => (
                             <div className={styles.option} key={option.short}>
                                 <input
                                     type="radio"

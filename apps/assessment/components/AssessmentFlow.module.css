@@ -63,21 +63,115 @@
    page the unreached segments sit between 1.04 and 1.35:1, because three of the fills
    are pale tints. The hairline carries the shape at 3.05:1; opacity only separates
    reached from unreached. */
-.qbar {
+.qsteps {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--sp-1);
-    margin: 0 0 var(--sp-3);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--sp-2);
+    margin: 0 0 var(--sp-4);
     padding: 0;
 }
 
-.qbar li {
+.qstepItem {
+    position: relative;
+}
+
+.qstepButton {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    padding: 0 0 var(--sp-1);
+    background: none;
+    border: 0;
+    font: inherit;
+    color: var(--ic-color-charcoal-black);
+    text-align: left;
+    cursor: pointer;
+}
+
+.qstepButton:disabled {
+    cursor: default;
+}
+
+.qstepSeg {
+    display: block;
     height: 8px;
     border-radius: var(--radius-pill);
     opacity: 0.55;
     box-shadow: inset 0 0 0 1px var(--border-strong);
     transition: opacity 160ms var(--ease);
+}
+
+.qstepRow {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    min-width: 0;
+}
+
+/* Upcoming: number in an outlined circle. The outline is --border-strong for 3:1. */
+.qstepBadge {
+    flex: 0 0 auto;
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--border-strong);
+    background: var(--ic-color-serene-white);
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    font-weight: var(--ic-font-weight-bold);
+    line-height: 1;
+}
+
+.qstepBadge .icon {
+    font-size: 18px;
+}
+
+.qstepName {
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    font-weight: var(--ic-font-weight-semibold);
+    line-height: 1.25;
+    min-width: 0;
+}
+
+.qstepButton:not(:disabled):hover .qstepName {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Answered: Serene White tick on Charcoal, the pairing safe at any size. */
+.qstepDone .qstepBadge {
+    background: var(--ic-color-charcoal-black);
+    border-color: var(--ic-color-charcoal-black);
+    color: var(--ic-color-serene-white);
+}
+
+.qstepCurrent .qstepBadge {
+    border-color: var(--ic-color-charcoal-black);
+}
+
+.qstepCurrent .qstepName {
+    font-weight: var(--ic-font-weight-bold);
+}
+
+/* Too narrow for five names side by side: keep badges and segments, and leave the
+   names to screen readers. The question card already names the current factor. */
+@media (max-width: 640px) {
+    .qstepRow {
+        justify-content: center;
+    }
+
+    .qstepName {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
 }
 
 .seg-hope {
@@ -96,14 +190,14 @@
     background: var(--ic-color-tint-gold-20);
 }
 
-.segDone,
-.segCurrent {
+.qstepDone .qstepSeg,
+.qstepCurrent .qstepSeg {
     opacity: 1;
 }
 
 /* Position marked by a Charcoal ring, not a different colour: the colour slot is
    already carrying meaning. 14.25:1 against the page. */
-.segCurrent {
+.qstepCurrent .qstepSeg {
     box-shadow:
         inset 0 0 0 1px var(--border-strong),
         0 0 0 2px var(--ic-color-charcoal-black);
@@ -137,34 +231,57 @@
     padding: 0;
 }
 
-.factorName {
-    font-size: var(--ic-typography-label-font-size);
-    font-weight: var(--ic-font-weight-bold);
-    letter-spacing: 0.06em;
-    color: var(--ic-color-charcoal-black);
-    margin: var(--sp-3) 0 var(--sp-2) 0;
-}
-
 .legend {
     font-size: var(--ic-typography-subheadline-font-size);
     font-weight: var(--ic-font-weight-semibold);
     line-height: 1.3;
-    margin: 0 0 var(--sp-2);
+    margin: 0 0 var(--sp-4);
     padding: 0;
     max-width: 40ch;
 }
 
 /*
- * What the factor measures, under the question. Charcoal rather than a muted grey:
- * this sits on the tinted question ground, and Charcoal Black is the only colour the
- * deck clears against every ground at any text size.
+ * What the factor measures, above the question. Serene White with Charcoal text, the
+ * pairing safe at any size; the left rule picks up the question's ground colour so the
+ * card reads as belonging to it. The rule is decorative and carries no text.
  */
-.factorBlurb {
-    font-size: var(--ic-typography-paragraph-small-font-size);
-    line-height: 1.5;
-    color: var(--ic-color-charcoal-black);
+.factorCard {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
     margin: 0 0 var(--sp-4);
-    /* max-width: 56ch; */
+    padding: var(--sp-4);
+    background: var(--ic-color-serene-white);
+    border: 1px solid var(--hairline);
+    border-left: 6px solid var(--border-strong);
+    border-radius: var(--radius-surface);
+    color: var(--ic-color-charcoal-black);
+}
+
+.factorCard .icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.factorCard p {
+    margin: 0;
+    max-width: 68ch;
+}
+
+.ground-hope .factorCard {
+    border-left-color: var(--ic-color-gold);
+}
+.ground-collaboration .factorCard {
+    border-left-color: var(--ic-color-fresh-green);
+}
+.ground-leadership .factorCard {
+    border-left-color: var(--ic-color-deep-azure);
+}
+.ground-progress .factorCard {
+    border-left-color: var(--ic-color-forest-green);
+}
+.ground-resilience .factorCard {
+    border-left-color: var(--ic-color-tint-gold-40);
 }
 
 /* The icon sits in its own column so a wrapping question keeps a straight left edge.
@@ -178,6 +295,27 @@
 
 .qText {
     flex: 1 1 auto;
+}
+
+/* As tall as the question, which AssessmentFlow measures into --q-height; 1.6em until
+   it has. Capped at 120px so a long question cannot balloon it. */
+.qIcon {
+    flex: 0 0 auto;
+    font-size: min(var(--q-height, 1.6em), 120px);
+    line-height: 1;
+}
+
+/* Too narrow to share a row: the icon would take most of the width. Stacked, it sits
+   above the question at a fixed size. */
+@media (max-width: 640px) {
+    .qRow {
+        flex-direction: column;
+        gap: var(--sp-2);
+    }
+
+    .qIcon {
+        font-size: 48px;
+    }
 }
 
 /* ---- options ---- */
@@ -323,12 +461,12 @@
 
 /*
  * Serene White fill, not transparent. Transparent let the input take the colour of
- * whatever it sat on, so the email field picked up the Gold tint of the gate panel and
+ * whatever it sat on, so the email field picked up the Gold tint of the email panel and
  * stopped reading as a field at all.
  *
  * Solid Charcoal border, not Charcoal at 50%. WCAG 1.4.11 wants the boundary at 3:1
  * against what it sits against, and these fields sit on tinted panels: the 50% border
- * measures 3.06:1 against its own white fill but only 2.76:1 against the Gold 20% gate
+ * measures 3.06:1 against its own white fill but only 2.76:1 against the Gold 20% email panel
  * and 2.22:1 against the Deep Azure 20% panel. Solid Charcoal clears every ground, and
  * matches the border already used on the option cards.
  */
@@ -366,6 +504,40 @@
 
 .consent label {
     font-size: var(--ic-typography-paragraph-small-font-size);
+}
+
+/* The legend reads as a field label, matching the postal and neighbourhood fields above. */
+.orgFieldset {
+    border: 0;
+    padding: 0;
+    margin: 0 0 var(--sp-4);
+    min-width: 0;
+    max-width: 52ch;
+}
+
+.orgFieldset legend {
+    padding: 0;
+    font-weight: var(--ic-font-weight-semibold);
+    margin-bottom: var(--sp-2);
+}
+
+/* A one-word label leaves a 24px target. Stretched across the row and to 44px tall,
+   the whole line toggles the box (WCAG 2.5.8 wants 24px; 44px is the house minimum). */
+.orgFieldset .consent {
+    margin-bottom: var(--sp-3);
+    align-items: center;
+}
+
+.orgFieldset .consent input {
+    margin-top: 0;
+}
+
+.orgFieldset .consent label {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    cursor: pointer;
 }
 
 /* Bold Red marks the error; the sentence stays Charcoal, since red text on near-white
@@ -438,8 +610,8 @@
 
 /*
  * The purpose-of-collection panel on the context step. Deep Azure 20% rather than the
- * Gold used by the email gate: this one is explaining, not asking for anything, and
- * reusing the gate's colour would imply the same kind of exchange.
+ * Gold used by the email panel: this one is explaining, not asking for anything, and
+ * reusing the email panel's colour would imply the same kind of exchange.
  */
 /*
  * Collapsed by default. See the comment on the <details> in AssessmentFlow for why
@@ -541,18 +713,49 @@
     margin: 0 0 var(--sp-5);
 }
 
-.gate {
-    background: var(--ic-color-tint-gold-20);
+/*
+ * The two asks after the result: a copy of the responses, and sharing the assessment.
+ * Gold 20% for the email (it asks for something, as the old gate did) and Deep Azure
+ * 20% for sharing so the two read as separate offers rather than one long form.
+ * Charcoal text on both, as everywhere else on a tint.
+ */
+.emailPanel,
+.sharePanel {
     border-radius: var(--radius-surface);
     padding: var(--sp-5);
     margin: 0 0 var(--sp-5);
 }
 
-.gate h2 {
+.emailPanel {
+    background: var(--ic-color-tint-gold-20);
+}
+
+.sharePanel {
+    background: var(--ic-color-tint-deep-azure-20);
+}
+
+.emailPanel h2,
+.sharePanel h2 {
     margin-top: 0;
 }
 
-/* The unlocked guidance inverts: Serene White on Charcoal is 14.25:1, so unlike every
+.emailPanel p,
+.sharePanel p {
+    max-width: 62ch;
+}
+
+.emailPanel .confirmation:focus {
+    outline: none;
+}
+
+/* The fallback when the clipboard is refused: the link itself, selectable, so it can
+   still be copied by hand. Wraps anywhere so a long URL cannot widen the page. */
+.shareLink {
+    font-weight: var(--ic-font-weight-semibold);
+    overflow-wrap: anywhere;
+}
+
+/* The guidance inverts: Serene White on Charcoal is 14.25:1, so unlike every
    tint it carries small copy as happily as headings, and Charcoal is the only ground
    that cannot clash with the result band above, which changes colour with the stage. */
 .guidance {
@@ -586,15 +789,6 @@
 .guidance p {
     margin: 0 0 var(--sp-4);
     max-width: 68ch;
-}
-
-.guidance h2:focus {
-    outline: none;
-}
-
-.guidance h2:focus-visible {
-    outline: 3px solid var(--ic-color-gold);
-    outline-offset: 3px;
 }
 
 .guidance .icon {
@@ -664,5 +858,25 @@
 @media (max-width: 640px) {
     .legend {
         font-size: 18px;
+    }
+
+    /* 40px of panel padding each side leaves the option cards about 250px wide at
+       375px, which wraps a three-word option title onto two lines. */
+    .qcard,
+    .resultBand,
+    .emailPanel,
+    .sharePanel,
+    .feedback {
+        padding: var(--sp-4);
+    }
+
+    .guidance {
+        padding: var(--sp-5) var(--sp-4);
+    }
+
+    /* Allowed to wrap here. Unbroken, "Sustain & Renew" pushed the page 51px wider
+       than the screen; box-decoration-break above keeps each line's pill intact. */
+    .stageChip {
+        white-space: normal;
     }
 }

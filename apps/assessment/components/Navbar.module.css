@@ -57,6 +57,81 @@
     border-bottom-color: var(--ic-color-charcoal-black);
 }
 
+/* Desktop has room for the links inline, so the toggle only exists on phones. */
+.menuButton {
+    display: none;
+}
+
+/*
+ * Phones: beside the logo the four links wrapped into a 2x2 block of 33px-tall targets.
+ * Behind a menu button they get a full-width list of 48px rows instead.
+ *
+ * The closed menu is display:none rather than moved off screen, so its links leave the
+ * tab order and the accessibility tree along with the picture.
+ */
+@media (max-width: 640px) {
+    .siteHeader {
+        flex-wrap: wrap;
+        gap: 0;
+    }
+
+    .logo {
+        height: 56px;
+    }
+
+    .menuButton {
+        display: inline-grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        margin-right: -12px; /* the glyph, not the hit area, lines up with the gutter */
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 8px;
+        color: var(--ic-color-charcoal-black);
+        cursor: pointer;
+    }
+
+    .menuButton .icon {
+        font-size: 32px;
+    }
+
+    .nav {
+        display: none;
+        flex-basis: 100%;
+        flex-direction: column;
+        gap: 0;
+        margin-top: var(--sp-3);
+        border-top: 1px solid var(--hairline);
+    }
+
+    .navOpen {
+        display: flex;
+    }
+
+    .nav a {
+        display: flex;
+        align-items: center;
+        min-height: 48px;
+        padding: 0;
+        font-size: var(--ic-typography-paragraph-1-font-size);
+        border-bottom: 1px solid var(--hairline);
+    }
+
+    /* The desktop underline is the bottom border, which every row now has. A heavier
+       Charcoal rule takes its place for hover and focus. */
+    .nav a:hover,
+    .nav a:focus-visible {
+        border-bottom: 1px solid var(--ic-color-charcoal-black);
+        box-shadow: inset 0 -2px 0 var(--ic-color-charcoal-black);
+    }
+
+    .nav a:last-child {
+        border-bottom-color: transparent;
+    }
+}
+
 .step:focus {
     outline: none;
 }
