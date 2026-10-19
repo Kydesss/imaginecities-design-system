@@ -19,6 +19,12 @@
   stroke-width: 5;
 }
 
+.movementDot {
+  fill: var(--ic-color-gold);
+  stroke: var(--ic-color-charcoal-black);
+  stroke-width: 2;
+}
+
 .labelCurrent {
   font-weight: var(--ic-font-weight-bold);
 }
@@ -82,5 +88,11 @@
 @media (max-width: 460px) {
   .stageList {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .movementDot {
+    display: none;
   }
 }
