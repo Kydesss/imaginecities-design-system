@@ -5,28 +5,21 @@ import { Reveal } from "@/components/Reveal";
 import styles from "./page.module.css";
 import { Navbar } from "@/components/Navbar";
 
-const PARTNERS = [
+const PILLARS = [
     {
-        src: "/partners/hillhurst.png",
-        alt: "Hillhurst Sunnyside Community Association",
-    },
-    { src: "/partners/sunalta.png", alt: "Sunalta Community Association" },
-    { src: "/partners/kitsilano.png", alt: "Kitsilano Neighbourhood House" },
-    { src: "/partners/marpole.png", alt: "Marpole Neighbourhood House" },
-];
-
-const WHAT_YOU_GET = [
-    {
-        title: "Where your neighbourhood stands",
-        body: "Which of five stages best matches what you described, explained without jargon.",
+        title: "Capacity",
+        icon: "domain",
+        body: "Not all neighbourhoods are created equal. While some possess the resources needed for residents to flourish, others face significant local deficits.",
     },
     {
-        title: "Why it is there",
-        body: "What shaped the result, and what that usually means for a neighbourhood like yours.",
+        title: "Reflection",
+        icon: "psychology",
+        body: "How well-equipped is your neighbourhood to support residents? Given fluctuating government and charitable funding, reflect on how your neighbourhood's capacity to bridge critical service gaps and sustain long-term resilience.",
     },
     {
-        title: "What to do next",
-        body: "Practical steps suited to where your neighbourhood actually is, not generic advice.",
+        title: "Insight",
+        icon: "lightbulb",
+        body: "What steps can your neighbourhood take to build a stronger foundation? Identify local gaps today to create an environment where future generations can thrive.",
     },
 ];
 
@@ -45,17 +38,18 @@ export default function IntroPage() {
                             </span>{" "}
                             Ready for What&rsquo;s Next?
                         </h1>
+                        <p className={styles.heroSupport}>
+                            Get an understanding of your neighbourhood&apos;s
+                            capacity to build and maintain a thriving future.
+                        </p>
                         <p className={styles.lede}>
-                            Five questions, about five minutes. You get an
-                            understanding of where your neighbourhood stands
-                            today, and what to do about it.
+                            Five questions, takes about five minutes.
                         </p>
                         <Link className={styles.cta} href="/assessment">
                             Start the assessment
                         </Link>
                         <p className={styles.meta}>
-                            Free. No expertise needed. Your stage is shown
-                            without signing up.
+                            For residents. It&apos;s free. No expertise needed.
                         </p>
                     </div>
 
@@ -93,70 +87,6 @@ export default function IntroPage() {
                 </section>
 
                 <Reveal>
-                    <section className="wrap">
-                        {/* Each of these relationships still needs written confirmation before this ships. */}
-                        <div className={styles.partners}>
-                            <p>
-                                Built with community associations in Calgary and
-                                Vancouver
-                            </p>
-                            <ul role="list">
-                                {PARTNERS.map((p) => (
-                                    <li key={p.src}>
-                                        <Image
-                                            src={p.src}
-                                            alt={p.alt}
-                                            width={120}
-                                            height={40}
-                                            className={styles.partnerLogo}
-                                        />
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </section>
-                </Reveal>
-
-                <Reveal>
-                    <section className="wrap">
-                        <div className={styles.why}>
-                            <h2>
-                                <span
-                                    className="icon iconHeading"
-                                    aria-hidden="true"
-                                >
-                                    lightbulb
-                                </span>
-                                Why This Matters
-                            </h2>
-                            {/*
-                Not a blockquote. An earlier version put a paraphrase in quotation marks
-                under a Harwood citation; the report's wording is "flounder or fail". With
-                Harwood permission unresolved, this is plainly the page's own sentence
-                reporting their finding.
-              */}
-                            <p className={styles.claim}>
-                                The Harwood Institute found that most people act
-                                as though their community is already growing,
-                                and then wonder why so many initiatives flounder
-                                or fail.
-                            </p>
-                            <p className={styles.source}>
-                                Community Rhythms, 1999, from fieldwork in five
-                                American cities.
-                            </p>
-                            <p className={styles.after}>
-                                Strategies that work for a neighbourhood with
-                                momentum tend to fail in one that is still
-                                rebuilding trust. Knowing where yours actually
-                                sits is what makes the difference between effort
-                                that compounds and effort that disappears.
-                            </p>
-                        </div>
-                    </section>
-                </Reveal>
-
-                <Reveal>
                     <section className={`${styles.section} wrap`}>
                         <h2>
                             <span
@@ -165,21 +95,27 @@ export default function IntroPage() {
                             >
                                 checklist
                             </span>
-                            What You Get
+                            Three things this assessment helps you understand
                         </h2>
-                        <ol className={styles.steps} role="list">
-                            {WHAT_YOU_GET.map((item, i) => (
-                                <li key={item.title}>
-                                    <div
-                                        className={styles.stepNumber}
-                                        aria-hidden="true"
-                                    >
-                                        {i + 1}
+                        <ol className={styles.cards} role="list">
+                            {PILLARS.map((item, i) => (
+                                <li className={styles.card} key={item.title}>
+                                    <div className={styles.cardHeading}>
+                                        <span
+                                            className={styles.cardNumber}
+                                            aria-hidden="true"
+                                        >
+                                            0{i + 1}
+                                        </span>
+                                        <span
+                                            className={`icon ${styles.cardIcon}`}
+                                            aria-hidden="true"
+                                        >
+                                            {item.icon}
+                                        </span>
                                     </div>
-                                    <div>
-                                        <h3>{item.title}</h3>
-                                        <p>{item.body}</p>
-                                    </div>
+                                    <h3>{item.title}</h3>
+                                    <p>{item.body}</p>
                                 </li>
                             ))}
                         </ol>
@@ -196,17 +132,15 @@ export default function IntroPage() {
                                 >
                                     timeline
                                 </span>
-                                The Five Stages
+                                The Five Stages of Neighbourhood Life
                             </h2>
+                            <Spectrum animateMovement />
                             <p className={styles.framing}>
-                                The assessment asks about{" "}
-                                <strong>five factors</strong>: hope and
-                                optimism, collaboration, leadership, progress,
-                                and resilience. Your answers place your
-                                neighbourhood in one of{" "}
-                                <strong>five stages</strong>.
+                                The assessment asks about five factors: hope
+                                and optimism, collaboration, leadership,
+                                progress, and resilience. Your answers place
+                                your neighbourhood in one of five stages.
                             </p>
-                            <Spectrum annotation={{ kind: "assumption" }} />
                             <StageList />
                             <p className={styles.note}>
                                 This is not a score or a ranking. Neighbourhoods
@@ -220,40 +154,27 @@ export default function IntroPage() {
                 </Reveal>
 
                 <Reveal>
-                    <section className="wrap">
-                        <div className={styles.closing}>
-                            <h2>
-                                <span
-                                    className="icon iconHeading"
-                                    aria-hidden="true"
-                                >
-                                    location_city
-                                </span>
-                                See Where Your Neighbourhood Stands
-                            </h2>
-                            {/* 24px, not 20px: Serene White on Deep Azure is 6.30:1, which the deck
-                  permits only at 18pt regular or 14pt bold. 18pt is 24px. */}
-                            <p className={styles.closingLede}>
-                                Five questions, about five minutes. You will get
-                                something concrete to bring to your next
-                                conversation, and a result that is a reflection
-                                rather than a verdict.
+                    <section className={`${styles.assessmentCta} wrap`}>
+                        <div>
+                            <p className={styles.assessmentCtaTitle}>
+                                Five questions, takes about five minutes.
                             </p>
-                            <Link
-                                className={`${styles.cta} ${styles.ctaOnAzure}`}
-                                href="/assessment"
-                            >
-                                Start the assessment
-                            </Link>
+                            <p className={styles.assessmentCtaMeta}>
+                                For residents. It&apos;s free. No expertise
+                                needed.
+                            </p>
                         </div>
+                        <Link className={styles.cta} href="/assessment">
+                            Start the assessment
+                        </Link>
                     </section>
                 </Reveal>
             </main>
 
             <footer className="wrap">
                 <p className={styles.footerText}>
-                    The five stages come from the Harwood Institute&rsquo;s
-                    Stages of Community Life, part of their{" "}
+                    The Five Stages of Neighbourhood Life come from the Harwood
+                    Institute&apos;s Stages of Community Life, part of their{" "}
                     <a
                         href="https://theharwoodinstitute.org/report-catalog/community-rhythms-the-five-stages-of-community-life"
                         target="_blank"
@@ -261,7 +182,7 @@ export default function IntroPage() {
                     >
                         Community Rhythms
                     </a>{" "}
-                    research. The five factors are Imagine Cities&rsquo; own.
+                    research.
                 </p>
             </footer>
         </>

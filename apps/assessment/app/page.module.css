@@ -25,17 +25,24 @@
 }
 
 .goldWord {
-    color: var(--ic-color-gold);
-    text-decoration: underline;
-    text-decoration-color: var(--ic-color-gold);
-    -webkit-text-stroke: 2px var(--ic-color-charcoal-black);
-    text-shadow: 3px 2px var(--ic-color-charcoal-black);
+    color: var(--ic-color-charcoal-black);
+    background: var(--ic-color-gold);
+    padding: 0 0.08em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
 }
 
 .lede {
-    font-size: var(--ic-typography-subheadline-font-size);
+    font-size: var(--ic-typography-paragraph-1-font-size);
     line-height: var(--ic-typography-paragraph-1-line-height);
     margin: 0 0 var(--sp-5);
+    max-width: 52ch;
+}
+
+.heroSupport {
+    font-size: var(--ic-typography-subheadline-font-size);
+    line-height: var(--ic-typography-paragraph-1-line-height);
+    margin: 0 0 var(--sp-2);
     max-width: 52ch;
 }
 
@@ -61,7 +68,6 @@
     width: 100%;
     height: auto;
     border-radius: var(--radius-surface);
-    box-shadow: 14px 14px var(--ic-color-gold);
 }
 
 /*
@@ -116,141 +122,81 @@
     color: var(--ic-color-gold);
 }
 
-/* On the Azure block the standard inversion would put a Charcoal button on Deep Azure
-   at 2.26:1, dissolving the button's shape. Serene White holds 6.30:1. */
-.ctaOnAzure:hover {
-    background: var(--ic-color-serene-white);
-    color: var(--ic-color-charcoal-black);
-}
-
-.ctaOnAzure:focus-visible {
-    outline-color: var(--ic-color-serene-white);
-}
-
 .meta {
     margin: var(--sp-3) 0 0;
     font-size: var(--ic-typography-paragraph-small-font-size);
 }
 
-/* ---------------- partners ---------------- */
-.partners {
-    border-top: 1px solid var(--hairline);
-    border-bottom: 1px solid var(--hairline);
-    padding: var(--sp-4) 0;
-    display: flex;
-    align-items: center;
-    gap: var(--sp-5);
-    flex-wrap: wrap;
-}
-
-.partners p {
-    margin: 0;
-    font-size: var(--ic-typography-paragraph-small-font-size);
-    font-weight: var(--ic-font-weight-semibold);
-}
-
-.partners ul {
-    list-style: none;
-    display: flex;
-    gap: var(--sp-5);
-    margin: 0;
-    padding: 0;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.partnerLogo {
-    height: 40px;
-    width: auto;
-}
-
-/* ---------------- why it matters ---------------- */
-.why {
-    background: var(
-        --ic-color-fresh-green
-    ); /* Charcoal on Fresh Green, 13.34:1 */
-    border-radius: var(--radius-surface);
-    padding: var(--sp-6) var(--sp-5);
-    margin: var(--sp-7) 0;
-    box-shadow: 8px 8px var(--ic-color-tint-forest-green-40);
-}
-
-.why h2 {
-    color: var(--ic-color-forest-green);
-}
-
-.claim {
-    margin: 0 0 var(--sp-4);
-    max-width: 40ch;
-    font-size: var(--size-quote);
-    font-weight: var(--ic-font-weight-semibold);
-    line-height: 1.25;
-}
-
-.source {
-    font-size: var(--ic-typography-paragraph-small-font-size);
-    max-width: 60ch;
-}
-
-.after {
-    margin: var(--sp-5) 0 0;
-    max-width: 62ch;
-}
-
-/* ---------------- what you get ---------------- */
+/* ---------------- capacity, reflection, insight ---------------- */
 .section {
-    padding: var(--sp-6) 0;
+    padding: var(--sp-7) 0;
 }
 
-.steps {
+.section h2 {
+    max-width: 34ch;
+}
+
+.cards {
     list-style: none;
     margin: 0;
     padding: 0;
-}
-
-.steps li {
     display: grid;
-    grid-template-columns: 3.5rem 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--sp-4);
-    padding: var(--sp-4) 0;
-    border-top: 1px solid var(--hairline);
 }
 
-.steps li:last-child {
-    border-bottom: 1px solid var(--hairline);
+.card {
+    padding: var(--sp-4);
+    background: var(--ic-color-serene-white);
+    border: 1px solid var(--hairline);
+    border-top: 4px solid var(--ic-color-gold);
+    border-radius: var(--radius-surface);
 }
 
-.stepNumber {
-    font-size: var(--ic-typography-subheadline-font-size);
+.card:nth-child(2) {
+    border-top-color: var(--ic-color-deep-azure);
+}
+
+.card:nth-child(3) {
+    border-top-color: var(--ic-color-forest-green);
+}
+
+.cardHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--sp-4);
+}
+
+.cardNumber {
+    font-size: var(--ic-typography-paragraph-small-font-size);
     font-weight: var(--ic-font-weight-bold);
     line-height: 1;
-    color: var(
-        --ic-color-charcoal-black
-    ); /* never a light tint: that was 1.07:1 */
+    color: var(--ic-color-charcoal-black);
 }
 
-.steps h3 {
+.cardIcon {
+    font-size: 2rem;
+    color: var(--ic-color-deep-azure);
+}
+
+.card h3 {
     font-size: var(--ic-typography-paragraph-1-font-size);
     font-weight: var(--ic-font-weight-semibold);
-    margin: 0 0 var(--sp-1);
+    margin: 0 0 var(--sp-2);
 }
 
-.steps p {
+.card p {
     margin: 0;
-    max-width: 62ch;
 }
 
 /* ---------------- the five stages ---------------- */
 .stagesBand {
-    background: var(--ic-color-tint-gold-20);
-    border-radius: var(--radius-surface);
-    padding: var(--sp-5);
-    margin: var(--sp-6) 0;
-    box-shadow: 8px 8px var(--ic-color-tint-gold-40);
+    margin: var(--sp-6) 0 0;
 }
 
 .framing {
-    margin: 0 0 var(--sp-5);
+    margin: var(--sp-4) 0 0;
     max-width: 68ch;
 }
 
@@ -260,27 +206,30 @@
     max-width: 68ch;
 }
 
-/* ---------------- closing ---------------- */
-.closing {
-    background: var(--ic-color-deep-azure);
-    color: var(--ic-color-serene-white);
-    border-radius: var(--radius-surface);
-    padding: var(--sp-6) var(--sp-5);
-    margin: var(--sp-6) 0 0;
-    box-shadow: 8px 8px var(--ic-color-tint-deep-azure-40);
+.assessmentCta {
+    color: var(--ic-color-charcoal-black);
+    border-top: 1px solid var(--hairline);
+    padding: var(--sp-5) 0;
+    margin: var(--sp-4) auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
 }
 
-.closing h2 {
-    font-size: var(--size-closing);
+.assessmentCtaTitle {
+    font-size: var(--ic-typography-paragraph-1-font-size);
     font-weight: var(--ic-font-weight-semibold);
-    margin: 0 0 var(--sp-4);
-    max-width: 20ch;
+    margin: 0 0 var(--sp-1);
 }
 
-.closingLede {
-    font-size: var(--size-azure-body);
-    margin: 0 0 var(--sp-5);
-    max-width: 42ch;
+.assessmentCtaMeta {
+    margin: 0;
+    font-size: var(--ic-typography-paragraph-small-font-size);
+}
+
+.assessmentCta .cta {
+    flex: 0 0 auto;
 }
 
 .footerText {
@@ -304,22 +253,14 @@
         max-width: 22ch;
     }
 
-    .lede {
-        font-size: 18px;
-    }
-
-    .claim {
-        font-size: 22px;
-    }
-
-    .closing h2 {
-        font-size: 26px;
+    .cards {
+        grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 460px) {
-    .steps li {
-        grid-template-columns: 2.5rem 1fr;
-        gap: var(--sp-3);
+    .assessmentCta {
+        align-items: flex-start;
+        flex-direction: column;
     }
 }

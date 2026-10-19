@@ -24,8 +24,6 @@ function splitIntoTwoLines(text: string): [string, string] {
 }
 
 type Annotation =
-  /** intro page: the argument for taking the assessment */
-  | { kind: 'assumption' }
   /** result page: marks where the reader landed */
   | { kind: 'you-are-here'; stage: StageKey }
   | { kind: 'none' };
@@ -43,31 +41,29 @@ type Annotation =
  * The SVG is aria-hidden and the caller renders a text list alongside it, which is the
  * accessible equivalent.
  */
-export function Spectrum({ annotation = { kind: 'none' } }: { annotation?: Annotation }) {
+export function Spectrum({
+  annotation = { kind: 'none' },
+  animateMovement = false,
+}: {
+  annotation?: Annotation;
+  animateMovement?: boolean;
+}) {
   const currentIndex =
     annotation.kind === 'you-are-here' ? STAGE_ORDER.indexOf(annotation.stage) : -1;
-  const annotationX =
-    annotation.kind === 'assumption' ? NODE_X[3] : currentIndex >= 0 ? NODE_X[currentIndex] : NODE_X[0];
+  const hasLocationMarker = annotation.kind === 'you-are-here';
+  const annotationX = NODE_X[Math.max(currentIndex, 0)];
+  const verticalOffset = hasLocationMarker ? 0 : -80;
+  const nodeY = 120 + verticalOffset;
+  const labelY = 180 + verticalOffset;
+  const compactViewBoxHeight = 220;
 
   return (
-    <svg className={styles.spectrum} viewBox="0 0 1040 300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <svg className={styles.spectrum} viewBox={`0 0 1040 ${hasLocationMarker ? 300 : compactViewBoxHeight}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <marker id="spectrumArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
           <path d="M0,1 L9,5 L0,9 z" fill="var(--ic-color-charcoal-black)" />
         </marker>
       </defs>
-
-      {annotation.kind === 'assumption' && (
-        <g>
-          <text x={annotationX} y={26} textAnchor="middle" fontSize={14} fontWeight={600} fill="var(--ic-color-charcoal-black)">
-            Where most people assume
-          </text>
-          <text x={annotationX} y={46} textAnchor="middle" fontSize={14} fontWeight={600} fill="var(--ic-color-charcoal-black)">
-            their neighbourhood already is
-          </text>
-          <line x1={annotationX} y1={58} x2={annotationX} y2={86} stroke="var(--ic-color-charcoal-black)" strokeWidth={2} strokeDasharray="4 4" />
-        </g>
-      )}
 
       {annotation.kind === 'you-are-here' && (
         <g>
@@ -100,9 +96,9 @@ export function Spectrum({ annotation = { kind: 'none' } }: { annotation?: Annot
         <line
           key={x}
           x1={x + 26}
-          y1={120}
+          y1={nodeY}
           x2={NODE_X[i + 1] - 26}
-          y2={120}
+          y2={nodeY}
           stroke="var(--ic-color-charcoal-black)"
           strokeWidth={2.5}
           markerStart="url(#spectrumArrow)"
@@ -115,17 +111,36 @@ export function Spectrum({ annotation = { kind: 'none' } }: { annotation?: Annot
           key={key}
           className={`${styles.node} ${i === currentIndex ? styles.nodeCurrent : ''}`}
           cx={NODE_X[i]}
-          cy={120}
+          cy={nodeY}
           r={20}
         />
       ))}
+
+      {animateMovement && (
+        <circle
+          className={styles.movementDot}
+          cx={150}
+          cy={nodeY}
+          r={7}
+        >
+          <animate
+            attributeName="cx"
+            values="150;890;150"
+            dur="6s"
+            calcMode="spline"
+            keyTimes="0;0.5;1"
+            keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+            repeatCount="indefinite"
+          />
+        </circle>
+      )}
 
       {STAGE_ORDER.map((key, i) => (
         <text
           key={key}
           className={i === currentIndex ? styles.labelCurrent : undefined}
           x={NODE_X[i]}
-          y={180}
+          y={labelY}
           textAnchor="middle"
           fontSize={17}
           fontWeight={i === currentIndex ? 700 : 600}
@@ -140,13 +155,13 @@ export function Spectrum({ annotation = { kind: 'none' } }: { annotation?: Annot
           const [line1, line2] = splitIntoTwoLines(STAGES[key].spectrum);
           return (
             <g key={key} fontSize={13} fill="var(--ic-color-charcoal-black)" textAnchor="middle">
-              <text x={NODE_X[i]} y={204}>{line1}</text>
-              <text x={NODE_X[i]} y={221}>{line2}</text>
+              <text x={NODE_X[i]} y={204 + verticalOffset}>{line1}</text>
+              <text x={NODE_X[i]} y={221 + verticalOffset}>{line2}</text>
             </g>
           );
         })}
 
-      <text x={520} y={annotation.kind === 'you-are-here' ? 240 : 270} textAnchor="middle" fontSize={14} fill="var(--ic-color-charcoal-black)">
+      <text x={520} y={annotation.kind === 'you-are-here' ? 240 : 270 + verticalOffset} textAnchor="middle" fontSize={14} fill="var(--ic-color-charcoal-black)">
         Neighbourhoods move in both directions, and a stage can be temporary.
       </text>
     </svg>
