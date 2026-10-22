@@ -12,7 +12,10 @@
     grid-template-columns: 1.05fr 0.95fr;
     gap: var(--sp-6);
     align-items: center;
-    padding: var(--sp-5) 0 var(--sp-6);
+    /* Top and bottom only. The section is also .wrap, and a padding shorthand here
+       zeroed the wrap's side gutter, so the hero sat flush to the screen edge on any
+       viewport narrower than the 1100px wrap. */
+    padding-block: var(--sp-5) var(--sp-6);
 }
 
 .h1 {
@@ -127,9 +130,64 @@
     font-size: var(--ic-typography-paragraph-small-font-size);
 }
 
+/* ---------------- supporting imagery ---------------- */
+.imagery {
+    padding-block: 0 var(--sp-5);
+}
+
+.imageryGrid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--sp-3);
+}
+
+.imageryTile {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-surface);
+    overflow: hidden;
+}
+
+.imageryImage {
+    object-fit: cover;
+}
+
+/* Dashed like the empty resource slot on the result page: the shared signal for
+   "something belongs here and has not been supplied", never a finished panel. */
+.imageryPlaceholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-1);
+    padding: var(--sp-3);
+    text-align: center;
+    border: 2px dashed var(--border-strong);
+    border-radius: var(--radius-surface);
+    color: var(--ic-color-charcoal-black);
+}
+
+.imageryIcon {
+    font-size: 36px;
+}
+
+.imageryTheme {
+    font-weight: var(--ic-font-weight-semibold);
+}
+
+.imageryBrief {
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    line-height: 1.4;
+}
+
 /* ---------------- capacity, reflection, insight ---------------- */
 .section {
-    padding: var(--sp-7) 0;
+    padding-block: var(--sp-7);
 }
 
 .section h2 {
@@ -195,21 +253,11 @@
     margin: var(--sp-6) 0 0;
 }
 
-.framing {
-    margin: var(--sp-4) 0 0;
-    max-width: 68ch;
-}
-
-.note {
-    margin: var(--sp-5) 0 0;
-    font-size: var(--ic-typography-paragraph-small-font-size);
-    max-width: 68ch;
-}
 
 .assessmentCta {
     color: var(--ic-color-charcoal-black);
     border-top: 1px solid var(--hairline);
-    padding: var(--sp-5) 0;
+    padding-block: var(--sp-5);
     margin: var(--sp-4) auto 0;
     display: flex;
     align-items: center;
@@ -241,7 +289,7 @@
     .hero {
         grid-template-columns: 1fr;
         gap: var(--sp-5);
-        padding: var(--sp-6) 0 var(--sp-5);
+        padding-block: var(--sp-6) var(--sp-5);
     }
 
     .heroFigure::before {
@@ -255,6 +303,12 @@
 
     .cards {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .imageryGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 

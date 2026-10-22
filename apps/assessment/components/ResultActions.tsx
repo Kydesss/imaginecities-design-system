@@ -85,14 +85,16 @@ export function TrackJourney({ announce }: { announce: Announce }) {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    {/* Unbundled and unticked. Nothing on this page depends on it. */}
+                    {/*
+                      The newsletter is a separate, unticked opt-in (CASL express
+                      consent). Nothing about the copy of the results depends on it.
+                    */}
                     <div className={styles.consent}>
                         <input id="optin" name="optin" type="checkbox" />
                         <label htmlFor="optin">
-                            Also send me related resources from Imagine Cities.
-                            You can unsubscribe at any time. Leaving this
-                            unticked changes nothing about what you receive
-                            here.
+                            Also send me the Imagine Cities newsletter. You can
+                            unsubscribe at any time. Leaving this unticked does
+                            not affect the copy of your results.
                         </label>
                     </div>
                     <div className={styles.actions}>
@@ -120,48 +122,61 @@ const SHARE_TEXT =
     "I took the Neighbourhood Adaptability Assessment from Imagine Cities: five questions, about five minutes, on how our neighbourhood solves local problems. Take it too:";
 
 /**
- * A share link, not a form for neighbours' names and emails. Collecting a third
- * party's address to email them on someone else's behalf brings in CASL's referral
- * rules and PIPEDA consent for a person who never visited; sharing from the reader's
- * own phone or mail client collects nothing about the neighbour at all.
+ * Sharing the TOOL, never the reader's result. The link is the intro page, so a
+ * neighbour arrives at the explanation rather than the first question, and nothing in
+ * the link or the message says what anyone scored.
  *
- * The link is the intro page, not /assessment, so a neighbour arrives at the
- * explanation rather than the first question.
+ * No form for neighbours' names or emails: collecting a third party's address to
+ * message them brings in CASL's referral rules and PIPEDA consent for someone who
+ * never visited. Everything here hands the link to the reader's own clipboard, app or
+ * mail client; this site transmits and stores nothing about the neighbour.
+ *
+ * WhatsApp and Facebook are their public share URLs (wa.me and sharer.php): plain
+ * links, no SDK, no third-party script on this page, so nothing loads or tracks until
+ * the reader chooses one. The native share sheet that used to sit here is gone, per
+ * the feedback asking for a single Copy assessment link action.
  */
 export function ShareAssessment({ announce }: { announce: Announce }) {
     // useSyncExternalStore with a server snapshot, so the server and the first client
-    // render agree and the native share button appears only where it will work.
+    // render agree on the link.
     const origin = useSyncExternalStore(
         noSubscribe,
         () => window.location.origin,
         () => "",
     );
-    const canShare = useSyncExternalStore(
-        noSubscribe,
-        () => typeof navigator.share === "function",
-        () => false,
-    );
     const [copied, setCopied] = useState<"idle" | "copied" | "failed">("idle");
 
     const url = `${origin}/`;
-    const mailto = `mailto:?subject=${encodeURIComponent(SHARE_TITLE)}&body=${encodeURIComponent(`${SHARE_TEXT} ${url}`)}`;
+    const message = `${SHARE_TEXT} ${url}`;
+    const links = [
+        {
+            label: "WhatsApp",
+            icon: "chat",
+            href: `https://wa.me/?text=${encodeURIComponent(message)}`,
+            newTab: true,
+        },
+        {
+            label: "Facebook",
+            icon: "public",
+            href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+            newTab: true,
+        },
+        {
+            label: "Email",
+            icon: "mail",
+            href: `mailto:?subject=${encodeURIComponent(SHARE_TITLE)}&body=${encodeURIComponent(message)}`,
+            newTab: false,
+        },
+    ];
 
     const copy = async () => {
         try {
             await navigator.clipboard.writeText(url);
             setCopied("copied");
-            announce("Link copied.");
+            announce("Assessment link copied.");
         } catch {
             setCopied("failed");
             announce(`Could not copy the link. It is ${url}`);
-        }
-    };
-
-    const share = async () => {
-        try {
-            await navigator.share({ title: SHARE_TITLE, text: SHARE_TEXT, url });
-        } catch {
-            // Dismissing the share sheet rejects too; there is nothing to report.
         }
     };
 
@@ -184,35 +199,41 @@ export function ShareAssessment({ announce }: { announce: Announce }) {
                 will not share user-specific information. To ensure privacy, we
                 will only share aggregated data in our report.
             </p>
+            <p className={styles.muted}>
+                This shares a link to the assessment only. Your results are not
+                included.
+            </p>
             <div className={styles.actions}>
-                {canShare && (
-                    <button
-                        type="button"
-                        className={`${styles.btn} ${styles.btnPrimary}`}
-                        onClick={share}
-                    >
-                        <span className="icon" aria-hidden="true">
-                            ios_share
-                        </span>
-                        Share
-                    </button>
-                )}
                 <button
                     type="button"
-                    className={`${styles.btn} ${canShare ? styles.btnQuiet : styles.btnPrimary}`}
+                    className={`${styles.btn} ${styles.btnPrimary}`}
                     onClick={copy}
                 >
                     <span className="icon" aria-hidden="true">
                         {copied === "copied" ? "check" : "link"}
                     </span>
-                    {copied === "copied" ? "Link copied" : "Copy link"}
+                    {copied === "copied"
+                        ? "Link copied"
+                        : "Copy assessment link"}
                 </button>
-                <a className={`${styles.btn} ${styles.btnQuiet}`} href={mailto}>
-                    <span className="icon" aria-hidden="true">
-                        mail
-                    </span>
-                    Email it
-                </a>
+                {links.map((link) => (
+                    <a
+                        key={link.label}
+                        className={`${styles.btn} ${styles.btnQuiet}`}
+                        href={link.href}
+                        {...(link.newTab
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
+                    >
+                        <span className="icon" aria-hidden="true">
+                            {link.icon}
+                        </span>
+                        {link.label}
+                        {link.newTab && (
+                            <span className="srOnly"> (opens in a new tab)</span>
+                        )}
+                    </a>
+                ))}
             </div>
             {copied === "failed" && (
                 <p>

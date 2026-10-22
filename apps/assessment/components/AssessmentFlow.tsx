@@ -1,12 +1,6 @@
 "use client";
 
-import {
-    useCallback,
-    useLayoutEffect,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
@@ -15,11 +9,15 @@ import {
     type Answers,
     type FactorKey,
 } from "@/lib/factors";
-import { STAGES, type StageKey, isStageKey } from "@/lib/stages";
+import { type StageKey, isStageKey } from "@/lib/stages";
 import { scoreToStage } from "@/lib/scoring";
-import { Spectrum, StageList } from "./Spectrum";
-import { Resources } from "./Resources";
-import { ShareAssessment, TrackJourney } from "./ResultActions";
+import { Alert } from "./Alert";
+import {
+    ChooseStep,
+    DoneStep,
+    NextStepsStep,
+    ResultStep,
+} from "./ResultJourney";
 import styles from "./AssessmentFlow.module.css";
 
 /*
@@ -27,15 +25,9 @@ import styles from "./AssessmentFlow.module.css";
  * so /assessment opens on the context step. A second screen repeating "five questions,
  * about five minutes" and another Start button only added a click.
  */
-type Step = "context" | FactorKey | "result";
+type Step = "context" | FactorKey | "result" | "choose" | "next" | "done";
 const STEPS: Step[] = ["context", ...FACTOR_ORDER, "result"];
 
-const FEEDBACK = [
-    "Not accurate",
-    "Somewhat accurate",
-    "Very accurate",
-] as const;
-type Feedback = (typeof FEEDBACK)[number];
 import { Navbar } from "./Navbar";
 
 export function AssessmentFlow() {
@@ -69,14 +61,17 @@ export function AssessmentFlow() {
     const [hasOrg, setHasOrg] = useState(false);
     const [org, setOrg] = useState("");
     const [errorFor, setErrorFor] = useState<FactorKey | null>(null);
-    const [feedback, setFeedback] = useState<Feedback | null>(null);
+    /* The stage the reader accepted: the assigned one on "yes", their pick on "no". */
+    const [confirmed, setConfirmed] = useState<StageKey | null>(null);
+    const [choice, setChoice] = useState<StageKey | null>(null);
+    const [chooseError, setChooseError] = useState(false);
     const [announcement, setAnnouncement] = useState("");
 
     const stepRef = useRef<HTMLElement>(null);
 
     const result = useMemo(() => scoreToStage(answers), [answers]);
     const stageKey: StageKey = preview ?? result.stage;
-    const stage = STAGES[stageKey];
+    const nextStage: StageKey = confirmed ?? stageKey;
 
     /** Focus moves to the new step so screen readers land on its heading. */
     const go = useCallback((next: Step, announce?: string) => {
@@ -126,7 +121,9 @@ export function AssessmentFlow() {
             progress: undefined,
             resilience: undefined,
         });
-        setFeedback(null);
+        setConfirmed(null);
+        setChoice(null);
+        setChooseError(false);
         clearContext();
         go("context");
     };
@@ -158,20 +155,26 @@ export function AssessmentFlow() {
                 >
                     {step === "context" && (
                         <>
-                            <h1 id="step-heading">
-                                <span
-                                    className="icon iconHeading"
-                                    aria-hidden="true"
-                                >
-                                    place
-                                </span>
-                                Tell us about your neighbourhood
-                            </h1>
-                            <p>
-                                This helps us understand the local context
-                                behind your responses. This section is optional,
-                                so you can skip it.
-                            </p>
+                            {/*
+                              Heading and purpose line grouped and ruled off, so they read
+                              as the introduction and the fields below as the form.
+                            */}
+                            <div className={styles.contextHeader}>
+                                <h1 id="step-heading">
+                                    <span
+                                        className="icon iconHeading"
+                                        aria-hidden="true"
+                                    >
+                                        place
+                                    </span>
+                                    Tell us about your neighbourhood
+                                </h1>
+                                <p className={styles.contextIntro}>
+                                    This helps us understand the local context
+                                    behind your responses. This section is
+                                    optional, so you can skip it.
+                                </p>
+                            </div>
                             <div className={styles.field}>
                                 <label htmlFor="postal">Postal code</label>
                                 {/*
@@ -341,9 +344,9 @@ export function AssessmentFlow() {
                             <p
                                 className={`${styles.muted} ${styles.contextNote}`}
                             >
-                                Your answers to the assessment questions are what
-                                shape your result, not your location. This step is
-                                about context, not the assessment.
+                                Your answers to the assessment questions are
+                                what shape your result, not your location. This
+                                step is about context, not the assessment.
                             </p>
 
                             <div className={styles.actions}>
@@ -382,181 +385,24 @@ export function AssessmentFlow() {
 
                     {step === "result" && (
                         <>
-                            <div
-                                className={`${styles.resultBand} ${styles[`ground-${stageKey}`]}`}
-                            >
-                                <h1
-                                    id="step-heading"
-                                    className={`${styles.resultHeading} headingLead`}
-                                >
-                                    <span
-                                        className="icon iconLead"
-                                        aria-hidden="true"
-                                    >
-                                        location_city
-                                    </span>
-                                    {/*
-                            The sentence is wrapped so the flex row sees one item.
-                            Left bare, "Your neighbourhood is in the", the stage chip
-                            and "stage" would each become a separate flex item and the
-                            sentence would break apart instead of wrapping.
-                        */}
-                                    <span>
-                                        Your neighbourhood is in the{" "}
-                                        <span className={styles.stageChip}>
-                                            {stage.name}
-                                        </span>{" "}
-                                        stage
-                                    </span>
-                                </h1>
-                                <p>{stage.summary}</p>
-                            </div>
-
-                            <Spectrum
-                                annotation={{
-                                    kind: "you-are-here",
-                                    stage: stageKey,
+                            <ResultStep
+                                stage={stageKey}
+                                answers={answers}
+                                onAccurate={() => {
+                                    // Clearing any earlier pick keeps Back on the next
+                                    // step pointing here rather than at the chooser.
+                                    setChoice(null);
+                                    setConfirmed(stageKey);
+                                    go("next");
                                 }}
+                                onNotAccurate={() => {
+                                    setChooseError(false);
+                                    go("choose");
+                                }}
+                                onBack={() =>
+                                    go(FACTOR_ORDER[FACTOR_ORDER.length - 1])
+                                }
                             />
-                            <StageList current={stageKey} />
-
-                            <p className={styles.reflection}>
-                                {stage.reflection}
-                            </p>
-
-                            {/*
-                The guidance is open to everyone. It used to sit behind an email gate;
-                the email is now an optional extra below, offered as a copy of the
-                responses rather than as the price of the result.
-
-                Icons sit to the left of their headings via the shared .headingLead /
-                .iconLead pair in globals.css, which every section heading on the
-                result page uses so they match. insights for the explanation, signpost
-                for the direction: both verified against Google's Material Symbols
-                metadata.
-              */}
-                            <div className={styles.guidance}>
-                                <h2
-                                    className={`${styles.guidanceHeading} headingLead`}
-                                >
-                                    <span
-                                        className="icon iconLead"
-                                        aria-hidden="true"
-                                    >
-                                        insights
-                                    </span>
-                                    Why you are in this stage
-                                </h2>
-                                <p>{stage.why}</p>
-                                <h2
-                                    className={`${styles.guidanceHeading} headingLead`}
-                                >
-                                    <span
-                                        className="icon iconLead"
-                                        aria-hidden="true"
-                                    >
-                                        signpost
-                                    </span>
-                                    What to focus on next
-                                </h2>
-                                <p>{stage.focus}</p>
-                                <ul className={`${styles.nextSteps} stagger`}>
-                                    {stage.steps.map((s) => (
-                                        <li key={s.title}>
-                                            <strong>{s.title}</strong>
-                                            <span>{s.detail}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            {/* PRD screen 6. After the guidance, because it is what the guidance points at. */}
-                            <Resources stage={stageKey} />
-
-                            <TrackJourney announce={setAnnouncement} />
-
-                            <ShareAssessment announce={setAnnouncement} />
-
-                            <section
-                                className={styles.feedback}
-                                aria-labelledby="feedback-heading"
-                            >
-                                <h2 id="feedback-heading" className="headingLead">
-                                    <span
-                                        className="icon iconLead"
-                                        aria-hidden="true"
-                                    >
-                                        rate_review
-                                    </span>
-                                    Does this result feel accurate?
-                                </h2>
-                                <p className={styles.muted}>
-                                    Your neighbourhood knows itself best. Let us
-                                    know how well this reflects what you see.
-                                </p>
-                                <div className={styles.scale}>
-                                    {FEEDBACK.map((option) => (
-                                        <button
-                                            key={option}
-                                            className={`${styles.btn} ${styles.btnQuiet} ${feedback === option ? styles.chosen : ""}`}
-                                            // aria-disabled rather than disabled: a truly disabled button drops
-                                            // focus to the body, throwing a screen-reader user out of the page at
-                                            // the moment we confirm their answer. The guard below prevents the
-                                            // second submission.
-                                            aria-disabled={
-                                                feedback !== null || undefined
-                                            }
-                                            aria-pressed={feedback === option}
-                                            onClick={() => {
-                                                if (feedback) return;
-                                                setFeedback(option);
-                                                setAnnouncement(
-                                                    `Thank you. You said this result feels ${option.toLowerCase()}.`,
-                                                );
-                                            }}
-                                        >
-                                            {feedback === option && (
-                                                <span aria-hidden="true">
-                                                    ✓{" "}
-                                                </span>
-                                            )}
-                                            {option}
-                                        </button>
-                                    ))}
-                                </div>
-                                {feedback && (
-                                    <p className={styles.muted}>
-                                        Thank you. You said this result feels{" "}
-                                        {feedback.toLowerCase()}. Your response
-                                        helps us improve this tool.
-                                    </p>
-                                )}
-                            </section>
-
-                            {/*
-                Finish is the gold pill and Start over stays quiet: finishing is the
-                expected next move, and starting again discards the result the person
-                just earned, so it should never look like the recommended one. Finish
-                is a link because it leaves the flow for the intro page.
-              */}
-                            <div className={styles.actions}>
-                                <button
-                                    className={`${styles.btn} ${styles.btnQuiet}`}
-                                    onClick={restart}
-                                >
-                                    <span className="icon" aria-hidden="true">
-                                        restart_alt
-                                    </span>
-                                    Start over
-                                </button>
-                                <Link
-                                    className={`${styles.btn} ${styles.btnPrimary}`}
-                                    href="/"
-                                >
-                                    Finish
-                                </Link>
-                            </div>
-
                             {debug && (
                                 <p className={styles.muted}>
                                     Reviewer view. Answers (hope, collaboration,
@@ -576,6 +422,53 @@ export function AssessmentFlow() {
                                 </p>
                             )}
                         </>
+                    )}
+
+                    {step === "choose" && (
+                        <ChooseStep
+                            suggested={stageKey}
+                            choice={choice}
+                            showError={chooseError}
+                            onChoose={(key) => {
+                                setChoice(key);
+                                setChooseError(false);
+                            }}
+                            onBack={() => go("result")}
+                            onContinue={() => {
+                                if (!choice) {
+                                    setChooseError(true);
+                                    setAnnouncement(
+                                        "Choose a stage to continue.",
+                                    );
+                                    return;
+                                }
+                                setConfirmed(choice);
+                                go("next");
+                            }}
+                        />
+                    )}
+
+                    {step === "next" && (
+                        <NextStepsStep
+                            stage={nextStage}
+                            suggested={nextStage !== stageKey ? stageKey : null}
+                            onBack={() =>
+                                go(
+                                    nextStage === stageKey && !choice
+                                        ? "result"
+                                        : "choose",
+                                )
+                            }
+                            onFinish={() => go("done")}
+                        />
+                    )}
+
+                    {step === "done" && (
+                        <DoneStep
+                            announce={setAnnouncement}
+                            onBack={() => go("next")}
+                            onRestart={restart}
+                        />
                     )}
                 </section>
             </main>
@@ -612,7 +505,8 @@ function QuestionStep({
      * skip a question: Next is the only way forward over an unanswered one.
      */
     const firstOpen = FACTOR_ORDER.findIndex((key) => !answers[key]);
-    const reachableUpTo = firstOpen === -1 ? FACTOR_ORDER.length - 1 : firstOpen;
+    const reachableUpTo =
+        firstOpen === -1 ? FACTOR_ORDER.length - 1 : firstOpen;
 
     /*
      * The icon is sized to the question's rendered height, which changes with the
@@ -669,7 +563,9 @@ function QuestionStep({
                                 <button
                                     type="button"
                                     className={styles.qstepButton}
-                                    aria-current={isCurrent ? "step" : undefined}
+                                    aria-current={
+                                        isCurrent ? "step" : undefined
+                                    }
                                     disabled={isLocked}
                                     onClick={() => {
                                         if (!isCurrent) onJump(key);
@@ -685,7 +581,9 @@ function QuestionStep({
                                             aria-hidden="true"
                                         >
                                             {isDone ? (
-                                                <span className="icon">check</span>
+                                                <span className="icon">
+                                                    check
+                                                </span>
                                             ) : (
                                                 i + 1
                                             )}
@@ -724,6 +622,10 @@ function QuestionStep({
                 <p>{data.blurb}</p>
             </div>
 
+            {showError && (
+                <Alert id={errorId}>Select an answer to continue.</Alert>
+            )}
+
             <div className={styles.qcard}>
                 <fieldset className={styles.fieldset}>
                     <legend id="step-heading" className={styles.legend}>
@@ -740,12 +642,6 @@ function QuestionStep({
                             </span>
                         </span>
                     </legend>
-
-                    {showError && (
-                        <p className={styles.error} id={errorId}>
-                            Select an answer to continue.
-                        </p>
-                    )}
 
                     <div className={`${styles.options} stagger`}>
                         {displayedOptions.map(({ option, i }) => (
