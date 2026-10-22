@@ -178,7 +178,7 @@
     background: var(--ic-color-tint-gold-40);
 }
 .seg-collaboration {
-    background: var(--ic-color-fresh-green);
+    background: var(--ground-soft-green);
 }
 .seg-leadership {
     background: var(--ic-color-tint-deep-azure-20);
@@ -213,7 +213,7 @@
     background: var(--ic-color-tint-gold-40);
 }
 .ground-collaboration .qcard {
-    background: var(--ic-color-fresh-green);
+    background: var(--ground-soft-green);
 }
 .ground-leadership .qcard {
     background: var(--ic-color-tint-deep-azure-20);
@@ -272,7 +272,7 @@
     border-left-color: var(--ic-color-gold);
 }
 .ground-collaboration .factorCard {
-    border-left-color: var(--ic-color-fresh-green);
+    border-left-color: var(--ic-color-tint-forest-green-60);
 }
 .ground-leadership .factorCard {
     border-left-color: var(--ic-color-deep-azure);
@@ -554,6 +554,56 @@
     font-weight: var(--ic-font-weight-bold);
 }
 
+/*
+ * The standalone alert. Serene White on Bold Red is one of the deck's large-or-bold-only
+ * pairings, so the text is 20px bold, over the 18.7px (14pt bold) floor. Bold Red stays
+ * reserved for errors, which this is.
+ */
+.alert {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    margin: 0 0 var(--sp-4);
+    padding: var(--sp-3) var(--sp-4);
+    background: var(--ic-color-bold-red);
+    color: var(--ic-color-serene-white);
+    border-radius: var(--radius-surface);
+    scroll-margin: var(--sp-6);
+}
+
+.alert p {
+    margin: 0;
+    font-size: var(--ic-typography-subheadline-font-size);
+    font-weight: var(--ic-font-weight-bold);
+    line-height: 1.3;
+}
+
+.alert .icon {
+    flex: 0 0 auto;
+    font-size: 28px;
+}
+
+/* Room between the purpose line and what follows it, which used to sit tight under it. */
+.contextIntro {
+    margin: 0 0 var(--sp-5);
+    max-width: 62ch;
+}
+
+/*
+ * The context step's heading and purpose line, ruled off from the form below so the
+ * description reads as an introduction rather than as the first field's label. The
+ * hairline is decorative; the space does the separating.
+ */
+.contextHeader {
+    padding-bottom: var(--sp-5);
+    margin-bottom: var(--sp-5);
+    border-bottom: 1px solid var(--hairline);
+}
+
+.contextHeader .contextIntro {
+    margin-bottom: 0;
+}
+
 /* ---- result ---- */
 .resultBand {
     border-radius: var(--radius-surface);
@@ -570,7 +620,7 @@
     background: var(--ic-color-tint-gold-40);
 }
 .ground-catalytic {
-    background: var(--ic-color-fresh-green);
+    background: var(--ground-soft-green);
 }
 .ground-growth {
     background: var(--ic-color-tint-forest-green-60);
@@ -597,15 +647,6 @@
     white-space: nowrap;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
-}
-
-.reflection {
-    background: var(--ic-color-fresh-green);
-    border-radius: var(--radius-surface);
-    padding: var(--sp-4);
-    margin: 0 0 var(--sp-6);
-    font-weight: var(--ic-font-weight-semibold);
-    max-width: none;
 }
 
 /*
@@ -755,104 +796,155 @@
     overflow-wrap: anywhere;
 }
 
-/* The guidance inverts: Serene White on Charcoal is 14.25:1, so unlike every
-   tint it carries small copy as happily as headings, and Charcoal is the only ground
-   that cannot clash with the result band above, which changes colour with the stage. */
-.guidance {
-    background: var(--ic-color-charcoal-black);
-    color: var(--ic-color-serene-white);
-    border-radius: var(--radius-surface);
-    padding: var(--sp-6) var(--sp-5);
-    margin: 0 0 var(--sp-6);
+/* ---- results journey ---- */
+
+/* Step 1: why this stage. Plain ground, so the stage band above keeps the colour. */
+.whyBlock {
+    margin: var(--sp-5) 0;
 }
 
-.guidance h2 {
-    color: var(--ic-color-serene-white);
-}
-
-/*
- * Two sections share this panel, so the second heading needs room above it or the
- * guidance reads as one undifferentiated block of text. The first-of-type reset keeps
- * that space off the top, where the panel padding already provides it.
- *
- * Scoped under .guidance deliberately: a bare .guidanceHeading is one class, which
- * loses to the .guidance h2 rule above it and silently drops the top margin.
- */
-.guidance .guidanceHeading {
-    margin: var(--sp-6) 0 var(--sp-3);
-}
-
-.guidance .guidanceHeading:first-of-type {
-    margin-top: 0;
-}
-
-.guidance p {
-    margin: 0 0 var(--sp-4);
+.whyBlock p {
     max-width: 68ch;
 }
 
-.guidance .icon {
-    color: var(--ic-color-serene-white);
+.answersHeading {
+    font-size: var(--ic-typography-paragraph-1-font-size);
+    font-weight: var(--ic-font-weight-semibold);
+    margin: var(--sp-4) 0 var(--sp-2);
 }
 
-.nextSteps {
-    list-style: none;
+/* The reader's answers as a two-column list: factor, then the option they chose. */
+.answers {
     margin: 0;
-    padding: 0;
-}
-
-/* Each step is a separate instruction, so it gets room to be read as one rather than
-   as a row in a table. */
-.nextSteps li {
-    padding: var(--sp-4) 0;
-    border-top: 1px solid var(--border-on-dark);
-}
-
-.nextSteps li span {
     max-width: 68ch;
-    display: block;
+    border-top: 1px solid var(--hairline);
 }
 
-.nextSteps li:last-child {
-    border-bottom: 1px solid var(--border-on-dark);
+.answers div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: var(--sp-3);
+    padding: var(--sp-2) 0;
+    border-bottom: 1px solid var(--hairline);
 }
 
-.nextSteps strong {
-    display: block;
-}
-
-/* Feedback is set apart by treatment rather than another colour: every hue on this
-   page is carrying meaning, and the stage band beside it changes per result. */
-.feedback {
-    border: 2px solid var(--ic-color-charcoal-black);
-    border-radius: var(--radius-surface);
-    padding: var(--sp-5);
-    margin: var(--sp-6) 0 var(--sp-6);
-}
-
-.feedback h2 {
-    margin-top: 0;
-}
-
-.scale {
-    display: flex;
-    gap: var(--sp-2);
-    flex-wrap: wrap;
-    margin: 0 0 var(--sp-4);
-}
-
-.chosen {
-    background: var(--ic-color-gold);
-    border-color: var(--ic-color-charcoal-black);
+.answers dt {
     font-weight: var(--ic-font-weight-semibold);
 }
 
-.scale .btn[aria-disabled="true"] {
-    cursor: default;
+.answers dd {
+    margin: 0;
 }
 
-.scale .btn[aria-disabled="true"]:not(.chosen) {
-    border-color: var(--border-faint);
+/* The question that decides the rest of the journey. Set apart by an outline rather
+   than another colour: every hue on this page is already carrying meaning. */
+.accuracy {
+    border: 2px solid var(--ic-color-charcoal-black);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-5);
+    margin: 0 0 var(--sp-4);
+}
+
+.accuracy h2 {
+    margin-top: 0;
+}
+
+.accuracy p {
+    max-width: 62ch;
+}
+
+/* Step 2: each stage card carries its stage colour as a left rule, the same colours
+   as the result band, so the choice links back to the spectrum. Decorative only: the
+   name and description carry the meaning. */
+.stageOption label {
+    border-left-width: 10px;
+}
+
+.swatch-waiting-place label {
+    border-left-color: var(--ic-color-tint-deep-azure-40);
+}
+.swatch-impasse label {
+    border-left-color: var(--ic-color-tint-gold-60);
+}
+.swatch-catalytic label {
+    border-left-color: var(--ic-color-tint-forest-green-40);
+}
+.swatch-growth label {
+    border-left-color: var(--ic-color-tint-forest-green-80);
+}
+.swatch-sustain-renew label {
+    border-left-color: var(--ic-color-tint-deep-azure-80);
+}
+
+/* Outlined, not filled: a selected card turns Gold, and a Gold tag on it would lose
+   its shape. Charcoal text and rule hold on both the white and the Gold card. */
+.suggestedTag {
+    display: inline-block;
+    margin-left: var(--sp-2);
+    padding: 0 0.6em;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--ic-color-charcoal-black);
+    color: var(--ic-color-charcoal-black);
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    font-weight: var(--ic-font-weight-semibold);
+    vertical-align: middle;
+}
+
+/* Step 3: one card per focus area, two across where there is room. */
+.focusGrid {
+    list-style: none;
+    margin: 0 0 var(--sp-6);
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-3);
+}
+
+.focusCard {
+    position: relative;
+    padding: var(--sp-4);
+    background: var(--ic-color-serene-white);
+    border: 1px solid var(--hairline);
+    border-top: 4px solid var(--ic-color-charcoal-black);
+    border-radius: var(--radius-surface);
+}
+
+.focusCard h3 {
+    font-size: var(--ic-typography-paragraph-1-font-size);
+    font-weight: var(--ic-font-weight-semibold);
+    margin: var(--sp-2) 0 var(--sp-1);
+}
+
+.focusCard p {
+    margin: 0;
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    line-height: 1.5;
+}
+
+/* Serene White on Charcoal, 14.25:1. */
+.focusNumber {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ic-color-charcoal-black);
+    color: var(--ic-color-serene-white);
+    font-size: var(--ic-typography-paragraph-small-font-size);
+    font-weight: var(--ic-font-weight-bold);
+}
+
+/* Step 4: the completion band. Gold 20%, the warmth reserved for invitations. */
+.doneBand {
+    background: var(--ic-color-tint-gold-20);
+    border-radius: var(--radius-surface);
+    padding: var(--sp-5);
+    margin: 0 0 var(--sp-5);
+}
+
+.doneBand p {
+    max-width: 62ch;
+    margin-bottom: 0;
 }
 
 @media (max-width: 640px) {
@@ -866,17 +958,28 @@
     .resultBand,
     .emailPanel,
     .sharePanel,
-    .feedback {
+    .accuracy,
+    .doneBand {
         padding: var(--sp-4);
-    }
-
-    .guidance {
-        padding: var(--sp-5) var(--sp-4);
     }
 
     /* Allowed to wrap here. Unbroken, "Sustain & Renew" pushed the page 51px wider
        than the screen; box-decoration-break above keeps each line's pill intact. */
     .stageChip {
         white-space: normal;
+    }
+
+    .focusGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .answers div {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    /* At the global 34px the thank-you heading broke one word per line. */
+    .doneBand h1 {
+        font-size: 26px;
     }
 }

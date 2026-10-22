@@ -23,6 +23,52 @@ const PILLARS = [
     },
 ];
 
+/*
+ * Supporting imagery for the introduction. NO PHOTOGRAPHS ARE SUPPLIED YET, so every
+ * entry renders a labelled placeholder rather than a stock or AI image: the hero note
+ * below explains why a generic photograph works against this page. To add one, put the
+ * file in public/imagery/ and set `src` and `alt`; the tile switches over by itself.
+ *
+ * Kept off the assessment steps on purpose. Their icons carry enough, and a photo per
+ * question would slow the part people need to get through.
+ */
+const INTRO_IMAGERY: {
+    theme: string;
+    icon: string;
+    brief: string;
+    src: string | null;
+    alt: string;
+}[] = [
+    {
+        theme: "Collaboration",
+        icon: "groups",
+        brief: "Neighbours working on something together",
+        src: null,
+        alt: "",
+    },
+    {
+        theme: "Creativity",
+        icon: "palette",
+        brief: "A local mural, market or community project",
+        src: null,
+        alt: "",
+    },
+    {
+        theme: "Parks",
+        icon: "park",
+        brief: "People using a neighbourhood park",
+        src: null,
+        alt: "",
+    },
+    {
+        theme: "Transit",
+        icon: "directions_bus",
+        brief: "A local stop, bike lane or main street",
+        src: null,
+        alt: "",
+    },
+];
+
 export default function IntroPage() {
     return (
         <>
@@ -86,6 +132,42 @@ export default function IntroPage() {
                     </figure>
                 </section>
 
+                <section
+                    className={`${styles.imagery} wrap`}
+                    aria-label="Neighbourhood life"
+                >
+                    <ul className={styles.imageryGrid} role="list">
+                        {INTRO_IMAGERY.map((item) => (
+                            <li key={item.theme} className={styles.imageryTile}>
+                                {item.src ? (
+                                    <Image
+                                        src={item.src}
+                                        alt={item.alt}
+                                        fill
+                                        sizes="(max-width: 640px) 50vw, 25vw"
+                                        className={styles.imageryImage}
+                                    />
+                                ) : (
+                                    <div className={styles.imageryPlaceholder}>
+                                        <span
+                                            className={`icon ${styles.imageryIcon}`}
+                                            aria-hidden="true"
+                                        >
+                                            {item.icon}
+                                        </span>
+                                        <span className={styles.imageryTheme}>
+                                            {item.theme}
+                                        </span>
+                                        <span className={styles.imageryBrief}>
+                                            Photo to come: {item.brief.toLowerCase()}
+                                        </span>
+                                    </div>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+
                 <Reveal>
                     <section className={`${styles.section} wrap`}>
                         <h2>
@@ -135,20 +217,12 @@ export default function IntroPage() {
                                 The Five Stages of Neighbourhood Life
                             </h2>
                             <Spectrum animateMovement />
-                            <p className={styles.framing}>
-                                The assessment asks about five factors: hope
-                                and optimism, collaboration, leadership,
-                                progress, and resilience. Your answers place
-                                your neighbourhood in one of five stages.
-                            </p>
+                            {/*
+                              No list of the five factors here. Each one is introduced on
+                              its own question, with a description card, so naming all
+                              five up front only added reading before the first click.
+                            */}
                             <StageList />
-                            <p className={styles.note}>
-                                This is not a score or a ranking. Neighbourhoods
-                                move along this spectrum in both directions, and
-                                a stage can be temporary. Reaching Impasse is a
-                                step forward from the Waiting Place, because the
-                                problem has become clear enough to act on.
-                            </p>
                         </div>
                     </section>
                 </Reveal>

@@ -68,6 +68,15 @@
         var(--ic-color-serene-white) 30%,
         transparent
     );
+
+    /*
+   * TRIAL, AWAITING SIGN-OFF: the light green ground. Every surface that used Fresh
+   * Green (#C6FDC2) reads it through this one property. Feedback found Fresh Green too
+   * bright, so it points at Forest Green 20% (#D4DCC1), an existing v2.0.1 tint and
+   * the same muted green the resources panel already uses. Charcoal on it is 10.9:1.
+   * Nothing new is introduced; to revert, point this back at --ic-color-fresh-green.
+   */
+    --ground-soft-green: var(--ic-color-tint-forest-green-20);
 }
 
 *,

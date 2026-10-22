@@ -1,7 +1,7 @@
 /*
- * Distinct from the guidance above it without competing with it. The guidance is the
- * product; this is the exit. So a tinted ground rather than the guidance's dark
- * surface, and no border, which is reserved for the feedback section.
+ * Distinct from the focus cards above it without competing with them. The focus areas
+ * are the product; this is the exit. So a tinted ground, with the resources as white
+ * cards on it.
  *
  * Forest Green 20% is mixed against Serene White, not pure white, like every tint in
  * the system. Charcoal on it is the pairing the deck clears at any text size.
@@ -15,60 +15,187 @@
   margin: var(--sp-6) 0;
 }
 
-.resources h2 {
-  margin-top: 0;
-}
-
-.subhead {
-  font-size: var(--ic-typography-paragraph-1-font-size);
-  font-weight: var(--ic-font-weight-semibold);
-  margin: var(--sp-4) 0 var(--sp-2);
-}
-
-.subhead:first-of-type {
-  margin-top: 0;
-}
-
-.list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
+/* The heading claims at least 280px before the controls get a row of their own, so on
+   a phone the arrows drop below it instead of squeezing it to one word per line. */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
 }
 
-.list li {
-  display: grid;
-  gap: 2px;
-  max-width: 68ch;
+.header h2 {
+  flex: 1 1 280px;
+  margin: 0;
 }
 
-.list a {
-  font-weight: var(--ic-font-weight-semibold);
+.controls {
+  display: flex;
+  flex: 0 0 auto;
+  gap: var(--sp-2);
 }
 
-.list span {
-  font-size: var(--ic-typography-paragraph-small-font-size);
-  line-height: 1.5;
+.controls[hidden] {
+  display: none;
+}
+
+/* Round 44px controls. Charcoal outline on white: 3:1+ against the green ground. */
+.control {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid var(--ic-color-charcoal-black);
+  background: var(--ic-color-serene-white);
+  color: var(--ic-color-charcoal-black);
+  cursor: pointer;
+  transition: background-color 140ms var(--ease);
+}
+
+.control:hover:not(:disabled) {
+  background: var(--ic-color-gold);
+}
+
+.control:disabled {
+  border-color: var(--border-strong);
+  color: var(--border-strong);
+  cursor: default;
 }
 
 /*
- * The unfilled slot. Dashed, so nobody mistakes it for a finished panel, and it says
- * plainly what is missing rather than showing a fake link.
+ * The track. Native horizontal scroll with snapping, so touch, trackpad and keyboard
+ * all work without script; the buttons only add paging. The vertical padding leaves
+ * room for the hover lift and the focus ring, which overflow would otherwise clip.
  */
-.slot {
-  border: 2px dashed var(--border-strong);
-  border-radius: var(--radius-surface);
-  padding: var(--sp-4);
-  max-width: 68ch;
+.track {
+  list-style: none;
+  margin: 0 calc(-1 * var(--sp-2));
+  padding: var(--sp-2);
+  display: flex;
+  gap: var(--sp-3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--sp-2);
+  scrollbar-width: thin;
 }
 
-.slot p {
+/* Wide enough that a third card peeks in on desktop, which is the cue to scroll. */
+.card {
+  position: relative;
+  flex: 0 0 40%;
+  min-width: 260px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  background: var(--ic-color-serene-white);
+  border: 2px solid var(--hairline);
+  border-radius: var(--radius-surface);
+  transition:
+    transform 180ms var(--ease),
+    border-color 180ms var(--ease);
+}
+
+/*
+ * The motion that says "this is clickable": the card lifts and its edge firms up to
+ * Charcoal. Solid, no shadow blur, in keeping with the rest of the system. The global
+ * reduced-motion rule shortens the transition, so the change still happens, instantly.
+ */
+.card:not(.slot):hover,
+.card:not(.slot):focus-within {
+  transform: translateY(-4px);
+  border-color: var(--ic-color-charcoal-black);
+}
+
+.tag {
+  align-self: flex-start;
+  padding: 0 0.6em;
+  border: 1.5px solid var(--ic-color-charcoal-black);
+  border-radius: var(--radius-pill);
+  font-size: var(--ic-typography-paragraph-small-font-size);
+  font-weight: var(--ic-font-weight-semibold);
+}
+
+.cardTitle {
+  font-size: var(--ic-typography-paragraph-1-font-size);
+  font-weight: var(--ic-font-weight-semibold);
+  line-height: 1.3;
+  margin: var(--sp-1) 0 0;
+}
+
+.cardNote {
   font-size: var(--ic-typography-paragraph-small-font-size);
   line-height: 1.5;
-  margin: 0 0 var(--sp-2);
+  margin: 0;
+  flex: 1 1 auto;
 }
 
-.slot p:last-child {
-  margin-bottom: 0;
+/* The visible button, stretched over the card by ::after so the whole card is the
+   link. Quiet pill at rest; Gold, the call-to-action colour, when the card is hovered. */
+.cardLink {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: 44px;
+  margin-top: var(--sp-2);
+  padding: 0.6em 1.2em;
+  border: 2px solid var(--ic-color-charcoal-black);
+  border-radius: var(--radius-pill);
+  color: var(--ic-color-charcoal-black);
+  font-weight: var(--ic-font-weight-semibold);
+  text-decoration: none;
+  transition: background-color 180ms var(--ease);
+}
+
+.cardLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-surface);
+}
+
+.card:hover .cardLink,
+.cardLink:focus-visible {
+  background: var(--ic-color-gold); /* Charcoal on Gold, 8.88:1 */
+}
+
+/* The ring goes on the whole card, which is what the stretched link makes clickable. */
+.cardLink:focus-visible {
+  outline: none;
+}
+
+.card:has(.cardLink:focus-visible) {
+  outline: 3px solid var(--ic-color-charcoal-black);
+  outline-offset: 3px;
+}
+
+.cardLink .icon {
+  font-size: 20px;
+}
+
+/*
+ * The unfilled Imagine Cities slot. Dashed, so nobody mistakes it for a finished card,
+ * and it says plainly what is missing rather than showing a fake link. No hover: it
+ * leads nowhere.
+ */
+.slot {
+  background: transparent;
+  border: 2px dashed var(--border-strong);
+}
+
+@media (max-width: 640px) {
+  .resources {
+    padding: var(--sp-4);
+  }
+
+  .card {
+    flex-basis: 85%;
+    min-width: 0;
+  }
 }

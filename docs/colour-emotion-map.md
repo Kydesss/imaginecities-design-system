@@ -36,7 +36,7 @@ any size.
 | Factor | Ground | Ratio | Why |
 |---|---|---|---|
 | Hope and optimism | Gold 40% | 11.70:1 | The question is about belief. Warmth, not judgement. |
-| Collaboration | Fresh Green | 13.34:1 | About people together. The lightest, most social ground. |
+| Collaboration | Soft green (trial: Forest Green 20%) | 10.9:1 | About people together. The lightest, most social ground. Was Fresh Green; see the trial note below. |
 | Leadership | Deep Azure 20% | 10.35:1 | About who steps up. Steady without weight. Azure 40% was tried and sat heavy in the middle of the flow, which is where a volunteer is most likely to stop. |
 | Progress | Forest Green 40% | 8.10:1 | About work that has actually happened. |
 | Resilience | Gold 20% | 12.86:1 | About staying power. Warm rather than cool, and it bookends the Gold of question one: belief at the start, endurance at the end. |
@@ -67,7 +67,7 @@ No hue is a score.
 |---|---|---|---|
 | Waiting Place | Deep Azure 20% | 10.35:1 | Calm and permission. This is the hardest result to receive, so it gets the least alarming colour in the palette. |
 | Impasse | Gold 40% | 11.70:1 | Recognition and warmth. The energy is real and stuck; the colour says so. |
-| Catalytic | Fresh Green | 13.34:1 | Encouragement. Something is emerging and deserves to feel light. |
+| Catalytic | Soft green (trial: Forest Green 20%) | 10.9:1 | Encouragement. Something is emerging and deserves to feel light. Was Fresh Green; see the trial note below. |
 | Growth | Forest Green 60% | 5.87:1 | A challenge, not a trophy. The 40% stop was tried and read as drab rather than serious, which is the wrong note for the one result that should feel like responsibility. The 60% stop has enough saturation to feel deliberate. |
 | Sustain & Renew | Deep Azure 40% | 7.33:1 | Steadiness and vigilance. The risk here is comfort, so it returns to calm rather than escalating. |
 
@@ -77,22 +77,34 @@ one result that should feel like responsibility rather than reward.
 
 ---
 
+## Trial: a muted soft green
+
+Feedback found Fresh Green (#C6FDC2) too bright. Every surface that used it now reads
+`--ground-soft-green` in `apps/assessment/app/globals.css`, which points at Forest
+Green 20% (#D4DCC1), an existing v2.0.1 tint already used by the resources panel. No
+new colour is introduced, and reverting is a one-line change to that property. This
+is awaiting sign-off from the brand owner; until then, treat the two rows above as
+provisional.
+
+Collaboration (Forest Green 20%) and Progress (Forest Green 40%) are now both greens.
+They stay distinguishable by lightness, and the stepper also marks each question by
+number and name, so colour is not the only cue.
+
 ## What stays neutral
 
 - **Body copy** is Charcoal on Serene White everywhere. Colour carries emotion; it never
   carries the reading.
 - **The reflection line** sits on the plain ground with a rule, so it does not compete
   with the stage colour beside it.
-- **The email gate** is deliberately the quietest block on the page. An ask should not
-  shout.
-- **The unlocked guidance** is the one deliberate inversion: Serene White on Charcoal,
-  14.25:1. It is what the email was traded for, so it should read as the payload rather
-  than as more page. Charcoal is also the only ground that cannot clash with the result
-  band above it, since that band changes colour with the stage and any tint chosen here
-  would collide with at least one of the five.
-- **The feedback block** is outlined and unfilled rather than coloured, because the page
-  stops telling and starts asking there, and a sixth ground would dilute the other five.
-- **Errors** are Bold Red, and Bold Red is nothing else.
+- **The email panel** (optional, after the next steps) is deliberately quiet: Gold 20%,
+  no stronger. An ask should not shout.
+- **The focus cards** on the next-steps step are Serene White with a Charcoal top rule,
+  so the stage band above keeps the only colour on that step.
+- **The accuracy question** is outlined and unfilled rather than coloured, because the
+  page stops telling and starts asking there, and another ground would dilute the five.
+- **Errors** are Bold Red, and Bold Red is nothing else. The unanswered-question alert
+  is Serene White on Bold Red at 20px bold, since the deck allows that pairing only at
+  14pt bold or larger, and it sits outside the coloured answer panel.
 
 ---
 
