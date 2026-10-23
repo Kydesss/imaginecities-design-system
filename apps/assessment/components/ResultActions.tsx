@@ -6,7 +6,7 @@ import styles from "./AssessmentFlow.module.css";
 type Announce = (message: string) => void;
 
 /**
- * Optional, after the result. The email is offered for a copy of the responses, not as
+ * Optional, after the result. The email is offered for a copy of the results, not as
  * the price of the result: the guidance above is already open. Copy is the president's.
  *
  * Still a prototype: nothing is stored or sent, and the confirmation says so.
@@ -26,7 +26,7 @@ export function TrackJourney({ announce }: { announce: Announce }) {
         if (!looksLikeEmail) {
             setError(true);
             announce(
-                "Enter an email address to receive a copy of your responses.",
+                "Enter an email address to receive a copy of your results.",
             );
             return;
         }
@@ -42,15 +42,9 @@ export function TrackJourney({ announce }: { announce: Announce }) {
                 <span className="icon iconLead" aria-hidden="true">
                     history
                 </span>
-                Track your neighbourhood&rsquo;s journey over time
+                Receive a copy of your results
             </h2>
-            <p>
-                Provide your email address to receive a copy of your responses.
-                We will set up user accounts in the future which will allow you
-                to track your responses over time and see if there has been any
-                change in your neighbourhood&rsquo;s capacity to solve local
-                problems.
-            </p>
+            <p>Provide your email address to receive a copy of your results.</p>
 
             {sentTo ? (
                 <p
@@ -59,7 +53,7 @@ export function TrackJourney({ announce }: { announce: Announce }) {
                     className={styles.confirmation}
                     role="status"
                 >
-                    <strong>Thank you.</strong> A copy of your responses will go
+                    <strong>Thank you.</strong> A copy of your results will go
                     to {sentTo}. This is a prototype, so nothing has actually
                     been sent.
                 </p>
@@ -70,7 +64,7 @@ export function TrackJourney({ announce }: { announce: Announce }) {
                         {error && (
                             <p className={styles.error} id="email-error">
                                 Enter an email address to receive a copy of
-                                your responses.
+                                your results.
                             </p>
                         )}
                         <input
@@ -92,9 +86,8 @@ export function TrackJourney({ announce }: { announce: Announce }) {
                     <div className={styles.consent}>
                         <input id="optin" name="optin" type="checkbox" />
                         <label htmlFor="optin">
-                            Also send me the Imagine Cities newsletter. You can
-                            unsubscribe at any time. Leaving this unticked does
-                            not affect the copy of your results.
+                            Sign up for updates about our work. You can
+                            unsubscribe at any time.
                         </label>
                     </div>
                     <div className={styles.actions}>
@@ -117,10 +110,6 @@ export function TrackJourney({ announce }: { announce: Announce }) {
 
 const noSubscribe = () => () => {};
 
-const SHARE_TITLE = "Neighbourhood Adaptability Assessment";
-const SHARE_TEXT =
-    "I took the Neighbourhood Adaptability Assessment from Imagine Cities: five questions, about five minutes, on how our neighbourhood solves local problems. Take it too:";
-
 /**
  * Sharing the TOOL, never the reader's result. The link is the intro page, so a
  * neighbour arrives at the explanation rather than the first question, and nothing in
@@ -128,13 +117,11 @@ const SHARE_TEXT =
  *
  * No form for neighbours' names or emails: collecting a third party's address to
  * message them brings in CASL's referral rules and PIPEDA consent for someone who
- * never visited. Everything here hands the link to the reader's own clipboard, app or
- * mail client; this site transmits and stores nothing about the neighbour.
+ * never visited. Copying hands the link to the reader's own clipboard; this site
+ * transmits and stores nothing about the neighbour.
  *
- * WhatsApp and Facebook are their public share URLs (wa.me and sharer.php): plain
- * links, no SDK, no third-party script on this page, so nothing loads or tracks until
- * the reader chooses one. The native share sheet that used to sit here is gone, per
- * the feedback asking for a single Copy assessment link action.
+ * Copy link is the only action. The native share sheet and the WhatsApp, Facebook and
+ * Email links that used to sit beside it were removed per client feedback.
  */
 export function ShareAssessment({ announce }: { announce: Announce }) {
     // useSyncExternalStore with a server snapshot, so the server and the first client
@@ -147,27 +134,6 @@ export function ShareAssessment({ announce }: { announce: Announce }) {
     const [copied, setCopied] = useState<"idle" | "copied" | "failed">("idle");
 
     const url = `${origin}/`;
-    const message = `${SHARE_TEXT} ${url}`;
-    const links = [
-        {
-            label: "WhatsApp",
-            icon: "chat",
-            href: `https://wa.me/?text=${encodeURIComponent(message)}`,
-            newTab: true,
-        },
-        {
-            label: "Facebook",
-            icon: "public",
-            href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-            newTab: true,
-        },
-        {
-            label: "Email",
-            icon: "mail",
-            href: `mailto:?subject=${encodeURIComponent(SHARE_TITLE)}&body=${encodeURIComponent(message)}`,
-            newTab: false,
-        },
-    ];
 
     const copy = async () => {
         try {
@@ -216,24 +182,6 @@ export function ShareAssessment({ announce }: { announce: Announce }) {
                         ? "Link copied"
                         : "Copy assessment link"}
                 </button>
-                {links.map((link) => (
-                    <a
-                        key={link.label}
-                        className={`${styles.btn} ${styles.btnQuiet}`}
-                        href={link.href}
-                        {...(link.newTab
-                            ? { target: "_blank", rel: "noopener noreferrer" }
-                            : {})}
-                    >
-                        <span className="icon" aria-hidden="true">
-                            {link.icon}
-                        </span>
-                        {link.label}
-                        {link.newTab && (
-                            <span className="srOnly"> (opens in a new tab)</span>
-                        )}
-                    </a>
-                ))}
             </div>
             {copied === "failed" && (
                 <p>

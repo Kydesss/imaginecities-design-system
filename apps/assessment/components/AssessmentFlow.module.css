@@ -934,16 +934,19 @@
     font-weight: var(--ic-font-weight-bold);
 }
 
-/* Step 4: the completion band. Gold 20%, the warmth reserved for invitations. */
+/* Step 4: the completion band, in solid Forest Green. Serene White on Forest Green is
+   a large-or-bold-only pairing (2.4), so this band carries the heading and nothing
+   smaller: no body copy may be added here without changing the text colour. */
 .doneBand {
-    background: var(--ic-color-tint-gold-20);
+    background: var(--ic-color-forest-green);
+    color: var(--ic-color-serene-white);
     border-radius: var(--radius-surface);
     padding: var(--sp-5);
     margin: 0 0 var(--sp-5);
 }
 
-.doneBand p {
-    max-width: 62ch;
+.doneBand h1 {
+    color: inherit;
     margin-bottom: 0;
 }
 

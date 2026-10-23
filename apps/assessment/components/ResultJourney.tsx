@@ -76,7 +76,7 @@ export function ResultStep({
                     <span className="icon iconLead" aria-hidden="true">
                         insights
                     </span>
-                    Why you are in this stage
+                    Why you&rsquo;re in this stage
                 </h2>
                 <p>{data.why}</p>
 
@@ -334,12 +334,6 @@ export function DoneStep({
                     </span>
                     Thank you for completing the assessment
                 </h1>
-                {/* PLACEHOLDER COPY, written for this build. Replace with the client's. */}
-                <p>
-                    Thank you for taking the time to reflect on your
-                    neighbourhood. Neighbourhoods move between stages, so come
-                    back and take it again whenever things change.
-                </p>
             </div>
 
             {/*
