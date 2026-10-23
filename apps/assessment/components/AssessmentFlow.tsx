@@ -273,9 +273,8 @@ export function AssessmentFlow() {
                   - "This helps us understand the local context behind your
                     responses. This section is optional, so you can skip it."
                     above the fields, which is the purpose in brief and the only
-                    place optionality is stated: the labels no longer say
-                    "(optional)" and there is no Skip button, so Continue with
-                    the fields empty is how a person skips
+                    place optionality is stated in words: the labels no longer
+                    say "(optional)", and the Skip button is the other signal
                   - the line about answers, not location, shaping the result
 
                 What collapses is the elaboration, not the disclosure. If that top
@@ -362,6 +361,16 @@ export function AssessmentFlow() {
                                     onClick={() => go("hope")}
                                 >
                                     Continue
+                                </button>
+                                {/* Clears anything typed, so skipping never sends a half-filled field. */}
+                                <button
+                                    className={`${styles.btn} ${styles.btnQuiet}`}
+                                    onClick={() => {
+                                        clearContext();
+                                        go("hope");
+                                    }}
+                                >
+                                    Skip
                                 </button>
                             </div>
                         </>
