@@ -9,10 +9,11 @@ built (the IC website, graphics, docs) matches the brand without re-reading a sl
 2. `tokens/tokens.json` — W3C DTCG raw token values (hex, px, weights). Import these.
 3. `source/brand-v2.0.1.md` — transcription of the official Brand Guidelines v2.0.1.
 
-`source/observed-website.md` and `source/observed-assessment-tool.md` are **not** sources of
-truth. They record what shipped builds do today (descriptive only). Never promote a value
-from them into `tokens/tokens.json`; where a build and the deck disagree, the deck wins and
-the build is what needs fixing.
+`source/observed-website.md`, `source/observed-assessment-tool.md` and
+`source/observed-figma-ux.md` are **not** sources of truth. They record what shipped builds
+and the website team's Figma file say today (descriptive only). Never promote a value from
+them into `tokens/tokens.json`; where a build or the Figma file and the deck disagree, the
+deck wins and the build or file is what needs fixing.
 
 `source/strategy-2026-03.md` is organizational strategy — audiences, products, positioning.
 It is **newer than v2.0.1 but does not supersede it**: it specifies no visual values at all.
@@ -35,7 +36,9 @@ Use it to understand who the work addresses; never to change a token.
 - **There is no spacing scale, radius scale, or component-state spec** — not in the deck,
   and not derivable from the live site (audited: twelve ad-hoc padding values, five radii).
   If a build needs them, say they are undocumented and pick explicitly; do not present a
-  choice as brand.
+  choice as brand. The website team's UX Figma file does define spacing, radius, shadows
+  and button/input states (`source/observed-figma-ux.md`). Those are the best candidate to
+  pick from, but say they come from that file; they are not brand values.
 - **Tints** live at `color.tint.<colour>.<stop>` for Deep Azure, Gold, Forest Green and
   Bold Red only. They are mixed against Serene White `#F5F7F2`, **not** pure white — never
   regenerate them by formula, use the values.
