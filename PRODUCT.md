@@ -70,5 +70,6 @@ Never ALL CAPS. Never underline for emphasis. Both are documented brand rules.
 
 - `source/brand-v2.0.1.md` — brand, authoritative for visual values
 - `source/strategy-2026-03.md` — audiences, products, positioning
+- `source/strategy-2026-11.md` — website redesign messaging: narrative, hero line, About text
 - `source/observed-assessment-tool.md` — what the tool's code does today
 - `docs/assessment-tool-punchlist.md` — the work queue
