@@ -19,6 +19,12 @@ deck wins and the build or file is what needs fixing.
 It is **newer than v2.0.1 but does not supersede it**: it specifies no visual values at all.
 Use it to understand who the work addresses; never to change a token.
 
+`source/strategy-2026-11.md` is the messaging brief for the website redesign — narrative,
+hero line, About text, the leadership certificate. Same rule: it guides **copy**, never a
+token. It does not settle which tagline or About text is official; that is still a
+brand-owner decision, so do not swap the v2.0.1 About text out of brand docs on its
+strength.
+
 ## Hard rules
 - **Only** use Brand Guidelines **v2.0.1 (Oct 2024)** values. Brand font is **Poppins**
   (system fallback **Roboto**). Hero colour is **Gold `#FFB827`**.
