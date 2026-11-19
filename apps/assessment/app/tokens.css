@@ -2,15 +2,12 @@
  * GENERATED FILE - DO NOT EDIT.
  *
  * Produced by scripts/build-tokens.mjs from tokens/tokens.json, which is the single
- * source of truth for every brand value. Editing this file by hand reintroduces the
+ * source of truth for shared brand and website values. Editing this file by hand reintroduces the
  * drift the generator exists to prevent.
  *
  * Regenerate with: npm run build:tokens
  *
- * NOT INCLUDED, deliberately: spacing, radii, motion and the intermediate type sizes.
- * None of those are documented in Brand Guidelines v2.0.1. They are proposals awaiting
- * the brand owner and live in the app's own stylesheet, clearly marked, so nobody
- * mistakes them for brand.
+ * Website spacing, radii, and shadows are under the website namespace.
  */
 
 :root {
@@ -27,7 +24,7 @@
   --ic-color-text: var(--ic-color-charcoal-black);
   --ic-color-background: var(--ic-color-serene-white);
   --ic-color-danger: var(--ic-color-bold-red);
-  --ic-color-tint-deep-azure-20: #C5D6E7;
+  --ic-color-tint-deep-azure-20: #C9DAF1;
   --ic-color-tint-deep-azure-40: #95B6DD;
   --ic-color-tint-deep-azure-60: #6697D4;
   --ic-color-tint-deep-azure-80: #3677CA;
@@ -37,7 +34,7 @@
   --ic-color-tint-gold-60: #FBD178;
   --ic-color-tint-gold-80: #FDC550;
   --ic-color-tint-gold-100: var(--ic-color-gold);
-  --ic-color-tint-forest-green-20: #D4DCC1;
+  --ic-color-tint-forest-green-20: #D6DEC5;
   --ic-color-tint-forest-green-40: #B4C292;
   --ic-color-tint-forest-green-60: #93A862;
   --ic-color-tint-forest-green-80: #738E33;
@@ -48,6 +45,7 @@
   --ic-color-tint-bold-red-80: #D0594E;
   --ic-color-tint-bold-red-100: var(--ic-color-bold-red);
   --ic-font-family-brand: Poppins, sans-serif;
+  --ic-font-family-inter: Inter, sans-serif;
   --ic-font-family-system: Roboto, sans-serif;
   --ic-font-weight-regular: 400;
   --ic-font-weight-medium: 500;
@@ -66,13 +64,13 @@
   --ic-typography-title-page-letter-spacing: -0.02em;
   --ic-typography-subtitle-font-family: var(--ic-font-family-brand);
   --ic-typography-subtitle-font-weight: var(--ic-font-weight-semibold);
-  --ic-typography-subtitle-font-size: 48px;
+  --ic-typography-subtitle-font-size: 32px;
   --ic-typography-subtitle-line-height: 120%;
-  --ic-typography-subtitle-letter-spacing: -0.02em;
+  --ic-typography-subtitle-letter-spacing: 0;
   --ic-typography-headline-font-family: var(--ic-font-family-brand);
   --ic-typography-headline-font-weight: var(--ic-font-weight-regular);
   --ic-typography-headline-font-size: 20px;
-  --ic-typography-headline-line-height: 24%;
+  --ic-typography-headline-line-height: 24px;
   --ic-typography-headline-letter-spacing: -0.02em;
   --ic-typography-subheadline-font-family: var(--ic-font-family-brand);
   --ic-typography-subheadline-font-weight: var(--ic-font-weight-semibold);
@@ -94,7 +92,7 @@
   --ic-typography-paragraph-small-font-size: 14px;
   --ic-typography-paragraph-small-line-height: 140%;
   --ic-typography-paragraph-small-letter-spacing: 0;
-  --ic-typography-paragraph-small-bold-font-family: var(--ic-font-family-brand);
+  --ic-typography-paragraph-small-bold-font-family: var(--ic-font-family-inter);
   --ic-typography-paragraph-small-bold-font-weight: var(--ic-font-weight-semibold);
   --ic-typography-paragraph-small-bold-font-size: 14px;
   --ic-typography-paragraph-small-bold-line-height: 140%;
@@ -114,4 +112,29 @@
   --ic-typography-label-font-size: 11px;
   --ic-typography-label-line-height: normal;
   --ic-typography-label-letter-spacing: 0;
+  --ic-website-spacing-4: 4px;
+  --ic-website-spacing-8: 8px;
+  --ic-website-spacing-16: 16px;
+  --ic-website-spacing-24: 24px;
+  --ic-website-spacing-48: 48px;
+  --ic-website-spacing-64: 64px;
+  --ic-website-spacing-80: 80px;
+  --ic-website-spacing-120: 120px;
+  --ic-website-spacing-mobile-20: 20px;
+  --ic-website-spacing-mobile-32: 32px;
+  --ic-website-spacing-mobile-40: 40px;
+  --ic-website-spacing-gap-desktop-section: var(--ic-website-spacing-80);
+  --ic-website-spacing-gap-desktop-content: var(--ic-website-spacing-64);
+  --ic-website-spacing-gap-desktop-button: var(--ic-website-spacing-24);
+  --ic-website-spacing-gap-desktop-column: var(--ic-website-spacing-24);
+  --ic-website-spacing-gap-desktop-heading: var(--ic-website-spacing-16);
+  --ic-website-spacing-gap-mobile-section: var(--ic-website-spacing-mobile-40);
+  --ic-website-spacing-gap-mobile-content: var(--ic-website-spacing-mobile-32);
+  --ic-website-spacing-gap-mobile-button: var(--ic-website-spacing-mobile-20);
+  --ic-website-spacing-gap-mobile-column: var(--ic-website-spacing-16);
+  --ic-website-spacing-gap-mobile-heading: var(--ic-website-spacing-16);
+  --ic-website-radius-surface: 8px;
+  --ic-website-radius-pill: 360px;
+  --ic-website-shadow-ds2: 0px 4px 24px 0px #2425251F;
+  --ic-website-shadow-ds3: 0px 4px 24px 0px #2425253D;
 }

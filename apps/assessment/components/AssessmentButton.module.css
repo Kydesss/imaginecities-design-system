@@ -1,0 +1,47 @@
+.base {
+    font-family: inherit;
+    font-size: var(--ic-typography-button-text-font-size);
+    font-weight: var(--ic-typography-button-text-font-weight);
+    line-height: var(--ic-typography-button-text-line-height);
+    border-radius: var(--radius-pill);
+    padding: 0.75em 1.5em;
+    border: none;
+    cursor: pointer;
+    min-height: 44px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    transition:
+        background-color 140ms var(--ease),
+        color 140ms var(--ease);
+}
+
+.primary {
+    composes: base;
+    background: var(--ic-color-action);
+    color: var(--ic-color-charcoal-black);
+}
+
+.primary:hover {
+    background: var(--ic-color-charcoal-black);
+    color: var(--ic-color-gold);
+}
+
+/*
+ * The border is the only thing that makes a quiet button read as a button, which puts
+ * it under WCAG 1.4.11 at 3:1. It used to use --border-quiet, Charcoal at 30%, which
+ * measures 1.85:1 on Serene White. --border-strong is Charcoal at 50%, 3.06:1.
+ */
+.secondary {
+    composes: base;
+    background: transparent;
+    color: var(--ic-color-charcoal-black);
+    border: 2px solid var(--border-strong);
+}
+
+.secondary:hover {
+    border-color: var(--ic-color-charcoal-black);
+    background: var(--ic-color-charcoal-black);
+    color: var(--ic-color-serene-white);
+}

@@ -21,7 +21,11 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TOKENS = path.join(ROOT, 'tokens', 'tokens.json');
-const OUT = path.join(ROOT, 'apps', 'assessment', 'app', 'tokens.css');
+// Every app gets the same generated file, so no app can hold its own copy of a brand value.
+const OUTS = [
+  path.join(ROOT, 'apps', 'assessment', 'app', 'tokens.css'),
+  path.join(ROOT, 'apps', 'wireframes', 'src', 'tokens.css'),
+].filter((out) => fs.existsSync(path.dirname(out)));
 
 const kebab = (s) => s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 const toVar = (dotPath) => `--ic-${dotPath.split('.').map(kebab).join('-')}`;
@@ -69,6 +73,12 @@ function walk(node, trail = []) {
     if ('$value' in value) {
       const raw = value.$value;
 
+      if (value.$type === 'shadow' || node.$type === 'shadow') {
+        const parts = [raw.offsetX, raw.offsetY, raw.blur, raw.spread, raw.color];
+        lines.push(`  ${toVar(dotPath)}: ${parts.map(resolveValue).join(' ')};`);
+        continue;
+      }
+
       // Composite tokens (typography) become one variable per sub-property, since CSS
       // has no way to hold the whole object.
       if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
@@ -100,15 +110,12 @@ const header = `/*
  * GENERATED FILE - DO NOT EDIT.
  *
  * Produced by scripts/build-tokens.mjs from tokens/tokens.json, which is the single
- * source of truth for every brand value. Editing this file by hand reintroduces the
+ * source of truth for shared brand and website values. Editing this file by hand reintroduces the
  * drift the generator exists to prevent.
  *
  * Regenerate with: npm run build:tokens
  *
- * NOT INCLUDED, deliberately: spacing, radii, motion and the intermediate type sizes.
- * None of those are documented in Brand Guidelines v2.0.1. They are proposals awaiting
- * the brand owner and live in the app's own stylesheet, clearly marked, so nobody
- * mistakes them for brand.
+ * Website spacing, radii, and shadows are under the website namespace.
  */
 
 :root {
@@ -116,27 +123,34 @@ ${lines.join('\n')}
 }
 `;
 
-const rel = path.relative(ROOT, OUT).replace(/\\/g, '/');
+const relOf = (file) => path.relative(ROOT, file).replace(/\\/g, '/');
 
-// --check verifies the committed file matches what the tokens produce now, without
+// --check verifies the committed files match what the tokens produce now, without
 // writing. Run in validate, so a token edit that never regenerated fails the build
 // rather than shipping an app whose colours no longer match the brand.
 if (process.argv.includes('--check')) {
-  if (!fs.existsSync(OUT)) {
-    console.error(`${rel} is missing. Run: npm run build:tokens`);
-    process.exit(1);
+  let failed = false;
+  for (const out of OUTS) {
+    const rel = relOf(out);
+    if (!fs.existsSync(out)) {
+      console.error(`${rel} is missing. Run: npm run build:tokens`);
+      failed = true;
+    // Compare with line endings normalized: on Windows, git's autocrlf checks the file
+    // out with CRLF, which is not drift.
+    } else if (fs.readFileSync(out, 'utf8').replace(/\r\n/g, '\n') !== header) {
+      console.error(`${rel} is out of date with tokens/tokens.json. Run: npm run build:tokens`);
+      failed = true;
+    } else {
+      console.log(`${rel} is up to date (${lines.length} custom properties)`);
+    }
   }
-  if (fs.readFileSync(OUT, 'utf8') !== header) {
-    console.error(`${rel} is out of date with tokens/tokens.json. Run: npm run build:tokens`);
-    process.exit(1);
-  }
-  console.log(`${rel} is up to date (${lines.length} custom properties)`);
-  process.exit(0);
+  process.exit(failed ? 1 : 0);
 }
 
-fs.mkdirSync(path.dirname(OUT), { recursive: true });
-fs.writeFileSync(OUT, header);
-
-console.log(`wrote ${rel}`);
-console.log(`${lines.length} custom properties from ${path.relative(ROOT, TOKENS).replace(/\\/g, '/')}`);
+for (const out of OUTS) {
+  fs.mkdirSync(path.dirname(out), { recursive: true });
+  fs.writeFileSync(out, header);
+  console.log(`wrote ${relOf(out)}`);
+}
+console.log(`${lines.length} custom properties from ${relOf(TOKENS)}`);
 if (skipped.length) console.log(`skipped: ${skipped.join(', ')}`);

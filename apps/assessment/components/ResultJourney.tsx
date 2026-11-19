@@ -124,14 +124,14 @@ export function ResultStep({
                 <div className={styles.actions}>
                     <button
                         type="button"
-                        className={`${styles.btn} ${styles.btnPrimary}`}
+                        className={styles.btnPrimary}
                         onClick={onAccurate}
                     >
                         Yes, show my next steps
                     </button>
                     <button
                         type="button"
-                        className={`${styles.btn} ${styles.btnQuiet}`}
+                        className={styles.btnQuiet}
                         onClick={onNotAccurate}
                     >
                         No, let me choose
@@ -142,7 +142,7 @@ export function ResultStep({
             <div className={styles.actions}>
                 <button
                     type="button"
-                    className={`${styles.btn} ${styles.btnQuiet}`}
+                    className={styles.btnQuiet}
                     onClick={onBack}
                 >
                     Back to the questions
@@ -221,14 +221,14 @@ export function ChooseStep({
             <div className={styles.actions}>
                 <button
                     type="button"
-                    className={`${styles.btn} ${styles.btnQuiet}`}
+                    className={styles.btnQuiet}
                     onClick={onBack}
                 >
                     Back
                 </button>
                 <button
                     type="button"
-                    className={`${styles.btn} ${styles.btnPrimary}`}
+                    className={styles.btnPrimary}
                     onClick={onContinue}
                 >
                     Show next steps
@@ -299,14 +299,14 @@ export function NextStepsStep({
             <div className={styles.actions}>
                 <button
                     type="button"
-                    className={`${styles.btn} ${styles.btnQuiet}`}
+                    className={styles.btnQuiet}
                     onClick={onBack}
                 >
                     Back
                 </button>
                 <button
                     type="button"
-                    className={`${styles.btn} ${styles.btnPrimary}`}
+                    className={styles.btnPrimary}
                     onClick={onFinish}
                 >
                     Finish
@@ -352,14 +352,14 @@ export function DoneStep({
             <div className={styles.actions}>
                 <button
                     type="button"
-                    className={`${styles.btn} ${styles.btnQuiet}`}
+                    className={styles.btnQuiet}
                     onClick={onBack}
                 >
                     Back
                 </button>
                 <button
                     type="button"
-                    className={`${styles.btn} ${styles.btnQuiet}`}
+                    className={styles.btnQuiet}
                     onClick={onRestart}
                 >
                     <span className="icon" aria-hidden="true">
@@ -367,7 +367,7 @@ export function DoneStep({
                     </span>
                     Start over
                 </button>
-                <Link className={`${styles.btn} ${styles.btnQuiet}`} href="/">
+                <Link className={styles.btnQuiet} href="/">
                     Back to home
                 </Link>
             </div>

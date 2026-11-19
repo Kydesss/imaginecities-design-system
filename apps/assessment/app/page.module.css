@@ -20,9 +20,9 @@
 
 .h1 {
     font-size: var(--ic-typography-title-display-font-size);
-    font-weight: var(--ic-font-weight-bold);
-    line-height: var(--ic-typography-title-page-line-height);
-    letter-spacing: var(--ic-typography-title-page-letter-spacing);
+    font-weight: var(--ic-typography-title-display-font-weight);
+    line-height: var(--ic-typography-title-display-line-height);
+    letter-spacing: var(--ic-typography-title-display-letter-spacing);
     margin: 0 0 var(--sp-4);
     max-width: 20ch;
 }
@@ -100,29 +100,7 @@
 
 /* ---------------- call to action ---------------- */
 .cta {
-    display: inline-flex;
-    align-items: center;
-    font-family: inherit;
-    font-size: var(--ic-typography-button-text-font-size);
-    font-weight: var(--ic-typography-button-text-font-weight);
-    line-height: var(--ic-typography-button-text-line-height);
-    color: var(
-        --ic-color-charcoal-black
-    ); /* 8.88:1 on Gold, safe at any size */
-    background: var(--ic-color-action);
-    border: none;
-    border-radius: var(--radius-pill);
-    padding: 1em 1.6em;
-    text-decoration: none;
-    cursor: pointer;
-    transition:
-        background-color 140ms var(--ease),
-        color 140ms var(--ease);
-}
-
-.cta:hover {
-    background: var(--ic-color-charcoal-black);
-    color: var(--ic-color-gold);
+    composes: primary from "../components/AssessmentButton.module.css";
 }
 
 .meta {
@@ -187,7 +165,7 @@
 
 /* ---------------- capacity, reflection, insight ---------------- */
 .section {
-    padding-block: var(--sp-7);
+    padding-block: var(--section-space);
 }
 
 .section h2 {
@@ -298,6 +276,9 @@
 
     .h1 {
         font-size: var(--size-closing);
+        font-weight: var(--ic-typography-title-page-font-weight);
+        line-height: var(--ic-typography-title-page-line-height);
+        letter-spacing: var(--ic-typography-title-page-letter-spacing);
         max-width: 22ch;
     }
 

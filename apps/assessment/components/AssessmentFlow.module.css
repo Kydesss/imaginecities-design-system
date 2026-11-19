@@ -233,8 +233,9 @@
 
 .legend {
     font-size: var(--ic-typography-subheadline-font-size);
-    font-weight: var(--ic-font-weight-semibold);
-    line-height: 1.3;
+    font-weight: var(--ic-typography-subheadline-font-weight);
+    line-height: var(--ic-typography-subheadline-line-height);
+    letter-spacing: var(--ic-typography-subheadline-letter-spacing);
     margin: 0 0 var(--sp-4);
     padding: 0;
     max-width: 40ch;
@@ -398,48 +399,12 @@
     margin-top: var(--sp-4);
 }
 
-.btn {
-    font-family: inherit;
-    font-size: var(--ic-typography-button-text-font-size);
-    font-weight: var(--ic-typography-button-text-font-weight);
-    line-height: var(--ic-typography-button-text-line-height);
-    border-radius: var(--radius-pill);
-    padding: 0.75em 1.5em;
-    border: none;
-    cursor: pointer;
-    min-height: 44px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5em;
-    transition:
-        background-color 140ms var(--ease),
-        color 140ms var(--ease);
-}
-
 .btnPrimary {
-    background: var(--ic-color-action);
-    color: var(--ic-color-charcoal-black);
+    composes: primary from "./AssessmentButton.module.css";
 }
 
-.btnPrimary:hover {
-    background: var(--ic-color-charcoal-black);
-    color: var(--ic-color-gold);
-}
-
-/*
- * The border is the only thing that makes a quiet button read as a button, which puts
- * it under WCAG 1.4.11 at 3:1. It used to use --border-quiet, Charcoal at 30%, which
- * measures 1.85:1 on Serene White. --border-strong is Charcoal at 50%, 3.06:1.
- */
 .btnQuiet {
-    background: transparent;
-    color: var(--ic-color-charcoal-black);
-    border: 2px solid var(--border-strong);
-}
-
-.btnQuiet:hover {
-    border-color: var(--ic-color-charcoal-black);
+    composes: secondary from "./AssessmentButton.module.css";
 }
 
 /* ---- fields ---- */
@@ -477,10 +442,14 @@
     font-size: var(--ic-typography-paragraph-1-font-size);
     padding: 0.7em 0.8em;
     border: 2px solid var(--ic-color-charcoal-black);
-    border-radius: 8px;
+    border-radius: var(--radius-surface);
     background: var(--ic-color-serene-white);
     color: var(--ic-color-text);
     min-height: 44px;
+}
+
+.field input:focus-visible {
+    outline-color: var(--ic-color-link);
 }
 
 .field input[aria-invalid="true"] {
