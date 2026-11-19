@@ -13,18 +13,17 @@
 :root {
     /* ---- PROPOSED, NOT BRAND ---- */
 
-    /* spacing, 4px base */
-    --sp-1: 4px;
-    --sp-2: 8px;
-    --sp-3: 16px;
-    --sp-4: 24px;
-    --sp-5: 40px;
-    --sp-6: 64px;
-    --sp-7: 96px;
+    /* Shared website spacing and surface treatments. */
+    --sp-1: var(--ic-website-spacing-4);
+    --sp-2: var(--ic-website-spacing-8);
+    --sp-3: var(--ic-website-spacing-16);
+    --sp-4: var(--ic-website-spacing-24);
+    --sp-5: var(--ic-website-spacing-mobile-40);
+    --sp-6: var(--ic-website-spacing-64);
+    --section-space: var(--ic-website-spacing-gap-desktop-section);
 
-    /* radii: pill for actions, matching the live website; one radius for surfaces */
-    --radius-pill: 999px;
-    --radius-surface: 12px;
+    --radius-pill: var(--ic-website-radius-pill);
+    --radius-surface: var(--ic-website-radius-surface);
 
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -72,7 +71,7 @@
     /*
    * TRIAL, AWAITING SIGN-OFF: the light green ground. Every surface that used Fresh
    * Green (#C6FDC2) reads it through this one property. Feedback found Fresh Green too
-   * bright, so it points at Forest Green 20% (#D4DCC1), an existing v2.0.1 tint and
+   * bright, so it points at Forest Green 20%, the Figma website tint and
    * the same muted green the resources panel already uses. Charcoal on it is 10.9:1.
    * Nothing new is introduced; to revert, point this back at --ic-color-fresh-green.
    */
@@ -105,7 +104,13 @@ body {
 
 main {
     flex: 1 0 auto;
-    padding-bottom: var(--sp-7);
+    padding-bottom: var(--section-space);
+}
+
+@media (max-width: 640px) {
+    :root {
+        --section-space: var(--ic-website-spacing-gap-mobile-section);
+    }
 }
 
 footer {
@@ -144,8 +149,9 @@ h1 {
 
 h2 {
     font-size: var(--ic-typography-subheadline-font-size);
-    font-weight: var(--ic-font-weight-semibold);
-    line-height: 1.3;
+    font-weight: var(--ic-typography-subheadline-font-weight);
+    line-height: var(--ic-typography-subheadline-line-height);
+    letter-spacing: var(--ic-typography-subheadline-letter-spacing);
 }
 
 p {

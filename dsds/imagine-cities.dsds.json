@@ -183,7 +183,7 @@
                 {
                   "title": "Tints",
                   "anchor": "tints",
-                  "body": "Tint stops of **100 / 80 / 60 / 40 / 20%** are documented for exactly four colours — **Deep Azure, Gold, Forest Green and Bold Red**. Serene White, Charcoal Black and Fresh Green have no tint ramp. All twenty values are in `tokens/tokens.json` under `color.tint`.\n\n| Stop | Deep Azure | Gold | Forest Green | Bold Red |\n|---|---|---|---|---|\n| 100% | `#0656BF` | `#FFB827` | `#527302` | `#C73124` |\n| 80% | `#3677CA` | `#FDC550` | `#738E33` | `#D0594E` |\n| 60% | `#6697D4` | `#FBD178` | `#93A862` | `#D98077` |\n| 40% | `#95B6DD` | `#F9DEA1` | `#B4C292` | `#E3A89F` |\n| 20% | `#C5D6E7` | `#F7EAC9` | `#D4DCC1` | `#ECCFC8` |\n\nThe ramps are mixed against **Serene White `#F5F7F2`, not pure white**. A pure-white mix drifts by up to 11 per channel at the 20% stop, so never regenerate these by formula — use the values.\n\n**Font colour per stop**, as the chart pairs them:\n\n| Stop | Deep Azure | Gold | Forest Green | Bold Red |\n|---|---|---|---|---|\n| 100% | Serene White | Charcoal Black | Serene White | Serene White |\n| 80% | Serene White | Charcoal Black | Serene White | Serene White |\n| 60% | Serene White ⚠ | Charcoal Black | Charcoal Black | Charcoal Black |\n| 40% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |\n| 20% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |\n\n⚠ **Deep Azure 60% is a defect in the guidelines.** Serene White on `#6697D4` measures **2.80:1**, which clears no WCAG threshold — not even the 3:1 minimum for large text. Charcoal Black on the same stop measures 5.08:1. Do not ship white text on this stop; raise it with the brand owner. Every other pairing in the chart holds up.\n\nTwo more worth knowing: at Forest Green 80% and Bold Red 80% the chart picks Serene White where Charcoal Black measures marginally higher (3.45 vs 4.13, and 3.73 vs 3.82). Both clear 3:1, so both are usable for large or bold text as the chart intends."
+                  "body": "Tint stops of **100 / 80 / 60 / 40 / 20%** are documented for exactly four colours — **Deep Azure, Gold, Forest Green and Bold Red**. Serene White, Charcoal Black and Fresh Green have no tint ramp. The table records the deck. Website tokens in `color.tint` follow Figma for Deep Azure 20% and Forest Green 20%.\n\n| Stop | Deep Azure | Gold | Forest Green | Bold Red |\n|---|---|---|---|---|\n| 100% | `#0656BF` | `#FFB827` | `#527302` | `#C73124` |\n| 80% | `#3677CA` | `#FDC550` | `#738E33` | `#D0594E` |\n| 60% | `#6697D4` | `#FBD178` | `#93A862` | `#D98077` |\n| 40% | `#95B6DD` | `#F9DEA1` | `#B4C292` | `#E3A89F` |\n| 20% | `#C5D6E7` | `#F7EAC9` | `#D4DCC1` | `#ECCFC8` |\n\nThe ramps are mixed against **Serene White `#F5F7F2`, not pure white**. A pure-white mix drifts by up to 11 per channel at the 20% stop, so never regenerate these by formula — use the values.\n\n**Font colour per stop**, as the chart pairs them:\n\n| Stop | Deep Azure | Gold | Forest Green | Bold Red |\n|---|---|---|---|---|\n| 100% | Serene White | Charcoal Black | Serene White | Serene White |\n| 80% | Serene White | Charcoal Black | Serene White | Serene White |\n| 60% | Serene White ⚠ | Charcoal Black | Charcoal Black | Charcoal Black |\n| 40% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |\n| 20% | Charcoal Black | Charcoal Black | Charcoal Black | Charcoal Black |\n\n⚠ **Deep Azure 60% is a defect in the guidelines.** Serene White on `#6697D4` measures **2.80:1**, which clears no WCAG threshold — not even the 3:1 minimum for large text. Charcoal Black on the same stop measures 5.08:1. Do not ship white text on this stop; raise it with the brand owner. Every other pairing in the chart holds up.\n\nTwo more worth knowing: at Forest Green 80% and Bold Red 80% the chart picks Serene White where Charcoal Black measures marginally higher (3.45 vs 4.13, and 3.73 vs 3.82). Both clear 3:1, so both are usable for large or bold text as the chart intends."
                 },
                 {
                   "title": "Reading the pairing matrix",
@@ -248,7 +248,7 @@
               "kind": "scale",
               "identifier": "type-scale",
               "name": "Type Scale",
-              "description": "The twelve documented type styles, smallest to largest. Each step names its token in `tokens/tokens.json` under `typography.*`, where the weight, line height and letter spacing live. Every value and every label-to-spec mapping is confirmed against the two \"3.2 Font System\" slide images. Note the hierarchy the deck defines: Headline and Subheadline are both 20px, while Subtitle is 48px.",
+              "description": "The twelve documented type styles, smallest to largest. Each step names its token in `tokens/tokens.json` under `typography.*`, where the weight, line height and letter spacing live. The website tokens include the saved Figma desktop text style overrides.",
               "steps": [
                 {
                   "token": "typography.label",
@@ -266,7 +266,7 @@
                   "token": "typography.paragraph-small-bold",
                   "name": "Paragraph Small Bold",
                   "value": "14px",
-                  "description": "SemiBold 14px, line height 140%, letter spacing 0%."
+                  "description": "Inter SemiBold 14px, line height 140%, letter spacing 0%."
                 },
                 {
                   "token": "typography.tag",
@@ -296,7 +296,7 @@
                   "token": "typography.headline",
                   "name": "Headline",
                   "value": "20px",
-                  "description": "Regular 20px, letter spacing -2%. Line height is a defect in the deck: the slide reads 24%, which at 20px resolves to 4.8px. Likely intended as 24px, i.e. 120% — but unconfirmed, so the literal value stands. See the typography foundation."
+                  "description": "Poppins Regular 20px, 24px line height, and -2% letter spacing. The saved Figma style supplies the line height."
                 },
                 {
                   "token": "typography.subheadline",
@@ -307,8 +307,8 @@
                 {
                   "token": "typography.subtitle",
                   "name": "Subtitle",
-                  "value": "48px",
-                  "description": "SemiBold 48px, line height 120%, letter spacing -2%."
+                  "value": "32px",
+                  "description": "Poppins SemiBold 32px, line height 120%, letter spacing 0%."
                 },
                 {
                   "token": "typography.title-page",
@@ -691,7 +691,7 @@
                 {
                   "kind": "token",
                   "identifier": "color.tint.deep-azure.20",
-                  "description": "`#C5D6E7`. Section background stop. Font colour: Charcoal Black (10.35:1).",
+                  "description": "`#C9DAF1`. Figma website override for the Deep Azure section background.",
                   "source": { "file": "../tokens/tokens.json", "path": "color.tint.deep-azure.20" }
                 }
               ]
@@ -768,7 +768,7 @@
                 {
                   "kind": "token",
                   "identifier": "color.tint.forest-green.20",
-                  "description": "`#D4DCC1`. Section background stop. Font colour: Charcoal Black (10.84:1).",
+                  "description": "`#D6DEC5`. Figma website override for the Forest Green section background.",
                   "source": { "file": "../tokens/tokens.json", "path": "color.tint.forest-green.20" }
                 }
               ]
@@ -932,16 +932,15 @@
               "kind": "token",
               "identifier": "typography.subtitle",
               "name": "Subtitle",
-              "description": "SemiBold 48px / 120% / -2%. Larger than Headline — that is what the deck defines.",
+              "description": "Poppins SemiBold 32px / 120% / 0%, from the saved Figma style.",
               "source": { "file": "../tokens/tokens.json", "path": "typography.subtitle" }
             },
             {
               "kind": "token",
               "identifier": "typography.headline",
               "name": "Headline",
-              "description": "Regular 20px / -2%. **The line height is a defect in the guidelines, not a transcription error** — the slide really does read 24%, confirmed against it. At 20px that is 4.8px, less than a quarter of the glyph height, so the lines would overlap and no layout can use it.\n\nThe likely intent is **24px**, entered with a `%` unit by mistake: at a 20px font size 24px is exactly 120%, which every other Set 1 heading uses. Persuasive, but an inference — so this token keeps the literal `24%` and stays `draft`. Confirm with the brand owner before setting 120%.",
-              "source": { "file": "../tokens/tokens.json", "path": "typography.headline" },
-              "metadata": { "status": "draft" }
+              "description": "Poppins Regular 20px / 24px line height / -2%. The saved Figma style supplies the line height.",
+              "source": { "file": "../tokens/tokens.json", "path": "typography.headline" }
             },
             {
               "kind": "token",
@@ -975,7 +974,7 @@
               "kind": "token",
               "identifier": "typography.paragraph-small-bold",
               "name": "Paragraph Small Bold",
-              "description": "SemiBold 14px / 140% / 0%.",
+              "description": "Inter SemiBold 14px / 140% / 0%, from the saved Figma style.",
               "source": { "file": "../tokens/tokens.json", "path": "typography.paragraph-small-bold" }
             },
             {

@@ -351,20 +351,20 @@ export function AssessmentFlow() {
                             <div className={styles.actions}>
                                 {/* A link, not a button: it leaves the flow for the intro page. */}
                                 <Link
-                                    className={`${styles.btn} ${styles.btnQuiet}`}
+                                    className={styles.btnQuiet}
                                     href="/"
                                 >
                                     Back
                                 </Link>
                                 <button
-                                    className={`${styles.btn} ${styles.btnPrimary}`}
+                                    className={styles.btnPrimary}
                                     onClick={() => go("hope")}
                                 >
                                     Continue
                                 </button>
                                 {/* Clears anything typed, so skipping never sends a half-filled field. */}
                                 <button
-                                    className={`${styles.btn} ${styles.btnQuiet}`}
+                                    className={styles.btnQuiet}
                                     onClick={() => {
                                         clearContext();
                                         go("hope");
@@ -689,14 +689,14 @@ function QuestionStep({
             <div className={styles.actions}>
                 <button
                     type="button"
-                    className={`${styles.btn} ${styles.btnQuiet}`}
+                    className={styles.btnQuiet}
                     onClick={onBack}
                 >
                     Back
                 </button>
                 <button
                     type="button"
-                    className={`${styles.btn} ${styles.btnPrimary}`}
+                    className={styles.btnPrimary}
                     onClick={onNext}
                 >
                     {index === FACTOR_ORDER.length - 1

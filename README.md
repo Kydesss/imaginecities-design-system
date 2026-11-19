@@ -17,7 +17,7 @@ authored from it (see `plan.md`):
 - [x] Verify the type scale label→spec mapping against both "3.2 Font System" slides
 - [x] Transcribe the accessibility pairing matrix — 13 pairings, all three classes
 - [x] Record the 20 tint values from the deck, with each stop's font colour
-- [ ] Resolve the Headline line height (the slide reads 24%, which renders 4.8px)
+- [x] Use the saved Figma Headline line height of 24px in website tokens
 - [x] Copy logo assets from Drive into `assets/`
 - [x] Confirm the Headline line height against the slide — the deck does read 24%
 - [ ] Raise both source defects with the brand owner (see below)
@@ -70,16 +70,17 @@ differently — `npm run validate` scans only the token file for that reason.
 
 Every logo file is raster; there is no vector artwork anywhere in the shared Drive.
 
+### Website foundations
+
+The `website` namespace in `tokens/tokens.json` captures the Figma spacing scale, desktop and mobile gap rules, 8px surface and 360px pill radii, and the `ds2` and `ds3` shadows. The wireframes use the shared spacing and radii. The assessment app uses the shared spacing values where they match its existing layout.
+
+The responsive gap tokens describe the values at each layout size. Each app applies them at its own breakpoint.
+
 ### Two defects in the guidelines — raise these with the brand owner
-Every value here is now transcribed and confirmed against the deck; nothing is guessed and
-nothing is outstanding to read. What remains are two places where **the deck itself is
-wrong**. Both are recorded exactly as stated, flagged `draft`, and left uncorrected,
-because fixing a brand document is the brand owner's call.
+The brand deck is the baseline. The website tokens use five overrides from the [Brand Guidelines UX Figma file](https://www.figma.com/design/5Owkm20LEMhScjJIuuJXAZ?node-id=4498-8114). The original deck values are recorded in `source/brand-v2.0.1.md`.
 
 1. **Headline line height reads 24%.** Confirmed — not a transcription error. At 20px that
-   is 4.8px, so lines would overlap and no layout can use it. The likely intent is **24px**,
-   entered with a `%` unit: at 20px that is exactly 120%, which every other Set 1 heading
-   uses. Persuasive, but an inference — so the literal `24%` stands until confirmed.
+   is 4.8px, so lines would overlap and no layout can use it. The website token uses **24px**, as saved in Figma.
 2. **Deep Azure 60% + Serene White is not accessible.** The 2.2 chart pairs them, but white
    on `#6697D4` measures **2.80:1** — below even the 3:1 floor for large text, while
    Charcoal Black on that stop is 5.08:1. Blocked by a `must-not` rule in the accessibility

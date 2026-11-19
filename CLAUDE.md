@@ -12,8 +12,7 @@ built (the IC website, graphics, docs) matches the brand without re-reading a sl
 `source/observed-website.md`, `source/observed-assessment-tool.md` and
 `source/observed-figma-ux.md` are **not** sources of truth. They record what shipped builds
 and the website team's Figma file say today (descriptive only). Never promote a value from
-them into `tokens/tokens.json`; where a build or the Figma file and the deck disagree, the
-deck wins and the build or file is what needs fixing.
+them into `tokens/tokens.json`; use the deck as the baseline and preserve the five documented website overrides in tokens/tokens.json.
 
 `source/strategy-2026-03.md` is organizational strategy — audiences, products, positioning.
 It is **newer than v2.0.1 but does not supersede it**: it specifies no visual values at all.
@@ -56,9 +55,7 @@ strength.
   the deck does not show.
 - **Type scale sizes are counter-intuitive and confirmed:** Subtitle is 48px; Headline and
   Subheadline are both 20px. Do not "correct" them to a conventional hierarchy.
-- Headline's line height is **24%** as printed on the slide — confirmed, not a mis-read. It
-  renders 4.8px at 20px, so it is a defect in the deck awaiting the brand owner. Likely
-  meant 24px (= 120%). Do not substitute 120% until that is confirmed.
+- The deck prints a 24% Headline line height. Website tokens use the saved Figma value of 24px.
 - **Never ingest credentials.** The shared Drive folder contains a `Usernames & Passwords`
   doc; it is out of scope and must never enter this repo.
 

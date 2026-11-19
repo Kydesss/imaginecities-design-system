@@ -93,7 +93,7 @@ export function TrackJourney({ announce }: { announce: Announce }) {
                     <div className={styles.actions}>
                         <button
                             type="submit"
-                            className={`${styles.btn} ${styles.btnPrimary}`}
+                            className={styles.btnPrimary}
                         >
                             Send me a copy
                         </button>
@@ -172,7 +172,7 @@ export function ShareAssessment({ announce }: { announce: Announce }) {
             <div className={styles.actions}>
                 <button
                     type="button"
-                    className={`${styles.btn} ${styles.btnPrimary}`}
+                    className={styles.btnPrimary}
                     onClick={copy}
                 >
                     <span className="icon" aria-hidden="true">
